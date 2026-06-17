@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="1100" viewBox="0 0 1180 1100">
+<title>Correlated failure and geographic validation</title>
+<rect x="0.00" y="0.00" width="1180.00" height="1100.00" fill="white" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="47.00" y="53.00" fill="#202020" font-size="21" font-weight="700" text-anchor="start" font-family="Times New Roman, Times, serif">(a) Common-cause failure deadline service</text>
+<line x1="113.00" y1="472.00" x2="1127.00" y2="472.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="477.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">0</text>
+<line x1="113.00" y1="390.50" x2="1127.00" y2="390.50" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="395.50" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">10</text>
+<line x1="113.00" y1="309.00" x2="1127.00" y2="309.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="314.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">20</text>
+<line x1="113.00" y1="227.50" x2="1127.00" y2="227.50" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="232.50" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">30</text>
+<line x1="113.00" y1="146.00" x2="1127.00" y2="146.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="151.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">40</text>
+<line x1="113.00" y1="472.00" x2="113.00" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="113.00" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">0</text>
+<line x1="394.67" y1="472.00" x2="394.67" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="394.67" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">0.25</text>
+<line x1="676.33" y1="472.00" x2="676.33" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="676.33" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">0.5</text>
+<line x1="958.00" y1="472.00" x2="958.00" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="958.00" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">0.75</text>
+<line x1="1127.00" y1="472.00" x2="1127.00" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1127.00" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">0.9</text>
+<line x1="113.00" y1="146.00" x2="113.00" y2="472.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<line x1="113.00" y1="472.00" x2="1127.00" y2="472.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<text x="620.00" y="520.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">Common-cause correlation strength</text>
+<text x="47.00" y="309.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif" transform="rotate(-90 47 309.0)">Weighted on-time ratio (%)</text>
+<polygon points="113.00,268.79 394.67,272.46 676.33,274.97 958.00,258.02 1127.00,253.37 1127.00,296.45 958.00,294.91 676.33,309.13 394.67,304.70 113.00,302.41" fill="#FF8C00" opacity="0.1" stroke="none"/>
+<polyline points="113.00,285.60 394.67,288.58 676.33,292.05 958.00,276.47 1127.00,274.91" fill="none" stroke="#FF8C00" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="13 5 3 5"/>
+<polygon points="113.00,279.10 107.50,285.60 113.00,292.10 118.50,285.60" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="394.67,282.08 389.17,288.58 394.67,295.08 400.17,288.58" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="676.33,285.55 670.83,292.05 676.33,298.55 681.83,292.05" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="958.00,269.97 952.50,276.47 958.00,282.97 963.50,276.47" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1127.00,268.41 1121.50,274.91 1127.00,281.41 1132.50,274.91" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="113.00,256.13 394.67,254.97 676.33,266.95 958.00,263.24 1127.00,247.84 1127.00,289.91 958.00,301.30 676.33,301.46 394.67,283.47 113.00,284.41" fill="#5DA5DA" opacity="0.1" stroke="none"/>
+<polyline points="113.00,270.27 394.67,269.22 676.33,284.21 958.00,282.27 1127.00,268.88" fill="none" stroke="#5DA5DA" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="107.50" y1="270.27" x2="118.50" y2="270.27"/><line x1="113.00" y1="264.77" x2="113.00" y2="275.77"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="389.17" y1="269.22" x2="400.17" y2="269.22"/><line x1="394.67" y1="263.72" x2="394.67" y2="274.72"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="670.83" y1="284.21" x2="681.83" y2="284.21"/><line x1="676.33" y1="278.71" x2="676.33" y2="289.71"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="952.50" y1="282.27" x2="963.50" y2="282.27"/><line x1="958.00" y1="276.77" x2="958.00" y2="287.77"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="1121.50" y1="268.88" x2="1132.50" y2="268.88"/><line x1="1127.00" y1="263.38" x2="1127.00" y2="274.38"/></g>
+<polygon points="113.00,260.56 394.67,266.27 676.33,275.85 958.00,258.14 1127.00,253.86 1127.00,300.31 958.00,292.09 676.33,313.47 394.67,298.02 113.00,289.23" fill="#B5651D" opacity="0.1" stroke="none"/>
+<polyline points="113.00,274.89 394.67,282.15 676.33,294.66 958.00,275.11 1127.00,277.08" fill="none" stroke="#B5651D" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="9 4 2 4"/>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="107.50" y1="274.89" x2="118.50" y2="274.89"/><line x1="113.00" y1="269.39" x2="113.00" y2="280.39"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="389.17" y1="282.15" x2="400.17" y2="282.15"/><line x1="394.67" y1="276.65" x2="394.67" y2="287.65"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="670.83" y1="294.66" x2="681.83" y2="294.66"/><line x1="676.33" y1="289.16" x2="676.33" y2="300.16"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="952.50" y1="275.11" x2="963.50" y2="275.11"/><line x1="958.00" y1="269.61" x2="958.00" y2="280.61"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="1121.50" y1="277.08" x2="1132.50" y2="277.08"/><line x1="1127.00" y1="271.58" x2="1127.00" y2="282.58"/></g>
+<polygon points="113.00,202.73 394.67,190.10 676.33,189.81 958.00,181.70 1127.00,180.47 1127.00,241.73 958.00,253.51 676.33,248.45 394.67,252.35 113.00,264.15" fill="#1B7F79" opacity="0.1" stroke="none"/>
+<polyline points="113.00,233.44 394.67,221.22 676.33,219.13 958.00,217.61 1127.00,211.10" fill="none" stroke="#1B7F79" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="2 3"/>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="107.50" y1="233.44" x2="118.50" y2="233.44"/><line x1="113.00" y1="227.94" x2="113.00" y2="238.94"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="389.17" y1="221.22" x2="400.17" y2="221.22"/><line x1="394.67" y1="215.72" x2="394.67" y2="226.72"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="670.83" y1="219.13" x2="681.83" y2="219.13"/><line x1="676.33" y1="213.63" x2="676.33" y2="224.63"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="952.50" y1="217.61" x2="963.50" y2="217.61"/><line x1="958.00" y1="212.11" x2="958.00" y2="223.11"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="1121.50" y1="211.10" x2="1132.50" y2="211.10"/><line x1="1127.00" y1="205.60" x2="1127.00" y2="216.60"/></g>
+<polygon points="113.00,190.61 394.67,185.67 676.33,189.85 958.00,194.91 1127.00,180.62 1127.00,237.38 958.00,252.25 676.33,246.36 394.67,248.48 113.00,248.58" fill="#D62728" opacity="0.1" stroke="none"/>
+<polyline points="113.00,219.59 394.67,217.08 676.33,218.10 958.00,223.58 1127.00,209.00" fill="none" stroke="#D62728" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="113.00" cy="219.59" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="394.67" cy="217.08" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="676.33" cy="218.10" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="958.00" cy="223.58" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="1127.00" cy="209.00" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<line x1="497.00" y1="86.00" x2="539.00" y2="86.00" stroke="#FF8C00" stroke-width="2.5" opacity="1.0" stroke-dasharray="13 5 3 5"/>
+<polygon points="518.00,80.50 513.50,86.00 518.00,91.50 522.50,86.00" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<text x="547.00" y="91.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">HEFT-DAG</text>
+<line x1="705.67" y1="86.00" x2="747.67" y2="86.00" stroke="#5DA5DA" stroke-width="2.5" opacity="1.0" stroke-dasharray="4 3"/>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="722.17" y1="86.00" x2="731.17" y2="86.00"/><line x1="726.67" y1="81.50" x2="726.67" y2="90.50"/></g>
+<text x="755.67" y="91.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">FIFO+Rec</text>
+<line x1="914.33" y1="86.00" x2="956.33" y2="86.00" stroke="#B5651D" stroke-width="2.5" opacity="1.0" stroke-dasharray="9 4 2 4"/>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="930.83" y1="86.00" x2="939.83" y2="86.00"/><line x1="935.33" y1="81.50" x2="935.33" y2="90.50"/></g>
+<text x="964.33" y="91.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">HEFT+Rec</text>
+<line x1="497.00" y1="114.00" x2="539.00" y2="114.00" stroke="#1B7F79" stroke-width="2.5" opacity="1.0" stroke-dasharray="2 3"/>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="513.50" y1="114.00" x2="522.50" y2="114.00"/><line x1="518.00" y1="109.50" x2="518.00" y2="118.50"/></g>
+<text x="547.00" y="119.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">RL+Rec</text>
+<line x1="705.67" y1="114.00" x2="747.67" y2="114.00" stroke="#D62728" stroke-width="2.5" opacity="1.0"/>
+<circle cx="726.67" cy="114.00" r="4.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<text x="755.67" y="119.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">Proposed</text>
+<text x="47.00" y="593.00" fill="#202020" font-size="21" font-weight="700" text-anchor="start" font-family="Times New Roman, Times, serif">(b) Geographic weighted deadline service</text>
+<line x1="113.00" y1="988.00" x2="1127.00" y2="988.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="993.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">0</text>
+<line x1="113.00" y1="901.50" x2="1127.00" y2="901.50" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="906.50" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">10</text>
+<line x1="113.00" y1="815.00" x2="1127.00" y2="815.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="820.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">20</text>
+<line x1="113.00" y1="728.50" x2="1127.00" y2="728.50" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="733.50" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">30</text>
+<line x1="113.00" y1="642.00" x2="1127.00" y2="642.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="647.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">40</text>
+<line x1="113.00" y1="642.00" x2="113.00" y2="988.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<line x1="113.00" y1="988.00" x2="1127.00" y2="988.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<text x="47.00" y="815.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif" transform="rotate(-90 47 815.0)">Weighted on-time ratio (%)</text>
+<rect x="161.67" y="812.59" width="54.08" height="175.41" fill="#5DA5DA" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="188.71" y="805.59" fill="#5DA5DA" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">20</text>
+<rect x="223.86" y="808.19" width="54.08" height="179.81" fill="#B5651D" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="250.90" y="801.19" fill="#B5651D" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">21</text>
+<rect x="286.06" y="770.38" width="54.08" height="217.62" fill="#1B7F79" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="313.10" y="763.38" fill="#1B7F79" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">25</text>
+<rect x="348.25" y="758.08" width="54.08" height="229.92" fill="#D62728" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="375.29" y="751.08" fill="#D62728" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">27</text>
+<text x="282.00" y="1013.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">New York</text>
+<rect x="499.67" y="805.97" width="54.08" height="182.03" fill="#5DA5DA" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="526.71" y="798.97" fill="#5DA5DA" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">21</text>
+<rect x="561.86" y="809.43" width="54.08" height="178.57" fill="#B5651D" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="588.90" y="802.43" fill="#B5651D" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">21</text>
+<rect x="624.06" y="756.15" width="54.08" height="231.85" fill="#1B7F79" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="651.10" y="749.15" fill="#1B7F79" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">27</text>
+<rect x="686.25" y="751.47" width="54.08" height="236.53" fill="#D62728" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="713.29" y="744.47" fill="#D62728" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">27</text>
+<text x="620.00" y="1013.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">Chicago</text>
+<rect x="837.67" y="780.50" width="54.08" height="207.50" fill="#5DA5DA" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="864.71" y="773.50" fill="#5DA5DA" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">24</text>
+<rect x="899.86" y="778.99" width="54.08" height="209.01" fill="#B5651D" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="926.90" y="771.99" fill="#B5651D" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">24</text>
+<rect x="962.06" y="715.23" width="54.08" height="272.77" fill="#1B7F79" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="989.10" y="708.23" fill="#1B7F79" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">32</text>
+<rect x="1024.25" y="708.60" width="54.08" height="279.40" fill="#D62728" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="1051.29" y="701.60" fill="#D62728" font-size="12" font-weight="700" text-anchor="middle" font-family="Times New Roman, Times, serif">32</text>
+<text x="958.00" y="1013.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">San Francisco</text>
+<rect x="477.00" y="610.00" width="14.00" height="14.00" fill="#5DA5DA" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="499.00" y="623.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">FIFO+Rec</text>
+<rect x="637.00" y="610.00" width="14.00" height="14.00" fill="#B5651D" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="659.00" y="623.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">HEFT+Rec</text>
+<rect x="797.00" y="610.00" width="14.00" height="14.00" fill="#1B7F79" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="819.00" y="623.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">RL+Rec</text>
+<rect x="957.00" y="610.00" width="14.00" height="14.00" fill="#D62728" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="979.00" y="623.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">Proposed</text>
+</svg>

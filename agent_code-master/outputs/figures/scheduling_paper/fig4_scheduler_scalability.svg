@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1200" viewBox="0 0 1800 1200">
+<title>智能体调度器扩展性对比</title>
+<rect x="0.00" y="0.00" width="1800.00" height="1200.00" fill="white" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="70.00" y="55.00" fill="#5A5A5A" font-size="24" font-weight="600" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">Figure 4.</text>
+<text x="215.00" y="55.00" fill="#202020" font-size="32" font-weight="700" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">智能体调度器的扩展性与资源效率</text>
+<text x="70.00" y="91.00" fill="#5A5A5A" font-size="18" font-weight="400" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">每个点为独立离散事件仿真的均值，阴影表示 95% 置信区间；所有方法使用相同任务实例与服务时延。</text>
+<line x1="70.00" y1="112.00" x2="1730.00" y2="112.00" stroke="#D9D9D9" stroke-width="2" opacity="1.0"/>
+<line x1="1260.00" y1="56.00" x2="1312.00" y2="56.00" stroke="#555555" stroke-width="3" opacity="1.0" stroke-dasharray="10 7"/>
+<rect x="1280.50" y="50.50" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<text x="1326.00" y="62.00" fill="#202020" font-size="16" font-weight="400" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">Serial-FIFO</text>
+<line x1="1495.00" y1="56.00" x2="1547.00" y2="56.00" stroke="#377EB8" stroke-width="3" opacity="1.0" stroke-dasharray="4 5"/>
+<polygon points="1521.00,49.50 1515.50,61.50 1526.50,61.50" fill="white" opacity="1.0" stroke="#377EB8"/>
+<text x="1561.00" y="62.00" fill="#202020" font-size="16" font-weight="400" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">Parallel-FIFO</text>
+<line x1="1260.00" y1="90.00" x2="1312.00" y2="90.00" stroke="#FF8C00" stroke-width="3" opacity="1.0" stroke-dasharray="13 5 3 5"/>
+<polygon points="1286.00,83.50 1280.50,90.00 1286.00,96.50 1291.50,90.00" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<text x="1326.00" y="96.00" fill="#202020" font-size="16" font-weight="400" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">HEFT-DAG</text>
+<line x1="1495.00" y1="90.00" x2="1547.00" y2="90.00" stroke="#D62728" stroke-width="3" opacity="1.0"/>
+<circle cx="1521.00" cy="90.00" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<text x="1561.00" y="96.00" fill="#202020" font-size="16" font-weight="400" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">Proposed</text>
+<rect x="70.00" y="145.00" width="800.00" height="455.00" fill="white" stroke="#D9D9D9" stroke-width="1.2" opacity="1.0"/>
+<text x="92.00" y="178.00" fill="#202020" font-size="21" font-weight="700" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">(a) Normalized makespan</text>
+<line x1="158.00" y1="532.00" x2="842.00" y2="532.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="537.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">0.2</text>
+<line x1="158.00" y1="450.75" x2="842.00" y2="450.75" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="455.75" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">0.4</text>
+<line x1="158.00" y1="369.50" x2="842.00" y2="369.50" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="374.50" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">0.6</text>
+<line x1="158.00" y1="288.25" x2="842.00" y2="288.25" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="293.25" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">0.8</text>
+<line x1="158.00" y1="207.00" x2="842.00" y2="207.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="212.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">1</text>
+<line x1="158.00" y1="532.00" x2="158.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="158.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">4</text>
+<line x1="329.00" y1="532.00" x2="329.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="329.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">8</text>
+<line x1="500.00" y1="532.00" x2="500.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="500.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">12</text>
+<line x1="671.00" y1="532.00" x2="671.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="671.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">16</text>
+<line x1="842.00" y1="532.00" x2="842.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="842.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">20</text>
+<line x1="158.00" y1="207.00" x2="158.00" y2="532.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<line x1="158.00" y1="532.00" x2="842.00" y2="532.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<text x="500.00" y="580.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">Concurrent mission workflows</text>
+<text x="92.00" y="369.50" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" transform="rotate(-90 92 369.5)">Makespan / Serial-FIFO</text>
+<polygon points="158.00,207.00 329.00,207.00 500.00,207.00 671.00,207.00 842.00,207.00 842.00,213.74 671.00,213.68 500.00,216.58 329.00,216.07 158.00,224.26" fill="#555555" opacity="0.1" stroke="none"/>
+<polyline points="158.00,207.00 329.00,207.00 500.00,207.00 671.00,207.00 842.00,207.00" fill="none" stroke="#555555" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="10 7"/>
+<rect x="152.50" y="201.50" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="323.50" y="201.50" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="494.50" y="201.50" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="665.50" y="201.50" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="836.50" y="201.50" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<polygon points="158.00,472.39 329.00,489.18 500.00,491.08 671.00,495.07 842.00,494.15 842.00,495.27 671.00,496.11 500.00,492.74 329.00,490.92 158.00,475.63" fill="#377EB8" opacity="0.1" stroke="none"/>
+<polyline points="158.00,474.01 329.00,490.05 500.00,491.91 671.00,495.59 842.00,494.71" fill="none" stroke="#377EB8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 5"/>
+<polygon points="158.00,467.51 152.50,479.51 163.50,479.51" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="329.00,483.55 323.50,495.55 334.50,495.55" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="500.00,485.41 494.50,497.41 505.50,497.41" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="671.00,489.09 665.50,501.09 676.50,501.09" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="842.00,488.21 836.50,500.21 847.50,500.21" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="158.00,473.64 329.00,490.18 500.00,491.17 671.00,495.54 842.00,494.48 842.00,495.45 671.00,496.57 500.00,492.77 329.00,491.76 158.00,476.84" fill="#FF8C00" opacity="0.1" stroke="none"/>
+<polyline points="158.00,475.24 329.00,490.97 500.00,491.97 671.00,496.06 842.00,494.96" fill="none" stroke="#FF8C00" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="13 5 3 5"/>
+<polygon points="158.00,468.74 152.50,475.24 158.00,481.74 163.50,475.24" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="329.00,484.47 323.50,490.97 329.00,497.47 334.50,490.97" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="500.00,485.47 494.50,491.97 500.00,498.47 505.50,491.97" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="671.00,489.56 665.50,496.06 671.00,502.56 676.50,496.06" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="842.00,488.46 836.50,494.96 842.00,501.46 847.50,494.96" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="158.00,474.00 329.00,490.08 500.00,491.93 671.00,495.68 842.00,494.81 842.00,495.71 671.00,496.83 500.00,493.36 329.00,491.63 158.00,477.40" fill="#D62728" opacity="0.1" stroke="none"/>
+<polyline points="158.00,475.70 329.00,490.86 500.00,492.64 671.00,496.25 842.00,495.26" fill="none" stroke="#D62728" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="158.00" cy="475.70" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="329.00" cy="490.86" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="500.00" cy="492.64" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="671.00" cy="496.25" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="842.00" cy="495.26" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<rect x="930.00" y="145.00" width="800.00" height="455.00" fill="white" stroke="#D9D9D9" stroke-width="1.2" opacity="1.0"/>
+<text x="952.00" y="178.00" fill="#202020" font-size="21" font-weight="700" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">(b) Priority-weighted deadline satisfaction</text>
+<line x1="1018.00" y1="532.00" x2="1702.00" y2="532.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="537.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">0</text>
+<line x1="1018.00" y1="467.00" x2="1702.00" y2="467.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="472.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">20</text>
+<line x1="1018.00" y1="402.00" x2="1702.00" y2="402.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="407.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">40</text>
+<line x1="1018.00" y1="337.00" x2="1702.00" y2="337.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="342.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">60</text>
+<line x1="1018.00" y1="272.00" x2="1702.00" y2="272.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="277.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">80</text>
+<line x1="1018.00" y1="207.00" x2="1702.00" y2="207.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="212.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">100</text>
+<line x1="1018.00" y1="532.00" x2="1018.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1018.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">4</text>
+<line x1="1189.00" y1="532.00" x2="1189.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1189.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">8</text>
+<line x1="1360.00" y1="532.00" x2="1360.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1360.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">12</text>
+<line x1="1531.00" y1="532.00" x2="1531.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1531.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">16</text>
+<line x1="1702.00" y1="532.00" x2="1702.00" y2="538.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1702.00" y="557.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">20</text>
+<line x1="1018.00" y1="207.00" x2="1018.00" y2="532.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<line x1="1018.00" y1="532.00" x2="1702.00" y2="532.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<text x="1360.00" y="580.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">Concurrent mission workflows</text>
+<text x="952.00" y="369.50" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" transform="rotate(-90 952 369.5)">Weighted on-time ratio (%)</text>
+<polygon points="1018.00,516.26 1189.00,519.49 1360.00,525.02 1531.00,525.91 1702.00,527.59 1702.00,530.24 1531.00,529.36 1360.00,529.39 1189.00,526.73 1018.00,527.71" fill="#555555" opacity="0.1" stroke="none"/>
+<polyline points="1018.00,521.98 1189.00,523.11 1360.00,527.20 1531.00,527.63 1702.00,528.91" fill="none" stroke="#555555" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="10 7"/>
+<rect x="1012.50" y="516.48" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="1183.50" y="517.61" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="1354.50" y="521.70" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="1525.50" y="522.13" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="1696.50" y="523.41" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<polygon points="1018.00,255.16 1189.00,371.49 1360.00,431.24 1531.00,458.77 1702.00,472.72 1702.00,480.59 1531.00,469.65 1360.00,446.53 1189.00,393.39 1018.00,298.22" fill="#377EB8" opacity="0.1" stroke="none"/>
+<polyline points="1018.00,276.69 1189.00,382.44 1360.00,438.89 1531.00,464.21 1702.00,476.66" fill="none" stroke="#377EB8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 5"/>
+<polygon points="1018.00,270.19 1012.50,282.19 1023.50,282.19" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1189.00,375.94 1183.50,387.94 1194.50,387.94" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1360.00,432.39 1354.50,444.39 1365.50,444.39" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1531.00,457.71 1525.50,469.71 1536.50,469.71" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1702.00,470.16 1696.50,482.16 1707.50,482.16" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1018.00,242.88 1189.00,370.65 1360.00,429.33 1531.00,456.60 1702.00,470.99 1702.00,479.46 1531.00,467.98 1360.00,445.26 1189.00,393.33 1018.00,284.47" fill="#FF8C00" opacity="0.1" stroke="none"/>
+<polyline points="1018.00,263.67 1189.00,381.99 1360.00,437.30 1531.00,462.29 1702.00,475.23" fill="none" stroke="#FF8C00" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="13 5 3 5"/>
+<polygon points="1018.00,257.17 1012.50,263.67 1018.00,270.17 1023.50,263.67" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1189.00,375.49 1183.50,381.99 1189.00,388.49 1194.50,381.99" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1360.00,430.80 1354.50,437.30 1360.00,443.80 1365.50,437.30" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1531.00,455.79 1525.50,462.29 1531.00,468.79 1536.50,462.29" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1702.00,468.73 1696.50,475.23 1702.00,481.73 1707.50,475.23" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1018.00,212.13 1189.00,327.05 1360.00,393.61 1531.00,427.71 1702.00,449.25 1702.00,458.51 1531.00,439.80 1360.00,411.91 1189.00,347.98 1018.00,236.71" fill="#D62728" opacity="0.1" stroke="none"/>
+<polyline points="1018.00,224.42 1189.00,337.51 1360.00,402.76 1531.00,433.76 1702.00,453.88" fill="none" stroke="#D62728" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1018.00" cy="224.42" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="1189.00" cy="337.51" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="1360.00" cy="402.76" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="1531.00" cy="433.76" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="1702.00" cy="453.88" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<rect x="70.00" y="650.00" width="800.00" height="455.00" fill="white" stroke="#D9D9D9" stroke-width="1.2" opacity="1.0"/>
+<text x="92.00" y="683.00" fill="#202020" font-size="21" font-weight="700" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">(c) Scheduling throughput</text>
+<line x1="158.00" y1="1037.00" x2="842.00" y2="1037.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="1042.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">0</text>
+<line x1="158.00" y1="972.00" x2="842.00" y2="972.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="977.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">8</text>
+<line x1="158.00" y1="907.00" x2="842.00" y2="907.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="912.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">16</text>
+<line x1="158.00" y1="842.00" x2="842.00" y2="842.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="847.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">24</text>
+<line x1="158.00" y1="777.00" x2="842.00" y2="777.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="782.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">32</text>
+<line x1="158.00" y1="712.00" x2="842.00" y2="712.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="146.00" y="717.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">40</text>
+<line x1="158.00" y1="1037.00" x2="158.00" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="158.00" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">1</text>
+<line x1="255.71" y1="1037.00" x2="255.71" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="255.71" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">2</text>
+<line x1="451.14" y1="1037.00" x2="451.14" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="451.14" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">4</text>
+<line x1="646.57" y1="1037.00" x2="646.57" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="646.57" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">6</text>
+<line x1="842.00" y1="1037.00" x2="842.00" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="842.00" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">8</text>
+<line x1="158.00" y1="712.00" x2="158.00" y2="1037.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<line x1="158.00" y1="1037.00" x2="842.00" y2="1037.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<text x="500.00" y="1085.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">Available service workers</text>
+<text x="92.00" y="874.50" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" transform="rotate(-90 92 874.5)">Completed missions / min</text>
+<polygon points="158.00,996.60 255.71,997.50 451.14,997.71 646.57,997.73 842.00,997.46 842.00,999.69 646.57,999.84 451.14,999.51 255.71,999.35 158.00,998.68" fill="#555555" opacity="0.1" stroke="none"/>
+<polyline points="158.00,997.64 255.71,998.42 451.14,998.61 646.57,998.78 842.00,998.58" fill="none" stroke="#555555" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="10 7"/>
+<rect x="152.50" y="992.14" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="250.21" y="992.92" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="445.64" y="993.11" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="641.07" y="993.28" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="836.50" y="993.08" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<polygon points="158.00,993.14 255.71,950.44 451.14,869.64 646.57,793.35 842.00,727.40 842.00,733.63 646.57,797.23 451.14,871.85 255.71,951.61 158.00,993.80" fill="#377EB8" opacity="0.1" stroke="none"/>
+<polyline points="158.00,993.47 255.71,951.02 451.14,870.75 646.57,795.29 842.00,730.52" fill="none" stroke="#377EB8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 5"/>
+<polygon points="158.00,986.97 152.50,998.97 163.50,998.97" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="255.71,944.52 250.21,956.52 261.21,956.52" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="451.14,864.25 445.64,876.25 456.64,876.25" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="646.57,788.79 641.07,800.79 652.07,800.79" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="842.00,724.02 836.50,736.02 847.50,736.02" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="158.00,993.15 255.71,950.39 451.14,869.40 646.57,793.40 842.00,727.69 842.00,734.18 646.57,797.15 451.14,871.49 255.71,951.54 158.00,993.81" fill="#FF8C00" opacity="0.1" stroke="none"/>
+<polyline points="158.00,993.48 255.71,950.97 451.14,870.45 646.57,795.27 842.00,730.93" fill="none" stroke="#FF8C00" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="13 5 3 5"/>
+<polygon points="158.00,986.98 152.50,993.48 158.00,999.98 163.50,993.48" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="255.71,944.47 250.21,950.97 255.71,957.47 261.21,950.97" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="451.14,863.95 445.64,870.45 451.14,876.95 456.64,870.45" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="646.57,788.77 641.07,795.27 646.57,801.77 652.07,795.27" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="842.00,724.43 836.50,730.93 842.00,737.43 847.50,730.93" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="158.00,992.90 255.71,949.96 451.14,868.41 646.57,792.79 842.00,726.56 842.00,734.00 646.57,796.48 451.14,870.19 255.71,950.91 158.00,993.50" fill="#D62728" opacity="0.1" stroke="none"/>
+<polyline points="158.00,993.20 255.71,950.44 451.14,869.30 646.57,794.63 842.00,730.28" fill="none" stroke="#D62728" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="158.00" cy="993.20" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="255.71" cy="950.44" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="451.14" cy="869.30" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="646.57" cy="794.63" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="842.00" cy="730.28" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<rect x="930.00" y="650.00" width="800.00" height="455.00" fill="white" stroke="#D9D9D9" stroke-width="1.2" opacity="1.0"/>
+<text x="952.00" y="683.00" fill="#202020" font-size="21" font-weight="700" text-anchor="start" font-family="Arial, Microsoft YaHei, sans-serif">(d) Worker utilization</text>
+<line x1="1018.00" y1="1037.00" x2="1702.00" y2="1037.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="1042.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">0</text>
+<line x1="1018.00" y1="972.00" x2="1702.00" y2="972.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="977.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">20</text>
+<line x1="1018.00" y1="907.00" x2="1702.00" y2="907.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="912.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">40</text>
+<line x1="1018.00" y1="842.00" x2="1702.00" y2="842.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="847.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">60</text>
+<line x1="1018.00" y1="777.00" x2="1702.00" y2="777.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="782.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">80</text>
+<line x1="1018.00" y1="712.00" x2="1702.00" y2="712.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="1006.00" y="717.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif">100</text>
+<line x1="1018.00" y1="1037.00" x2="1018.00" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1018.00" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">1</text>
+<line x1="1115.71" y1="1037.00" x2="1115.71" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1115.71" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">2</text>
+<line x1="1311.14" y1="1037.00" x2="1311.14" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1311.14" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">4</text>
+<line x1="1506.57" y1="1037.00" x2="1506.57" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1506.57" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">6</text>
+<line x1="1702.00" y1="1037.00" x2="1702.00" y2="1043.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="1702.00" y="1062.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">8</text>
+<line x1="1018.00" y1="712.00" x2="1018.00" y2="1037.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<line x1="1018.00" y1="1037.00" x2="1702.00" y2="1037.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<text x="1360.00" y="1085.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">Available service workers</text>
+<text x="952.00" y="874.50" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" transform="rotate(-90 952 874.5)">Busy-time utilization (%)</text>
+<polygon points="1018.00,712.04 1115.71,874.52 1311.14,955.76 1506.57,982.84 1702.00,996.38 1702.00,996.40 1506.57,982.86 1311.14,955.77 1115.71,874.57 1018.00,712.13" fill="#555555" opacity="0.1" stroke="none"/>
+<polyline points="1018.00,712.08 1115.71,874.54 1311.14,955.76 1506.57,982.85 1702.00,996.39" fill="none" stroke="#555555" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="10 7"/>
+<rect x="1012.50" y="706.58" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="1110.21" y="869.04" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="1305.64" y="950.26" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="1501.07" y="977.35" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<rect x="1696.50" y="990.89" width="11.00" height="11.00" fill="white" stroke="#555555" stroke-width="2.5" opacity="1.0"/>
+<polygon points="1018.00,712.04 1115.71,715.33 1311.14,726.16 1506.57,735.24 1702.00,748.72 1702.00,752.10 1506.57,737.60 1311.14,727.67 1115.71,715.96 1018.00,712.08" fill="#377EB8" opacity="0.1" stroke="none"/>
+<polyline points="1018.00,712.06 1115.71,715.64 1311.14,726.91 1506.57,736.42 1702.00,750.41" fill="none" stroke="#377EB8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 5"/>
+<polygon points="1018.00,705.56 1012.50,717.56 1023.50,717.56" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1115.71,709.14 1110.21,721.14 1121.21,721.14" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1311.14,720.41 1305.64,732.41 1316.64,732.41" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1506.57,729.92 1501.07,741.92 1512.07,741.92" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1702.00,743.91 1696.50,755.91 1707.50,755.91" fill="white" opacity="1.0" stroke="#377EB8"/>
+<polygon points="1018.00,712.04 1115.71,715.13 1311.14,725.56 1506.57,735.42 1702.00,749.11 1702.00,752.51 1506.57,737.38 1311.14,726.81 1115.71,715.81 1018.00,712.08" fill="#FF8C00" opacity="0.1" stroke="none"/>
+<polyline points="1018.00,712.06 1115.71,715.47 1311.14,726.19 1506.57,736.40 1702.00,750.81" fill="none" stroke="#FF8C00" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="13 5 3 5"/>
+<polygon points="1018.00,705.56 1012.50,712.06 1018.00,718.56 1023.50,712.06" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1115.71,708.97 1110.21,715.47 1115.71,721.97 1121.21,715.47" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1311.14,719.69 1305.64,726.19 1311.14,732.69 1316.64,726.19" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1506.57,729.90 1501.07,736.40 1506.57,742.90 1512.07,736.40" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1702.00,744.31 1696.50,750.81 1702.00,757.31 1707.50,750.81" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="1018.00,712.04 1115.71,715.28 1311.14,725.19 1506.57,735.89 1702.00,750.07 1702.00,755.28 1506.57,737.98 1311.14,726.45 1115.71,715.92 1018.00,712.09" fill="#D62728" opacity="0.1" stroke="none"/>
+<polyline points="1018.00,712.07 1115.71,715.60 1311.14,725.82 1506.57,736.93 1702.00,752.67" fill="none" stroke="#D62728" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1018.00" cy="712.07" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="1115.71" cy="715.60" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="1311.14" cy="725.82" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="1506.57" cy="736.93" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="1702.00" cy="752.67" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<text x="900.00" y="1165.00" fill="#5A5A5A" font-size="16" font-weight="400" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif">Lower is better in (a); higher is better in (b)-(d). Serial-FIFO intentionally uses one execution slot.</text>
+</svg>

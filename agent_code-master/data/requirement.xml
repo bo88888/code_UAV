@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requirement>
+    <task_type>emergency_medical_delivery</task_type>
+    <dispatch_mode>intelligent_coordination</dispatch_mode>
+
+    <cargo>
+        <type>blood_plasma</type>
+        <weight_kg>2.5</weight_kg>
+        <priority>high</priority>
+    </cargo>
+
+    <delivery_points>
+        <point>
+            <id>Hosp_A</id>
+            <lon>114.05</lon>
+            <lat>22.54</lat>
+            <role>pickup</role>
+            <ready_time>2026-06-11T10:00:00</ready_time>
+        </point>
+        <point>
+            <id>Clinic_B</id>
+            <lon>114.15</lon>
+            <lat>22.64</lat>
+            <role>dropoff</role>
+            <deadline>2026-06-11T10:30:00</deadline>
+        </point>
+    </delivery_points>
+
+    <environmental_constraints>
+        <max_wind_speed_mps>10.0</max_wind_speed_mps>
+        <max_precipitation_mm_h>5.0</max_precipitation_mm_h>
+        <minimum_visibility_km>2.0</minimum_visibility_km>
+        <maximum_altitude_m>120</maximum_altitude_m>
+    </environmental_constraints>
+</requirement>

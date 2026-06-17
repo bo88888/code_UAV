@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+<title>低空应急医疗配送任务场景</title>
+<defs>
+<marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+<path d="M0,0 L10,5 L0,10 z" fill="#2166AC"/>
+</marker>
+<marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+<path d="M0,0 L10,5 L0,10 z" fill="#E68613"/>
+</marker>
+<pattern id="weather-hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+<rect width="12" height="12" fill="#EAF1F5"/>
+<line x1="0" y1="0" x2="0" y2="12" stroke="#7894A6" stroke-width="4"/>
+</pattern>
+</defs>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="white" stroke="none" stroke-width="1"/>
+<text x="70" y="62" fill="#5C6B78" font-size="24" font-weight="600" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Figure 2.</text>
+<text x="205" y="62" fill="#17212B" font-size="34" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">低空应急医疗配送任务场景</text>
+<text x="70" y="98" fill="#5C6B78" font-size="20" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">包含空域、气象、载具资源与时间窗约束的平面任务示意图。</text>
+<line x1="70" y1="122" x2="1850" y2="122" stroke="#D7DEE5" stroke-width="2"/>
+<rect x="70" y="165" width="1390" height="815" rx="2" fill="#F8FAFB" stroke="#17212B" stroke-width="1.5"/>
+<text x="1495" y="190" fill="#17212B" font-size="25" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">任务参数</text>
+<rect x="1485" y="210" width="365" height="330" rx="4" fill="white" stroke="#D7DEE5" stroke-width="1.5"/>
+<text x="1515" y="255" fill="#5C6B78" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">载荷</text>
+<text x="1635" y="255" fill="#17212B" font-size="18" font-weight="600" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">血浆，2.5 kg</text>
+<text x="1515" y="300" fill="#5C6B78" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">优先级</text>
+<text x="1635" y="300" fill="#17212B" font-size="18" font-weight="600" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">高（4级）</text>
+<text x="1515" y="345" fill="#5C6B78" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">就绪时间</text>
+<text x="1635" y="345" fill="#17212B" font-size="18" font-weight="600" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">10:00</text>
+<text x="1515" y="390" fill="#5C6B78" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">截止时间</text>
+<text x="1635" y="390" fill="#17212B" font-size="18" font-weight="600" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">10:30</text>
+<text x="1515" y="435" fill="#5C6B78" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">风速上限</text>
+<text x="1635" y="435" fill="#17212B" font-size="18" font-weight="600" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">≤ 10 m/s</text>
+<text x="1515" y="480" fill="#5C6B78" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">高度上限</text>
+<text x="1635" y="480" fill="#17212B" font-size="18" font-weight="600" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">≤ 120 m</text>
+<text x="1495" y="590" fill="#17212B" font-size="25" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">图例</text>
+<rect x="1485" y="610" width="365" height="305" rx="4" fill="white" stroke="#D7DEE5" stroke-width="1.5"/>
+<line x1="209.0" y1="165" x2="209.0" y2="980" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="348.0" y1="165" x2="348.0" y2="980" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="487.0" y1="165" x2="487.0" y2="980" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="626.0" y1="165" x2="626.0" y2="980" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="765.0" y1="165" x2="765.0" y2="980" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="904.0" y1="165" x2="904.0" y2="980" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="1043.0" y1="165" x2="1043.0" y2="980" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="1182.0" y1="165" x2="1182.0" y2="980" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="1321.0" y1="165" x2="1321.0" y2="980" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="70" y1="266.875" x2="1460" y2="266.875" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="70" y1="368.75" x2="1460" y2="368.75" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="70" y1="470.625" x2="1460" y2="470.625" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="70" y1="572.5" x2="1460" y2="572.5" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="70" y1="674.375" x2="1460" y2="674.375" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="70" y1="776.25" x2="1460" y2="776.25" stroke="#E7ECEF" stroke-width="1"/>
+<line x1="70" y1="878.125" x2="1460" y2="878.125" stroke="#E7ECEF" stroke-width="1"/>
+<path d="M 95 850 C 330 780, 470 875, 690 790 S 1090 720, 1425 805" fill="none" stroke="white" stroke-width="26" opacity="1.0"/>
+<path d="M 95 850 C 330 780, 470 875, 690 790 S 1090 720, 1425 805" fill="none" stroke="#B7C0C8" stroke-width="3" opacity="1.0"/>
+<path d="M 160 230 C 410 350, 600 280, 820 390 S 1180 450, 1420 330" fill="none" stroke="white" stroke-width="26" opacity="1.0"/>
+<path d="M 160 230 C 410 350, 600 280, 820 390 S 1180 450, 1420 330" fill="none" stroke="#B7C0C8" stroke-width="3" opacity="1.0"/>
+<path d="M 410 180 C 380 400, 500 590, 470 960" fill="none" stroke="white" stroke-width="26" opacity="1.0"/>
+<path d="M 410 180 C 380 400, 500 590, 470 960" fill="none" stroke="#B7C0C8" stroke-width="3" opacity="1.0"/>
+<path d="M 1050 180 C 980 380, 1110 590, 1040 960" fill="none" stroke="white" stroke-width="26" opacity="1.0"/>
+<path d="M 1050 180 C 980 380, 1110 590, 1040 960" fill="none" stroke="#B7C0C8" stroke-width="3" opacity="1.0"/>
+<rect x="250" y="270" width="95" height="75" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="262" y1="288" x2="333" y2="288" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="262" y1="308" x2="333" y2="308" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="365" y="355" width="110" height="70" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="377" y1="373" x2="463" y2="373" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="377" y1="393" x2="463" y2="393" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="580" y="225" width="120" height="85" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="592" y1="243" x2="688" y2="243" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="592" y1="263" x2="688" y2="263" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="750" y="300" width="90" height="75" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="762" y1="318" x2="828" y2="318" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="762" y1="338" x2="828" y2="338" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="890" y="240" width="120" height="90" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="902" y1="258" x2="998" y2="258" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="902" y1="278" x2="998" y2="278" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="1170" y="260" width="105" height="75" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="1182" y1="278" x2="1263" y2="278" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="1182" y1="298" x2="1263" y2="298" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="1250" y="510" width="125" height="90" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="1262" y1="528" x2="1363" y2="528" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="1262" y1="548" x2="1363" y2="548" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="760" y="690" width="125" height="85" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="772" y1="708" x2="873" y2="708" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="772" y1="728" x2="873" y2="728" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="550" y="640" width="110" height="80" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="562" y1="658" x2="648" y2="658" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="562" y1="678" x2="648" y2="678" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="250" y="670" width="120" height="90" rx="2" fill="#DCE3E8" stroke="#AEBBC5" stroke-width="1"/>
+<line x1="262" y1="688" x2="358" y2="688" stroke="#BBC7CF" stroke-width="1"/>
+<line x1="262" y1="708" x2="358" y2="708" stroke="#BBC7CF" stroke-width="1"/>
+<rect x="125" y="430" width="150" height="105" rx="4" fill="white" stroke="#C43C39" stroke-width="2.5"/>
+<rect x="186" y="448" width="28" height="68" rx="0" fill="#C43C39" stroke="none" stroke-width="1"/>
+<rect x="165" y="469" width="70" height="26" rx="0" fill="#C43C39" stroke="none" stroke-width="1"/>
+<text x="200" y="562" fill="#17212B" font-size="20" font-weight="700" font-style="normal" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">医院 A / 取货点</text>
+<rect x="1260" y="665" width="140" height="95" rx="4" fill="white" stroke="#2166AC" stroke-width="2.5"/>
+<rect x="1318" y="684" width="24" height="58" rx="0" fill="#2166AC" stroke="none" stroke-width="1"/>
+<rect x="1300" y="701" width="60" height="24" rx="0" fill="#2166AC" stroke="none" stroke-width="1"/>
+<text x="1330" y="787" fill="#17212B" font-size="20" font-weight="700" font-style="normal" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">诊所 B / 配送点</text>
+<polygon points="690,400 930,335 1070,455 1000,620 745,600 640,495" fill="#F8D7D7" stroke="#C43C39" stroke-width="2.5" opacity="0.85" stroke-dasharray="12 7"/>
+<text x="850" y="475" fill="#C43C39" font-size="20" font-weight="700" font-style="normal" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">临时禁飞区</text>
+<text x="850" y="505" fill="#C43C39" font-size="17" font-weight="400" font-style="normal" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">NFZ-01</text>
+<polygon points="955,170 1435,170 1435,430 1190,510 1005,365" fill="url(#weather-hatch)" stroke="#66869A" stroke-width="2" opacity="0.85"/>
+<text x="1215" y="235" fill="#4A6678" font-size="19" font-weight="700" font-style="normal" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">恶劣气象区域</text>
+<text x="1215" y="265" fill="#4A6678" font-size="15" font-weight="400" font-style="normal" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">风速 / 降水 / 能见度</text>
+<path d="M 275 455 C 450 365, 560 285, 675 300 C 880 325, 1080 650, 1270 695" fill="none" stroke="#2166AC" stroke-width="5" opacity="1.0" marker-end="url(#arrow-blue)"/>
+<text x="585" y="275" fill="#2166AC" font-size="18" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">无人机候选航线</text>
+<path d="M 260 540 C 420 710, 680 905, 1020 850 C 1150 830, 1220 760, 1280 735" fill="none" stroke="#E68613" stroke-width="5" opacity="1.0" stroke-dasharray="14 8" marker-end="url(#arrow-orange)"/>
+<text x="710" y="900" fill="#E68613" font-size="18" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">空地协同降级路线</text>
+<circle cx="270" cy="455" r="8" fill="#2166AC" stroke="none" stroke-width="1"/>
+<circle cx="1280" cy="695" r="8" fill="#2166AC" stroke="none" stroke-width="1"/>
+<circle cx="260" cy="540" r="8" fill="#E68613" stroke="none" stroke-width="1"/>
+<circle cx="1280" cy="735" r="8" fill="#E68613" stroke="none" stroke-width="1"/>
+<text x="112" y="960" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Longitude 114.05°E</text>
+<text x="1240" y="960" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Longitude 114.15°E</text>
+<text x="82" y="190" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Latitude 22.64°N</text>
+<text x="82" y="955" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Latitude 22.54°N</text>
+<line x1="1515" y1="660" x2="1573" y2="660" stroke="#2166AC" stroke-width="4"/>
+<text x="1595" y="667" fill="#17212B" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">无人机候选航线</text>
+<line x1="1515" y1="715" x2="1573" y2="715" stroke="#E68613" stroke-width="4" stroke-dasharray="14 8"/>
+<text x="1595" y="722" fill="#17212B" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">地面降级路线</text>
+<rect x="1515" y="755" width="58" height="28" rx="0" fill="#F8D7D7" stroke="#C43C39" stroke-width="2" stroke-dasharray="12 7"/>
+<text x="1595" y="777" fill="#17212B" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">临时禁飞区</text>
+<rect x="1515" y="810" width="58" height="28" rx="0" fill="url(#weather-hatch)" stroke="#66869A" stroke-width="1"/>
+<text x="1595" y="832" fill="#17212B" font-size="18" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">恶劣气象区域</text>
+<text x="960" y="1035" fill="#5C6B78" font-size="18" font-weight="400" font-style="italic" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">该图用于表达环境检查与路线规划服务所消费的任务约束，不代表真实地理底图。</text>
+</svg>

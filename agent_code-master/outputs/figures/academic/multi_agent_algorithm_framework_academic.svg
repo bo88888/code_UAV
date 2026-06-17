@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+<title>能力感知多智能体算法服务编排框架</title>
+<defs>
+<marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+<path d="M0,0 L10,5 L0,10 z" fill="#2166AC"/>
+</marker>
+<marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+<path d="M0,0 L10,5 L0,10 z" fill="#E68613"/>
+</marker>
+<pattern id="weather-hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+<rect width="12" height="12" fill="#EAF1F5"/>
+<line x1="0" y1="0" x2="0" y2="12" stroke="#7894A6" stroke-width="4"/>
+</pattern>
+</defs>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="white" stroke="none" stroke-width="1"/>
+<text x="70" y="62" fill="#5C6B78" font-size="24" font-weight="600" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Figure 3.</text>
+<text x="205" y="62" fill="#17212B" font-size="34" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">能力感知多智能体算法服务编排框架</text>
+<text x="70" y="98" fill="#5C6B78" font-size="20" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">统一协调需求理解、能力注册、依赖调度、算法服务调用与异常重规划。</text>
+<line x1="70" y1="122" x2="1850" y2="122" stroke="#D7DEE5" stroke-width="2"/>
+<text x="70" y="175" fill="#2166AC" font-size="20" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">输入与语义层</text>
+<text x="70" y="355" fill="#238B45" font-size="20" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">编排与控制层</text>
+<text x="70" y="610" fill="#E68613" font-size="20" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">低空算法服务层</text>
+<text x="70" y="910" fill="#7B52AB" font-size="20" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">决策与输出层</text>
+<rect x="245" y="145" width="300" height="115" rx="4" fill="#F2F7FC" stroke="#2166AC" stroke-width="2"/>
+<text x="263" y="179" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Mission request</text>
+<text x="263" y="211" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">points, cargo, priority, time window</text>
+<rect x="665" y="145" width="300" height="115" rx="4" fill="#F2F7FC" stroke="#2166AC" stroke-width="2"/>
+<text x="683" y="179" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">UnderstandingAgent</text>
+<text x="683" y="211" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">XML parsing and semantic normalization</text>
+<rect x="1085" y="145" width="300" height="115" rx="4" fill="#F2F7FC" stroke="#2166AC" stroke-width="2"/>
+<text x="1103" y="179" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Capability registry</text>
+<text x="1103" y="211" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">stage, dependency, output and fallback</text>
+<rect x="1505" y="145" width="300" height="115" rx="4" fill="#F2F7FC" stroke="#2166AC" stroke-width="2"/>
+<text x="1523" y="179" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">ExecutionContext</text>
+<text x="1523" y="211" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">shared mission state and trace</text>
+<line x1="545" y1="202" x2="665" y2="202" stroke="#2166AC" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+<line x1="965" y1="202" x2="1085" y2="202" stroke="#2166AC" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+<line x1="1385" y1="202" x2="1505" y2="202" stroke="#2166AC" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+<rect x="245" y="330" width="260" height="115" rx="4" fill="#F4FAF6" stroke="#238B45" stroke-width="2"/>
+<text x="263" y="364" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">DecomposeAgent</text>
+<text x="263" y="396" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">generate A/B/C/R DAG</text>
+<rect x="575" y="330" width="260" height="115" rx="4" fill="#F4FAF6" stroke="#238B45" stroke-width="2"/>
+<text x="593" y="364" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">PlanningAgent</text>
+<text x="593" y="396" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">dependency batches</text>
+<rect x="905" y="330" width="260" height="115" rx="4" fill="#F4FAF6" stroke="#238B45" stroke-width="2"/>
+<text x="923" y="364" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">IntelligentScheduler</text>
+<text x="923" y="396" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">parallel ready queue</text>
+<rect x="1235" y="330" width="260" height="115" rx="4" fill="#F4FAF6" stroke="#238B45" stroke-width="2"/>
+<text x="1253" y="364" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">InvokerAgent + MCP</text>
+<text x="1253" y="396" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">protocolized service calls</text>
+<rect x="1565" y="330" width="260" height="115" rx="4" fill="#F4FAF6" stroke="#238B45" stroke-width="2"/>
+<text x="1583" y="364" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">ReplanAgent</text>
+<text x="1583" y="396" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">retry / wait / fallback / skip</text>
+<line x1="505" y1="387" x2="575" y2="387" stroke="#238B45" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+<line x1="835" y1="387" x2="905" y2="387" stroke="#238B45" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+<line x1="1165" y1="387" x2="1235" y2="387" stroke="#238B45" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+<line x1="1495" y1="387" x2="1565" y2="387" stroke="#238B45" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+<path d="M 1695 445 C 1695 520, 1040 535, 1040 445" fill="none" stroke="#C43C39" stroke-width="2.5" opacity="1.0" stroke-dasharray="9 6" marker-end="url(#arrow-blue)"/>
+<text x="1390" y="520" fill="#C43C39" font-size="16" font-weight="700" font-style="normal" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">failure feedback and dynamic replanning</text>
+<rect x="130" y="585" width="230" height="105" rx="4" fill="#F6F9FC" stroke="#2166AC" stroke-width="2"/>
+<text x="148" y="619" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">A1 Airspace</text>
+<text x="148" y="651" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">no-fly zone / altitude</text>
+<rect x="400" y="585" width="230" height="105" rx="4" fill="#F6F9FC" stroke="#2166AC" stroke-width="2"/>
+<text x="418" y="619" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">A2 Weather</text>
+<text x="418" y="651" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">wind / rain / visibility</text>
+<rect x="670" y="585" width="230" height="105" rx="4" fill="#F6F9FC" stroke="#2166AC" stroke-width="2"/>
+<text x="688" y="619" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">A3 UAV status</text>
+<text x="688" y="651" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">battery / payload / health</text>
+<rect x="940" y="585" width="230" height="105" rx="4" fill="#F6F9FC" stroke="#2166AC" stroke-width="2"/>
+<text x="958" y="619" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">A4 Dock status</text>
+<text x="958" y="651" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">charging / turnaround</text>
+<text x="60" y="650" fill="#2166AC" font-size="28" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">A</text>
+<rect x="130" y="735" width="230" height="105" rx="4" fill="#FFF8EF" stroke="#E68613" stroke-width="2"/>
+<text x="148" y="769" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">B1 DRL-LLM</text>
+<text x="148" y="801" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">compliance trajectory</text>
+<rect x="400" y="735" width="230" height="105" rx="4" fill="#FFF8EF" stroke="#E68613" stroke-width="2"/>
+<text x="418" y="769" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">B2 NN Air-Ground</text>
+<text x="418" y="801" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">weather-adaptive dispatch</text>
+<rect x="670" y="735" width="230" height="105" rx="4" fill="#FFF8EF" stroke="#E68613" stroke-width="2"/>
+<text x="688" y="769" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">B3 TWA-MILP</text>
+<text x="688" y="801" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">medical time-window schedule</text>
+<rect x="940" y="735" width="230" height="105" rx="4" fill="#FFF8EF" stroke="#E68613" stroke-width="2"/>
+<text x="958" y="769" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">B4 CoordField</text>
+<text x="958" y="801" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">agentic task allocation</text>
+<text x="60" y="800" fill="#E68613" font-size="28" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">B</text>
+<line x1="245" y1="690" x2="245" y2="735" stroke="#2166AC" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<line x1="515" y1="690" x2="515" y2="735" stroke="#2166AC" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<line x1="785" y1="690" x2="785" y2="735" stroke="#2166AC" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<line x1="1055" y1="690" x2="1055" y2="735" stroke="#2166AC" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<rect x="1235" y="585" width="570" height="255" rx="4" fill="#FBFBFC" stroke="#D7DEE5" stroke-width="1.5"/>
+<text x="1265" y="625" fill="#17212B" font-size="20" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Service coupling through previous_results</text>
+<text x="1265" y="667" fill="#17212B" font-size="17" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">• B1 reads A1 + A2 + A3</text>
+<text x="1265" y="704" fill="#17212B" font-size="17" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">• B2 reads A2 + A3</text>
+<text x="1265" y="741" fill="#17212B" font-size="17" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">• B3 reads A3 + A4</text>
+<text x="1265" y="778" fill="#17212B" font-size="17" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">• B4 reads A2 + A3</text>
+<text x="1265" y="817" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">MCP input/output schemas isolate algorithms from orchestration.</text>
+<line x1="1170" y1="662" x2="1235" y2="662" stroke="#E68613" stroke-width="2" marker-end="url(#arrow-orange)"/>
+<line x1="1170" y1="787" x2="1235" y2="787" stroke="#E68613" stroke-width="2" marker-end="url(#arrow-orange)"/>
+<rect x="430" y="890" width="330" height="115" rx="4" fill="#F8F5FB" stroke="#7B52AB" stroke-width="2"/>
+<text x="448" y="924" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">C1 Risk assessment</text>
+<text x="448" y="956" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">compliance + weather + deadline + energy</text>
+<rect x="975" y="890" width="330" height="115" rx="4" fill="#F8F5FB" stroke="#7B52AB" stroke-width="2"/>
+<text x="993" y="924" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Solution selection</text>
+<text x="993" y="956" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">rank feasible candidates and select vehicle</text>
+<rect x="1520" y="890" width="300" height="115" rx="4" fill="#F8F5FB" stroke="#7B52AB" stroke-width="2"/>
+<text x="1538" y="924" fill="#17212B" font-size="19" font-weight="700" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">Command report</text>
+<text x="1538" y="956" fill="#5C6B78" font-size="15" font-weight="400" font-style="normal" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">recommended plan, trace and replan events</text>
+<line x1="760" y1="947" x2="975" y2="947" stroke="#7B52AB" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+<line x1="1305" y1="947" x2="1520" y2="947" stroke="#7B52AB" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+<line x1="245" y1="840" x2="245" y2="868" stroke="#E68613" stroke-width="1.5"/>
+<line x1="515" y1="840" x2="515" y2="868" stroke="#E68613" stroke-width="1.5"/>
+<line x1="785" y1="840" x2="785" y2="868" stroke="#E68613" stroke-width="1.5"/>
+<line x1="1055" y1="840" x2="1055" y2="868" stroke="#E68613" stroke-width="1.5"/>
+<line x1="245" y1="868" x2="1055" y2="868" stroke="#E68613" stroke-width="1.5"/>
+<line x1="595" y1="868" x2="595" y2="890" stroke="#E68613" stroke-width="2" marker-end="url(#arrow-orange)"/>
+<text x="960" y="1050" fill="#5C6B78" font-size="18" font-weight="400" font-style="italic" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">核心贡献：在专业优化算法之外增加服务级编排、运行可行性判定与异常恢复能力。</text>
+</svg>

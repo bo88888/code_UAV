@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+<title>低空应急配送算法对比</title>
+<defs>
+<filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+<feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity=".28"/>
+</filter>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+<path d="M0,0 L12,6 L0,12 z" fill="#28D7E5"/>
+</marker>
+<linearGradient id="header" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0" stop-color="#4C8DFF"/>
+<stop offset="1" stop-color="#28D7E5"/>
+</linearGradient>
+</defs>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#071426" stroke="none" stroke-width="1"/>
+<circle cx="1740" cy="120" r="260" fill="#15395A" opacity=".35"/>
+<circle cx="140" cy="970" r="330" fill="#113451" opacity=".28"/>
+<text x="90" y="92" fill="#F2F7FC" font-size="52" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">低空应急配送算法对比</text>
+<text x="90" y="138" fill="#A6BED0" font-size="25" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">四类算法在正常、恶劣天气、临时禁飞和无人机短时不可用场景下的实验结果</text>
+<rect x="90" y="185" width="410" height="188" rx="20" fill="#0D223B" stroke="#1E4666" stroke-width="1"/>
+<rect x="90" y="185" width="10" height="188" rx="5" fill="#28D7E5" stroke="none" stroke-width="1"/>
+<text x="118" y="232" fill="#F2F7FC" font-size="27" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">DRL-LLM 合规航线</text>
+<text x="118" y="276" fill="#A6BED0" font-size="22" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">场景成功率  50%</text>
+<text x="118" y="315" fill="#A6BED0" font-size="22" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">时间窗满足  100%</text>
+<text x="118" y="354" fill="#28D7E5" font-size="22" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">被系统推荐  2 次</text>
+<rect x="540" y="185" width="410" height="188" rx="20" fill="#0D223B" stroke="#1E4666" stroke-width="1"/>
+<rect x="540" y="185" width="10" height="188" rx="5" fill="#4C8DFF" stroke="none" stroke-width="1"/>
+<text x="568" y="232" fill="#F2F7FC" font-size="27" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">TWA-MILP 时间窗</text>
+<text x="568" y="276" fill="#A6BED0" font-size="22" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">场景成功率  100%</text>
+<text x="568" y="315" fill="#A6BED0" font-size="22" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">时间窗满足  100%</text>
+<text x="568" y="354" fill="#4C8DFF" font-size="22" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">被系统推荐  0 次</text>
+<rect x="990" y="185" width="410" height="188" rx="20" fill="#0D223B" stroke="#1E4666" stroke-width="1"/>
+<rect x="990" y="185" width="10" height="188" rx="5" fill="#A77BFF" stroke="none" stroke-width="1"/>
+<text x="1018" y="232" fill="#F2F7FC" font-size="27" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">CoordField 分配</text>
+<text x="1018" y="276" fill="#A6BED0" font-size="22" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">场景成功率  100%</text>
+<text x="1018" y="315" fill="#A6BED0" font-size="22" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">时间窗满足  100%</text>
+<text x="1018" y="354" fill="#A77BFF" font-size="22" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">被系统推荐  0 次</text>
+<rect x="1440" y="185" width="410" height="188" rx="20" fill="#0D223B" stroke="#1E4666" stroke-width="1"/>
+<rect x="1440" y="185" width="10" height="188" rx="5" fill="#FFB547" stroke="none" stroke-width="1"/>
+<text x="1468" y="232" fill="#F2F7FC" font-size="27" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">NN 空地协同</text>
+<text x="1468" y="276" fill="#A6BED0" font-size="22" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">场景成功率  100%</text>
+<text x="1468" y="315" fill="#A6BED0" font-size="22" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">时间窗满足  100%</text>
+<text x="1468" y="354" fill="#FFB547" font-size="22" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">被系统推荐  2 次</text>
+<rect x="90" y="420" width="820" height="290" rx="20" fill="#0D223B" stroke="#1E4666" stroke-width="1"/>
+<text x="120" y="465" fill="#F2F7FC" font-size="25" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">平均任务耗时（分钟，越低越好）</text>
+<text x="120" y="527" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">DRL-LLM 合规航线</text>
+<rect x="340" y="506" width="475" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="340" y="506" width="294.5" height="24" rx="12" fill="#28D7E5" stroke="none" stroke-width="1"/>
+<text x="882" y="527" fill="#28D7E5" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">18.60</text>
+<text x="120" y="574" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">TWA-MILP 时间窗</text>
+<rect x="340" y="553" width="475" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="340" y="553" width="251.5916666666667" height="24" rx="12" fill="#4C8DFF" stroke="none" stroke-width="1"/>
+<text x="882" y="574" fill="#4C8DFF" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">15.89</text>
+<text x="120" y="621" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">CoordField 分配</text>
+<rect x="340" y="600" width="475" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="340" y="600" width="321.89166666666665" height="24" rx="12" fill="#A77BFF" stroke="none" stroke-width="1"/>
+<text x="882" y="621" fill="#A77BFF" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">20.33</text>
+<text x="120" y="668" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">NN 空地协同</text>
+<rect x="340" y="647" width="475" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="340" y="647" width="406.59999999999997" height="24" rx="12" fill="#FFB547" stroke="none" stroke-width="1"/>
+<text x="882" y="668" fill="#FFB547" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">25.68</text>
+<rect x="955" y="420" width="875" height="290" rx="20" fill="#0D223B" stroke="#1E4666" stroke-width="1"/>
+<text x="985" y="465" fill="#F2F7FC" font-size="25" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">平均能耗（kJ，越低越好）</text>
+<text x="985" y="527" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">DRL-LLM 合规航线</text>
+<rect x="1205" y="506" width="530" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="1205" y="506" width="341.08929411764706" height="24" rx="12" fill="#28D7E5" stroke="none" stroke-width="1"/>
+<text x="1802" y="527" fill="#28D7E5" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">547.03</text>
+<text x="985" y="574" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">TWA-MILP 时间窗</text>
+<rect x="1205" y="553" width="530" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="1205" y="553" width="272.14564705882356" height="24" rx="12" fill="#4C8DFF" stroke="none" stroke-width="1"/>
+<text x="1802" y="574" fill="#4C8DFF" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">436.46</text>
+<text x="985" y="621" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">CoordField 分配</text>
+<rect x="1205" y="600" width="530" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="1205" y="600" width="285.3644705882353" height="24" rx="12" fill="#A77BFF" stroke="none" stroke-width="1"/>
+<text x="1802" y="621" fill="#A77BFF" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">457.66</text>
+<text x="985" y="668" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">NN 空地协同</text>
+<rect x="1205" y="647" width="530" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="1205" y="647" width="463.9900588235294" height="24" rx="12" fill="#FFB547" stroke="none" stroke-width="1"/>
+<text x="1802" y="668" fill="#FFB547" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">744.13</text>
+<rect x="90" y="745" width="1740" height="245" rx="20" fill="#0D223B" stroke="#1E4666" stroke-width="1"/>
+<text x="120" y="790" fill="#F2F7FC" font-size="25" font-weight="700" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">平均合规评分（越高越好）</text>
+<text x="120" y="842" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">DRL-LLM 合规航线</text>
+<rect x="340" y="821" width="1395" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="340" y="821" width="1353.1499999999999" height="24" rx="12" fill="#28D7E5" stroke="none" stroke-width="1"/>
+<text x="1802" y="842" fill="#28D7E5" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">0.97</text>
+<text x="120" y="884" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">TWA-MILP 时间窗</text>
+<rect x="340" y="863" width="1395" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="340" y="863" width="1255.5" height="24" rx="12" fill="#4C8DFF" stroke="none" stroke-width="1"/>
+<text x="1802" y="884" fill="#4C8DFF" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">0.90</text>
+<text x="120" y="926" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">CoordField 分配</text>
+<rect x="340" y="905" width="1395" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="340" y="905" width="1227.6" height="24" rx="12" fill="#A77BFF" stroke="none" stroke-width="1"/>
+<text x="1802" y="926" fill="#A77BFF" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">0.88</text>
+<text x="120" y="968" fill="#A6BED0" font-size="18" font-weight="400" text-anchor="start" font-family="Microsoft YaHei, Arial, sans-serif">NN 空地协同</text>
+<rect x="340" y="947" width="1395" height="24" rx="12" fill="#173A57" stroke="none" stroke-width="1"/>
+<rect x="340" y="947" width="1353.1499999999999" height="24" rx="12" fill="#FFB547" stroke="none" stroke-width="1"/>
+<text x="1802" y="968" fill="#FFB547" font-size="18" font-weight="700" text-anchor="end" font-family="Microsoft YaHei, Arial, sans-serif">0.97</text>
+<text x="960" y="1035" fill="#A6BED0" font-size="21" font-weight="400" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif">说明：单算法最优不等于全场景最优，系统根据空域、天气和资源状态动态选择方案</text>
+</svg>

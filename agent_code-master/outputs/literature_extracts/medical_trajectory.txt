@@ -1,0 +1,741 @@
+                                                                         Global Transitions 8 (2026) 110–119
+
+
+
+                                                                 Contents lists available at ScienceDirect
+
+
+                                                                      Global Transitions
+                              journal homepage: www.keaipublishing.com/en/journals/global-transitions/
+
+
+Research Article
+
+Trajectory optimization for UAV-based medical delivery with
+temporal logic constraints and convex feasible set collision avoidance
+Kaiyuan Chen a, c, Yuhan Suo b, Shaowei Cui a, Yuanqing Xia b, Wannian Liang c, *,
+Shuo Wang a, **
+a
+    State Key Laboratory of Multimodal Artificial Intelligence Systems, Institute of Automation, Chinese Academy of Sciences, Beijing, 100190, China
+b
+    School of Automation, Beijing Institute of Technology, Beijing, 100081, China
+c
+    Vanke School of Public Health, Tsinghua University, Beijing, 100084, China
+
+
+
+
+a r t i c l e i n f o                                     a b s t r a c t
+
+Article history:                                          This paper addresses the problem of trajectory optimization for unmanned aerial vehicles (UAVs) per-
+Received 22 July 2025                                     forming time-sensitive medical deliveries in urban environments. Specifically, we consider a single UAV
+Received in revised form                                  with 3-degree-of-freedom dynamics tasked with delivering blood packages to multiple hospitals, each
+15 September 2025
+                                                          with a predefined time window and priority. Mission objectives are encoded using Signal Temporal
+Accepted 9 October 2025
+Available online 11 October 2025
+                                                          Logic (STL), enabling the formal specification of spatial-temporal constraints. To ensure safety, city
+                                                          buildings are modeled as 3D convex obstacles, and obstacle avoidance is handled through a Convex
+                                                          Feasible Set (CFS) method. The entire planning problem—combining UAV dynamics, STL satisfaction,
+Keywords:
+Global Trajectory optimization
+                                                          and collision avoidance—is formulated as a convex optimization problem that ensures tractability and
+Temporal logic constraints                                can be solved efficiently using standard convex programming techniques. Simulation results demon-
+Convex programming                                        strate that the proposed method generates dynamically feasible, collision-free trajectories that satisfy
+Unmanned aerial vehicles                                  temporal mission goals, providing a scalable and reliable approach for autonomous UAV-based medical
+                                                          logistics.
+                                                          © 2025 The Authors. Publishing services by Elsevier B.V. on behalf of KeAi Communications Co. Ltd. This
+                                                                  is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+
+
+
+
+1. Introduction                                                                               support healthcare infrastructure is particularly promising in
+                                                                                              time-critical missions such as blood transfusion logistics, where
+   Unmanned aerial vehicles are emerging as a transformative                                  every minute counts [3]. By optimizing their navigation and de-
+solution for rapid and reliable medical logistics, especially in                              livery efficiency, UAVs can serve as a crucial component in future
+emergency scenarios where timely delivery of critical suppli-                                 smart healthcare systems.
+es—such as blood, vaccines, or organs—can directly impact patient                                 Beyond trajectory planning, recent studies have highlighted
+outcomes. Traditional ground transportation is often limited by                               that security and privacy are also critical issues for UAV-based
+traffic congestion, geographic barriers, or disaster-related disrup-                          medical delivery systems. With the integration of edge
+tions. In contrast, UAVs offer the ability to bypass such constraints,                        computing and distributed intelligence, researchers have devel-
+enabling swift point-to-point delivery in both urban and rural                                oped frameworks for biometric privacy protection, secure data
+settings[1,2]. The potential for autonomous aerial systems to                                 collection, and blockchain-aided identity management in UAV
+                                                                                              delivery scenarios [4–6]. These works emphasize the importance
+                                                                                              of trustworthy and privacy-preserving UAV operations, which are
+  * Corresponding author.                                                                     complementary to trajectory optimization. While this paper fo-
+ ** Corresponding author.                                                                     cuses on trajectory optimization methods for general scenarios, a
+    E-mail addresses: liangwn@tsinghua.edu.cn (W. Liang), shuo.wang@ia.ac.cn
+                                                                                              fundamental step in enabling drone medical delivery.
+(S. Wang).
+    Peer review under the responsibility of KeAi Communications Co., Ltd                          Despite their promise, deploying UAVs in dense urban envi-
+                                                                                              ronments presents significant challenges. First, UAV trajectories
+                                                                                              must respect the underlying vehicle dynamics, including acceler-
+                                                                                              ation, velocity, and turning limitations, to ensure feasibility and
+                     Production and Hosting by Elsevier on behalf of KeAi                     controllability in real-time flight. Second, urban settings are filled
+
+
+https://doi.org/10.1016/j.glt.2025.10.002
+2589-7918/© 2025 The Authors. Publishing services by Elsevier B.V. on behalf of KeAi Communications Co. Ltd. This is an open access article under the CC BY license (http://
+creativecommons.org/licenses/by/4.0/).
+K. Chen, Y. Suo, S. Cui et al.                                                                                            Global Transitions 8 (2026) 110–119
+
+
+with static obstacles such as buildings, posing serious safety risks          optimization, or temporal logic-based task encoding—few have
+if not properly modeled and avoided [7]. Third, the mission ob-               addressed the full integration of high-level temporal specifica-
+jectives are often not limited to reaching a single location but              tions, low-level vehicle dynamics, and obstacle-rich environments
+require the UAV to visit multiple destinations—each with indi-                within a unified, tractable framework. Most approaches either
+vidual priorities and strict time windows [8,9]. Finally, trajectory          simplify the environment to two dimensions [24,25], assume un-
+planning must reconcile these spatial and temporal requirements               constrained dynamics [18,26], or rely on computationally expen-
+with safety constraints, all while remaining computationally                  sive non-convex formulations that are unsuitable for real-time
+tractable for online or near-real-time deployment. Addressing                 applications [27]. In contrast, our work bridges the gap between
+these challenges calls for a planning framework that integrates               formal mission specification and practical trajectory generation by
+high-level task specification with low-level dynamic and envi-                combining temporal logic, convex obstacle avoidance, and physi-
+ronmental constraints [10].                                                   cally consistent UAV motion planning in three-dimensional urban
+    Early approaches to UAV trajectory planning have primarily                space. A concise comparison of representative trajectory planning
+focused on geometric or graph-based methods, such as A* search,               approaches is summarized in Table 1, which highlights the limi-
+rapidly-exploring random tree, and their numerous variants                    tations of existing methods and motivates the integrated convex
+[11,12]. These methods are effective in generating collision-free             STL-based framework proposed in this paper.
+paths in static environments but often neglect dynamic feasi-                     This paper presents a trajectory optimization framework
+bility, control limits, or time-critical objectives. Moreover, they           tailored for UAV-based blood delivery missions under temporal
+typically rely on post-processing to smooth or adapt the path,                and environmental constraints. The main contributions of this
+which may violate safety or dynamic constraints when applied                  work are as follows:
+directly to real vehicles [11].
+    To address the limitations of purely geometric planning,                  1. We propose an STL-based formulation of multi-goal medical
+optimal control and trajectory optimization methods have been                    delivery tasks, allowing each hospital visit to be precisely
+introduced. These approaches formulate trajectory generation as a                specified with spatial and temporal bounds.
+continuous optimization problem, incorporating system dynamics                2. Obstacle avoidance is addressed using the convex feasible set
+and control constraints directly into the planning process [13–15].              method, which iteratively constructs linearized safe regions
+While powerful, they often require carefully tuned cost functions                around a reference trajectory, enabling scalable and collision-
+and may struggle to represent complex high-level tasks such as                   free path planning in complex 3D environments.
+sequential visits or deadline-based deliveries [14].                          3. The entire planning problem—including STL satisfaction,
+    More recently, temporal logic frameworks, especially signal                  obstacle avoidance, and UAV dynamics—is formulated as a
+temporal logic, have been adopted to encode complex task speci-                  standard convex optimization problem. This convex structure
+fications in a formal and interpretable manner [16,17]. STL enables              ensures computational tractability and allows the problem to
+the expression of spatial-temporal goals such as “reach a region                 be efficiently solved using off-the-shelf convex programming
+within a certain time window,” making it suitable for high-level                 techniques [28].
+mission planning. However, directly incorporating STL constraints
+into optimization often leads to non-convex or mixed-integer for-                Together, these components form a unified and implementable
+mulations [18,19], which can be computationally expensive and                 solution for time-sensitive UAV mission planning, with demon-
+difficult to scale, especially in real-time applications.                     strated feasibility and robustness in simulated urban
+    In addition to optimization-based approaches, learning-based              environments.
+methods have recently attracted significant attention for UAV                    Notation: We denote by ℤ[a;b] the set of all integers in the closed
+trajectory planning. Techniques such as reinforcement learning                interval [a, b], where a; b ∈ ℝ and a ≤ b.
+and imitation learning have been applied to generate collision-free
+and dynamically feasible paths by leveraging data-driven policies
+                                                                              2. Problem formulation
+trained in simulated or real environments [20–23]. These methods
+are capable of adapting to complex and uncertain scenarios
+                                                                              2.1. System model
+without requiring explicit environment modeling, and thus pro-
+vide a promising alternative to classical optimization-based
+                                                                                  We consider a UAV operating in a three-dimensional urban
+planning. However, learning-based methods often suffer from
+                                                                              environment. The UAV is modeled as a discrete-time system with
+limited interpretability and may lack formal guarantees on
+                                                                              3-degree-of-freedom kinematics and control inputs, evolving over
+mission-critical requirements such as safety margins and strict
+                                                                              a fixed planning horizon of T time steps with a uniform time step
+temporal deadlines. In contrast, this paper aims to propose an
+optimization framework with explicit performance guarantees,                  Δt. Let xt = [xt ; yt ; zt ]⊤ ∈ ℝ3 denote the position of the UAV at time
+                                                                                                             ⊤
+thereby ensuring the tractability and formal satisfaction of the task         step t, and let vt = [vxt ; vyt ; vzt ] ∈ ℝ3 represent its velocity compo-
+objectives.                                                                   nents along each axis.
+    To mitigate these challenges, recent research has explored                   The discrete-time kinematic model of the UAV is given by
+convex relaxations and smooth approximations of STL semantics
+[16,24]. By reformulating STL conditions using auxiliary variables            xt+1 = xt + vt Δt;                                                         (1)
+and convex functions, it becomes possible to embed temporal logic
+specifications into a continuous optimization framework without               vt+1 = vt + at Δt;                                                         (2)
+sacrificing tractability. Nevertheless, integrating such methods
+                                                                                                      ⊤
+with realistic dynamics and obstacle avoidance in three-                      where at = [axt ; ayt ; azt ] ∈ ℝ3 is the acceleration input applied at
+dimensional urban settings remains an open challenge, particu-                time step t. This formulation is derived by applying first-order
+larly when multiple delivery targets and time-sensitive con-                  Euler discretization to the continuous-time kinematics under the
+straints are involved.                                                        assumption of constant acceleration within each sampling inter-
+    While prior works have advanced individual aspects of UAV                 val. Such a simplified model is commonly adopted in UAV trajec-
+path     planning—such        as    geometric     routing, trajectory         tory optimization, as it captures the essential translational
+                                                                        111
+K. Chen, Y. Suo, S. Cui et al.                                                                                                                             Global Transitions 8 (2026) 110–119
+
+Table 1
+Comparison of representative UAV trajectory planning methods.
+
+  Method Type                                                                   High-level Task          Computational             Limitations
+                                                                                Specification            Complexity
+
+  Geometric/Graph-based (A*, RRT, etc.) (Funk et al., 2023; Aggarwal and Not supported           Medium                            Ignore temporal deadlines; post-processing may
+     Kumar, 2020)                                                                                                                  violate dynamic constraints
+  Classical Trajectory Optimization (Nonlinear/Non-convex) (Chen            Cost-function based, High                              May fall into local minima; difficult to encode STL
+     et al., 2023; Morrell et al., 2018; Betts, 2010)                       implicit                                               tasks
+  STL-constrained Non-convex Optimization (e.g., MILP, MINLP)               Formal STL encoding Very high                          Poor scalability, unsuitable for real-time
+     (Buyukkocak et al., 2021; Sun et al., 2022)                                                                                   applications
+  Learning-based Methods (RL, IL, etc.) (Bai et al., 2024; Wu et al., 2023) Implicit in learned Medium                             Lack of interpretability and formal guarantees
+                                                                            policy
+  This Work (STL + CFS + Convex Optimization)                               Explicit STL-based   Low (standard                     Currently limited to static obstacles and single UAV
+                                                                            specification        convex solvers)
+
+
+
+
+dynamics while enabling the problem to be formulated as a convex                               point at time t
+optimization.
+   To ensure dynamic feasibility, the UAV is subject to constraints
+                                                                                               ϕk (t) := ‖xt − hk ‖2 ≤ ϵ; t ∈ ℤ[τstart ;τend ]                                            (5)
+                                                                                                                                               k       k
+
+on its speed and acceleration
+                                                                                               The temporal logic specification requires that for each hospital, the
+ [       y ]⊤                                                    y
+‖ vxt ; vt ‖2 ≤ vmax ;           ∀t ∈ ℤ[1;T] |axt | ≤ amax ;   |at | ≤ amax ;                  predicate must be satisfied at least once within its time window
+|azt | ≤ amax ;       ∀t ∈ ℤ[1;T− 1]                                                           (x; 0)⊧⋄[τstart ;τend ] ϕk ;   ∀k ∈ ℤ[1;K]                                                 (6)
+                                                                                                            k     k
+                                                                                   (3)
+
+where vmax, amax are user-defined upper bounds on the UAV's
+planar speed and acceleration magnitude, respectively. The initial                             2.2.2. Robustness semantics
+position and velocity of the UAV are assumed to be known and                                      To make STL compatible with continuous optimization, we
+fixed x1 = xinit, v1 = 0.                                                                      adopt its quantitative semantics (robustness measure). The
+                                                                                               robustness value ρk(t) for predicate ϕk(t) is defined as
+2.2. Task specification and STL encoding
+                                                                                               ρk (t) = ϵ − ‖xt − hk ‖2 ; t ∈ ℤ[τstart ;τend ]                                            (7)
+                                                                                                                                           k       k
+
+   The UAV is tasked with delivering medical supplies—such as
+                                                                                                  Higher values of ρk(t) indicate stronger satisfaction (i.e., the
+blood or plasma units—to a set of geographically distributed
+                                                                                               UAV is well within the target region), while negative values indi-
+hospitals within a fixed planning horizon. Let {h1, h2, …, hK} denote
+                                                                                               cate violation. The robustness of the full temporal operator is then
+the set of hospital locations in 3D space, where each hk ∈ ℝ3 is a
+                                                                                               defined as the maximum robustness over the time window
+target delivery waypoint. Each hospital hk is associated with a
+                                                                                                        {                            }
+temporal delivery window [τstart
+                             k
+                                 ;τend
+                                   k
+                                       ]⫅[1;T], during which the UAV                           ρ⋄k = max ρk (t); t ∈ ℤ[τstart ;τend ] ; ∀k ∈ ℤ[1;K] :                                     (8)
+                                                                                                                               k       k
+must arrive sufficiently close to the destination.
+    The mission objective is to visit all K hospitals within their                                 Enforcing STL satisfaction therefore amounts to requiring
+respective time windows while respecting dynamic and environ-                                  ρ⋄k ≥ 0 for all hospitals.
+mental constraints. Unlike simple waypoint following, this de-
+livery problem imposes temporal validity on each target, making
+                                                                                               2.3. Obstacle representation
+both the spatial and timing aspects critical to mission success. To
+formally encode this task, we adopt STL as a specification lan-
+                                                                                                  The operating environment is assumed to be an urban area
+guage, which is defined according to
+                                                                                               populated with static obstacles such as buildings. To facilitate
+ϕ := π | ¬ϕ | ϕ ∧ ψ | ϕ U [a;b] ψ;                                                 (4)         collision checking, each obstacle is modeled as a three-
+                                                                                               dimensional, axis-aligned rectangular prism, commonly referred
+where π is a predicate associated with a real-valued predicate                                 to as an Axis-Aligned Bounding Box (AABB). Assume M obstacles
+function μπ; ϕ and ψ are STL formulas; negation and conjunction of                             exist in the environment, let Oj ⊂ℝ3 denote the region occupied by
+formulas are denoted by ¬ and ∧; the until operator is denoted by                              the j-th obstacle. This region is defined as
+U[a,b] with a, b ∈ [1, T]. We denote by (x, t)⊧ϕ a trajectory x = {x1, …,                          ⎧            ⃒                                            ⎫
+                                                                                                   ⎪   ⎡ ⎤      ⃒                                       max ⎪
+xT} satisfies ϕ at time t using the Boolean semantics of STL [16],                                 ⎪
+                                                                                                   ⎪
+                                                                                                   ⎨     px
+                                                                                                                ⃒
+                                                                                                                ⃒                          xmin
+                                                                                                                                            m   ≤ px ≤ xm  ; ⎪
+                                                                                                                                                             ⎪
+                                                                                                                                                             ⎬
+where (x, t)⊧π ⇔ μπ(xt) ≥ 0. We can evaluate the satisfaction of ϕ                                     ⎣    ⎦  3⃒
+                                                                                               Om = p = p y ∈ ℝ ⃒                          ymin       max
+                                                                                                                                            m ≤ py ≤ ym ;    ; ∀m ∈ ℤ[1;M]
+quantitatively using a robustness function ρϕ such that ϕ is satis-                                ⎪
+                                                                                                   ⎪            ⃒                                           ⎪
+                                                                                                                                                            ⎪
+                                                                                                   ⎪     pz     ⃒                                       max ⎪
+fied if and only if ρϕ ≥ 0 [17]. In particular, we define the eventually                           ⎩            ⃒                          zmin
+                                                                                                                                            m   ≤ pz ≤ zm
+                                                                                                                                                            ⎭
+operator ⋄[a,b]ϕ:=TU[a,b]ϕ, where T is the true predicate. We have
+                                                                                                                                                                                          (9)
+(x, t)⊧⋄[a,b]ϕ if ∃t′ ∈ [t + a, t + b] such that (x, t′)⊧ϕ.
+                                                                                               where xmin    max min max min max define the lower and upper
+                                                                                                        m ; xm ; ym ; ym ; zm ; zm
+2.2.1. Eventually operator for delivery constraints                                            bounds of the obstacle along each axis. This representation enables
+    For each hospital hk, we define the task using the eventually                              efficient geometric reasoning and allows for straightforward
+operator ⋄[τstart ;τend ] ϕk, where ϕk denotes a spatial predicate indi-                       computation of signed distances between the UAV and obstacle
+                  k    k
+
+cating proximity to the hospital. Specifically, the predicate ϕk(t) is                         boundaries.
+true if the UAV is within a tolerance distance ϵ from the delivery                                 To ensure collision-free operation, the UAV's position xt at each
+                                                                                         112
+K. Chen, Y. Suo, S. Cui et al.                                                                                                         Global Transitions 8 (2026) 110–119
+
+
+time step must remain outside all defined obstacle regions
+                                                                                                J = w1 JSTL + w2 Jcontrol + w3 Jobs                                 (14)
+xt ∕
+   ∈ Om ; ∀m ∈ ℤ[1;M] ; ∀t ∈ ℤ[1;T] (10)
+                                                                                                where w1, w2, w3 > 0 are scalar weights used to balance mission
+                                                                                                satisfaction, control smoothness, and safety. These weights are
+                                                                                                tuned empirically to ensure reliable delivery while avoiding overly
+                                                                                                aggressive or conservative behavior.
+2.4. Objective function
+
+    The objective function is designed to guide the UAV toward                                  2.5. Overall optimization problem
+fulfilling the delivery mission while ensuring smooth and safe
+motion, which consists of three main components.                                                    Combining the system dynamics, temporal logic specifications,
+                                                                                                obstacle avoidance constraints, and the cost function, the UAV
+1) To promote task success and encourage early satisfaction of                                  trajectory planning problem can be summarized as the following
+   delivery objectives, we include a term that maximizes the                                    optimization program
+   robustness of the temporal logic specification
+
+
+
+    min                    J = w1 JSTL + w2 Jcontrol + w3 Jobs
+{xt ;vt ;at }Tt=1
+s:t:                       xt+1 = xt + vt Δt; ∀t ∈ ℤ[1; T − 1];
+                           vt+1 = vt + at Δt; ∀t ∈ ℤ[1; T − 1];
+                            [       y ]⊤
+                           ‖ vxt ; vt ‖2 ≤ vmax ; ∀t ∈ ℤ[1; T];                                                                                                     (15)
+                                            y
+                           |axt | ≤ amax ; |at | ≤ amax ; |azt | ≤ amax ;   ∀t ∈ ℤ[1; T − 1];
+                           x1 = xinit ; v1 = 0;
+                           ρ⋄k ≥ 0; ∀k ∈ ℤ[1; K];
+                           xt ∕
+                              ∈ Om ; ∀m ∈ ℤ[1; M]; ∀t ∈ ℤ[1; T];
+
+
+
+                                                                                                where JSTL, Jcontrol, and Jobs are defined below.
+               K
+               ∑                                                                                   This problem compactly summarizes the trajectory optimiza-
+JSTL = −              ρ⋄k                                                          (11)         tion task, the UAV must satisfy kinematic feasibility, respect ac-
+               k=1                                                                              celeration and velocity bounds, reach all hospitals within their
+                                                                                                specified time windows, and avoid obstacles, while minimizing a
+   The negative sign allows this term to be minimized in the
+                                                                                                weighted cost balancing robustness, smoothness, and safety.
+convex optimization framework, effectively maximizing the STL
+                                                                                                   However, due to the non-convex nature of the STL satisfaction
+robustness values.
+                                                                                                and obstacle avoidance constraints, this problem is not directly
+                                                                                                tractable by standard convex solvers. In the next section, we pre-
+2) To ensure that the resulting trajectory is dynamically smooth
+                                                                                                sent convex reformulations and approximations that make the
+   and energy-efficient, we penalize excessive acceleration. The
+                                                                                                problem efficiently solvable.
+   control effort term is defined as the squared ℓ2-norm of the
+   acceleration inputs
+                T− 1
+                ∑
+Jcontrol =                ‖at ‖22                                                  (12)         3. Optimization framework
+                    t=1
+This term discourages sharp or abrupt changes in the UAV's ve-                                      This section presents the reformulation of the trajectory opti-
+locity profile.                                                                                 mization problem into a tractable convex framework. A key chal-
+                                                                                                lenge in encoding STL constraints lies in the non-smooth and non-
+3) Although obstacle avoidance is enforced through constraints,                                 convex nature of temporal operators, particularly the max opera-
+   we include an obstacle proximity penalty term that discourages                               tion in robustness evaluation. Directly optimizing such specifica-
+   the UAV from flying too close to obstacle boundaries. Following                              tions is computationally expensive and often unsuitable for real-
+   [29], a signed distance function ϕm(xt) is defined for each                                  time planning.
+   obstacle Om , and the proximity penalty is computed using a                                      To address this, we approximate the STL robustness semantics
+   hinge loss                                                                                   using smooth, recursive sub-dynamics, enabling the formulation
+                                                                                                of differentiable constraints compatible with convex program-
+            M ∑
+            ∑ T                (                    )
+Jobs =                      max 0; dsafe − ϕm (xt )                                (13)         ming. In parallel, obstacle avoidance typically non-convex is
+           m=1 t=1                                                                              handled through a linearized approximation around a reference
+                                                                                                trajectory. This results in a sequence of convex subproblems con-
+where dsafe is a user-defined safety margin. This term encourages                               structed within a convex feasible set, ensuring both safety and
+conservative, safe separation from obstacles.                                                   tractability. Together, these approximations allow the entire
+    The total cost function is expressed as a weighted combination                              mission planning problem to be expressed as a standard convex
+of the three components                                                                         optimization program that remains efficient to solve while faith-
+                                                                                                fully respecting high-level temporal and spatial requirements.
+                                                                                          113
+K. Chen, Y. Suo, S. Cui et al.                                                                                                                            Global Transitions 8 (2026) 110–119
+
+
+3.1. Convex reformulation of STL constraints
+                                                                                                                M {
+                                                                                                                ⋂                     }
+                                                                                                         Γ :=      x ∈ ℝ3 : ϕm (x) ≥ 0                                                 (19)
+   We introduce a smooth approximation (or sub-dynamic
+                                                                                                                m=1
+recursion) to avoid non-smooth and non-convex max operators
+in optimization. A set of auxiliary variables μk(t), t ∈ ℤ[τstart ;τend ] that                                                                                                    (i− 1)
+                                                                                  k     k
+                                                                                                            At each iteration i, given a reference trajectory xt := xt  , we
+recursively track the maximum robustness value are introduced                                            construct a linearized convex constraint via the first-order Taylor
+                                                                                                         expansion of ϕm
+μk (t) = max(μk (t − 1); ρk (t)) ≈ G(μk (t − 1); ρk (t); α) :
+           (                      √̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅ )                ϕcm (xt ) := ϕm (xt ) + ∇ϕm (xt )(xt − xt ) ≥ 0;
+         1
+       =     μk (t − 1) + ρk (t) + (μk (t − 1) − ρk (t))2 + α2                                           ∀m ∈ ℤ[1;M] ; ∀t ∈ ℤ[1;T] ;
+         2
+                                                                                            (16)
+                                                                                                         where ∇ denotes the subgradient that minimizes the cost function
+where α > 0 is a smoothing parameter. This approximation is then                                         in the feasible set. This defines a local convex feasible set F (i) ⫅Γ,
+linearized about reference trajectories μk and ρk , yielding                                             which is used to solve the next convex subproblem. Iteration
+                                                                                                         proceeds until convergence in cost or trajectory. Analogously, the
+               μk (t − 1); ̃
+    μk (t) = G(̃           ρk (t); α)                                                                    proximity penalty is convexified to
+        ⎛                                                  ⎞
+     1⎜           μk (t − 1) − ̃
+                  ̃                        ρk (t)                                                                  M ∑
+                                                                                                                   ∑ T          (                     )
+                                                                 ⎟
+    + ⎝1 + √̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅                μk (t − 1))
+                                                                 ⎠(μk (t − 1) − ̃                        Jcobs =             max 0; dsafe − ϕcm (xt )                                  (20)
+     2                                            2          2
+            (̃μk (t − 1) − ̃          ρk (t)) + α                                                                  m=1 t=1
+       ⎛                                                         ⎞                                          Compared to conventional non-convex formulations, the CFS
+     1⎜           ρk (t) − ̃
+                  ̃               μk (t − 1)                     ⎟                                       approach offers several advantages. First, it guarantees feasibility
+    + ⎝1 + √̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅            ρk (t)):
+                                                                 ⎠(ρk (t) − ̃
+     2                                            2          2
+                                                                                                         at each iteration as long as the reference trajectory is feasible.
+            (̃μk (t − 1) − ̃          ρk (t)) + α
+                                                                                                         Second, it exploits the geometric structure of the motion planning
+                                                                                            (17)         problem, allowing for fast convergence with minimal per-iteration
+                                                                                                         computation. Finally, the formulation is compatible with standard
+    The final STL satisfaction condition can be compactly expressed
+                                                                                                         convex solvers, making it well-suited for integration with the STL-
+as μk (τend
+         k
+            ) ≥ 0; ∀k ∈ ℤ[1;K] . These constraints are integrated into                                   based delivery framework developed in this paper.
+the overall trajectory optimization problem, allowing the UAV to
+satisfy delivery objectives in a differentiable and optimization-
+friendly manner. For each hospital k, the auxiliary robustness                                           3.3. The convex optimization problem
+variable μk(t) tracks the satisfaction level of the STL eventually
+constraint over time. We aim to maximize the robustness, which                                              Through the series of reformulations introduced in previous
+corresponds to the strongest satisfaction of the time-windowed                                           sections, the original trajectory planning problem—characterized
+                 ∑K                                                                                      by non-smooth temporal logic constraints and non-convex
+goal J cSTL = −             end
+                   k=1 μk (τk ).                                                                         obstacle regions—is transformed into a convex optimization
+    Reformulating the original STL constraints into a smooth                                             problem that is both tractable and solver-friendly. Specifically, the
+recursive structure not only avoids the computational burden of                                          non-smooth STL constraints are approximated using recursively
+non-convex optimization but also ensures compatibility with                                              defined smooth sub-dynamics, allowing STL robustness to be
+convex solvers. This allows STL satisfaction to be enforced using                                        embedded as convex inequality constraints. Meanwhile, obstacle
+standard tools without requiring integer variables or case-based                                         avoidance is handled using linearized constraints around a refer-
+logic. More importantly, the recursive formulation preserves the                                         ence trajectory, derived from signed distance functions, ensuring
+temporal semantics of the delivery task, ensuring that the UAV                                           convex feasibility at each iteration.
+consistently increases its satisfaction measure within the specified                                        The complete convex optimization problem is summarized as
+time window, while enabling gradient-based optimization
+methods to efficiently find feasible and robust trajectories.                                            min          w1 JcSTL + w2 Jcontrol + w3 Jcobs
+                                                                                                         s:t:        xt+1 = xt + vt Δt
+                                                                                                                     vt+1 = vt + at Δt
+3.2. CFS for obstacle avoidance                                                                                     [ x y ]⊤
+                                                                                                                   ‖ vt ; vt ‖2 ≤ vmax ; ∀t ∈ ℤ[1;T]
+                                                                                                                                       y
+   In order to address the non-convexity of obstacle avoidance                                                        |axt | ≤ amax ; |at | ≤ amax ; |azt | ≤ amax ; ∀t ∈ ℤ[1;T− 1]
+constraints, we adopt the Convex Feasible Set methodology, as                                                         x1 = xinit ; v1 = 0
+originally proposed in Ref. [29]. The key idea is to transform the                                                      (     )
+non-convex constraint set into a sequence of convex approxima-                                                        μk τend
+                                                                                                                          k      ≥ 0; ∀k ∈ ℤ[1;K]
+tions centered around a reference trajectory. This allows the                                                         ϕcm (xt ) ≥ 0; ∀m ∈ ℤ[1;M] ; ∀t ∈ ℤ[1;T]
+original trajectory optimization to be solved via an iterative convex
+programming procedure.                                                                                                                                                                 (21)
+   Let each obstacle Om ⊂ℝ3 be represented implicitly by a signed    This formula consists of convex dynamics, convexified task
+distance function ϕm(x), such that                                satisfaction constraints, and locally convex approximations of non-
+                                                                  convex environment constraints. All terms in the objective func-
+ϕm (x) ≥ 0 ⟺ x ∕ ∈ Om                                       (18)
+                                                                  tion and all constraints are either affine or convex, making the
+   Assuming ϕm is semi-convex and piecewise smooth (as sup-       overall formulation compatible with standard convex solvers. This
+ported by signed or directional distance functions), the feasible enables efficient and reliable computation of safe, dynamically
+region for the UAV is                                             feasible UAV trajectories that respect mission timing and spatial
+
+
+                                                                                                   114
+K. Chen, Y. Suo, S. Cui et al.                                                                                                                   Global Transitions 8 (2026) 110–119
+
+
+requirements. The proposed convex optimization algorithm for                                  delivery is considered successful if the UAV enters an ϵ = 0.2 m
+UAV trajectory planning under STL and collision avoidance con-                                radius of the hospital location during the corresponding time
+straints is summarized in Algorithm 1.                                                        window, as formally defined by the STL eventually operator.
+                                                                                                 The environment also contains three static cuboid obstacles,
+Algorithm 1.          The proposed algorithm
+
+
+
+
+    Input: Waypoints {h1, h2, …, hK} and the associated time windows [τstart
+                                                                       k
+                                                                             ; τend
+                                                                                k
+                                                                                    ] for all k ∈ ℤ[1;K] . Positive weights w1, w2, and w3. Initial reference trajectory x.
+  1: Compute initial reference μk and ρk according to μk (t) = ρk (t) = ϵ − ‖xt − hk ‖2 ; t ∈ ℤ[τstart ;τend ] ; k ∈ ℤ[1;K]
+                                                                                                 k       k
+  2: while not converged do
+  3: Formulate the convex optimization problem following the procedures in Section 3.3.
+  4: Solve the problem to obtain a new solution {x, v, a, ρ, μ}, where ρ and μ collects all the ρk and μk auxiliary variables.
+  5: Update reference trajectory by x = x, ρ = ρ, and μ = μ.
+  6: end while
+  Output: The desired trajectory {x, v, a, ρ, μ}.
+
+
+
+
+    At each outer iteration, the proposed algorithm solves a convex                           representing urban buildings. These obstacles are placed along the
+optimization problem that can be formulated as a quadratic pro-                               UAV's potential flight corridor to create narrow passages and force
+gram. The worst-case computational complexity of standard                                     the planner to perform collision avoidance. Each obstacle is
+interior-point methods for quadratic programming scales as O(n3),                             modeled as an axis-aligned 3D box using its lower and upper
+where n is the number of decision variables. In our setting, n is                             corner coordinates, as listed in Table 3.
+proportional to the planning horizon T and the state dimension                                    In our simulations, we empirically set the objective weights to
+(position, velocity, and auxiliary robustness variables), i.e., n = O                         w1 = 0.1, w2 = 10, w3 = 100, which provided a good balance be-
+(3T). Therefore, the overall complexity of one outer iteration is                             tween task satisfaction, trajectory smoothness, and safety. An
+approximately O(T3).                                                                          iterative convexification procedure is used, where a reference
+    Subsequent simulations will further demonstrate that, since                               trajectory is refined through multiple rounds of convex optimi-
+the algorithm typically converges within a small number of outer                              zation with obstacle-aware linearization.
+iterations (less than 10 in all tested cases), the total complexity can
+be expressed as O(K ⋅ T3), where K denotes the iteration count. In                            4.2. Results and discussions
+practice, as demonstrated in our simulations with T = 30, the al-
+gorithm converges in about 5 iterations and requires less than 0.3 s                             To validate the proposed convex optimization framework, we
+of CPU time, which confirms its efficiency and suitability for real-                          conduct simulations in the urban environment described previ-
+time or onboard applications.                                                                 ously. The results are summarized in Fig. 1 through Fig. 4,
+                                                                                              demonstrating the effectiveness, convergence behavior, and task
+                                                                                              satisfaction capability of the method.
+4. Simulation result
+
+                                                                                              4.2.1. Trajectory quality and task completion
+4.1. Parameter specification
+                                                                                                  Fig. 1 compares the optimized UAV trajectory obtained using
+                                                                                              the proposed convex approach (orange) against that generated by
+   The proposed trajectory optimization framework is tested in a
+                                                                                              a standard Sequential Quadratic Programming (SQP) solver (blue)
+simulated three-dimensional urban environment of size
+                                                                                              [31]. Both 3D and top-down views are shown. The convex method
+60 × 30 × 20 m3. All simulations are implemented in MATLAB
+                                                                                              successfully produces a smooth, dynamically feasible trajectory
+using the convex optimization toolbox (CVX) [30] over a dis-
+                                                                                              that visits all three hospitals while respecting the obstacle con-
+cretized time horizon of T = 30 time steps with a uniform interval
+                                                                                              straints and STL-defined time windows. In contrast, the SQP-based
+Δt = 1.0 s.
+                                                                                              trajectory visibly deviates near the second and third hospitals and
+   The UAV begins at the fixed initial position x1 = [0, 0, 5]⊤, which
+                                                                                              slightly overshoots the time window boundaries, indicating a lack
+represents a rooftop launch pad located 5 m above ground at the
+                                                                                              of robustness in satisfying temporal logic constraints.
+origin corner of the environment. The UAV's initial velocity is set to
+                                                                                                  The proposed approach maintains appropriate clearance from
+zero in all directions. Its motion follows the discrete-time kine-
+                                                                                              obstacles, resulting in a trajectory that is both safe and executable.
+matic model defined in Section 2.1, with maximum planar speed
+                                                                                              The path transitions are continuous and smooth, reflecting the
+vmax = 5 m/s, and acceleration bounds amax = 2 m/s2 in all
+                                                                                              implicit control effort regularization in the objective function.
+directions.
+   The delivery task requires the UAV to visit three hospitals
+within their respective time windows, with each hospital specified                            4.2.2. Fast convergence and optimization efficiency
+by a 3D coordinate and temporal constraint (shown in Table 2). A                                 The convergence of the optimization algorithm is illustrated in
+                                                                                              Fig. 2, which plots the total objective value as a function of the
+
+Table 2
+Delivery targets.                                                                             Table 3
+                                                                                              Obstacle specification.
+  Hospital                       Coordinates                         Time Window
+                                                                                                Obstacle                x-Range                 y-Range                  z-Range
+                                 (x, y, z)                           [τstart, τend]
+  h1                             [17, 18, 5]                         [4, 15]                    O1                      [10, 15]                [5, 15]                  [0, 15]
+  h2                             [42, 28, 5]                         [10, 22]                   O2                      [30, 40]                [20, 30]                 [0, 20]
+  h3                             [56, 20, 5]                         [16, 30]                   O3                      [45, 55]                [5, 15]                  [0, 20]
+
+
+                                                                                        115
+K. Chen, Y. Suo, S. Cui et al.                                                                                                   Global Transitions 8 (2026) 110–119
+
+
+
+
+                                                                     Fig. 1. Trajectory results.
+
+
+
+
+                                                                                                         Fig. 3. Computational performance.
+                         Fig. 2. Objective function value history.
+
+                                                                                      This lightweight computational profile makes the proposed
+outer-loop iteration number. The objective drops rapidly in the                       method well-suited for real-time or onboard applications where
+first few iterations and stabilizes after approximately 5 rounds.                     computation resources are limited.
+This behavior indicates that the proposed STL sub-dynamics and
+CFS update mechanism are effective at quickly steering the solu-
+                                                                                      4.2.3. Temporal logic satisfaction and robustness
+tion toward an optimal region. Most of the performance gain is
+                                                                                         To assess how well the trajectory satisfies the STL temporal
+achieved in the first few iterations, enabling the method to support
+                                                                                      constraints, Fig. 4 shows the evolution of the robustness values
+early termination if time-critical constraints are imposed.
+                                                                                      μk(t) for each of the three hospital goals over the planning horizon.
+    Fig. 3 further confirms the computational efficiency of the
+                                                                                      Each curve corresponds to the quantitative satisfaction level of the
+approach. The average CPU time per iteration is consistently below
+                                                                                      eventually condition associated with a hospital target.
+0.02 s, with all iterations completing in under 0.22 s cumulatively.
+                                                                                         The robustness functions exhibit a sharp rise as the UAV
+                                                                                116
+K. Chen, Y. Suo, S. Cui et al.                                                                                                               Global Transitions 8 (2026) 110–119
+
+
+                                                                                                    4.3. Robustness analysis (effect of the smoothing parameter α)
+
+                                                                                                        To further investigate the effect of the smoothing parameter α
+                                                                                                    on trajectory planning and STL robustness, we conducted simu-
+                                                                                                    lations with six different α values and plotted the corresponding
+                                                                                                    3D trajectories as well as the temporal evolution of the original
+                                                                                                    robustness values ρ1, ρ2, ρ3, as shown in Figs. 5 and 6.
+                                                                                                        From the trajectory plots, it can be observed that as α increases,
+                                                                                                    the planned trajectories gradually deviate from the designated
+                                                                                                    delivery points and eventually fail to pass through them. This in-
+                                                                                                    dicates that a larger α makes the smoothing function flatter, which
+                                                                                                    in turn allows the smoothed robustness μ to reach zero more
+                                                                                                    easily, giving the impression that the task is satisfied. In reality,
+                                                                                                    however, the trajectories no longer satisfy the original STL con-
+                                                                                                    straints, leading to failure in completing the delivery tasks. In
+                                                                                                    other words, excessive smoothing amplifies the approximation
+                                                                                                    error, causing inconsistency between the optimization results and
+                                                                                                    the true satisfiability of the specification.
+                                 Fig. 4. STL function history.                                          The robustness curves ρ show a consistent trend, that is, with
+                                                                                                    smaller α, the values approach zero more closely, indicating that
+                                                                                                    the original robustness is aligned with the task requirements; with
+approaches each hospital within its time window, eventually                                         larger α, the values remain further away from zero, revealing that
+reaching zero and staying flat afterward. This behavior confirms                                    the robustness is underestimated and the tasks are not satisfied.
+that the UAV not only enters the goal region but does so within the                                 Moreover, the shape of the curves also changes with α: when α is
+prescribed temporal interval and with a sufficient safety margin.                                   small, the curves exhibit sharper, step-like behavior, whereas with
+The positive slope of each μk(t) curve further suggests that the                                    larger α the increase becomes smoother.
+planner actively improves satisfaction over time rather than                                            In summary, the smoothing parameter α has a significant in-
+passively meeting minimal requirements.                                                             fluence on the optimization results. A smaller α more accurately
+
+
+
+
+                                                                             Fig. 5. Trajectories under different α
+
+
+
+
+                                                                 Fig. 6. Effect of smoothing parameter α on robustness curves.
+
+                                                                                              117
+K. Chen, Y. Suo, S. Cui et al.                                                                                                       Global Transitions 8 (2026) 110–119
+
+
+reflects STL robustness and ensures task feasibility, while a larger α         Declaration of competing interests
+yields smoother numerical behavior at the cost of true satisfi-
+ability. Therefore, careful selection of α is required in practice to             The authors declare that they have no known competing
+strike a balance between numerical stability and constraint                    financial interests or personal relationships that could have
+accuracy.                                                                      appeared to influence the work reported in this paper. Wannian
+                                                                               Liang serves as Editor-in-Chief of Global Transitions, and he was not
+                                                                               involved in the editorial review or the decision to publish this
+4.4. Comparative discussion and practical implications                         article.
+
+    Compared to the SQP baseline, the proposed method yields
+                                                                               Acknowledgements
+more consistent satisfaction of STL goals, better obstacle margin
+handling, and lower trajectory curvature. Additionally, the convex
+                                                                                  This work was supported by the National Natural Science
+formulation avoids local minima issues that often arise in
+                                                                               Foundation of China (Grant No. 72441022) and the Tsinghua
+nonlinear optimization, as evidenced by the smoother and more
+                                                                               Strategy for Heightening Arts, Humanities and Social Sciences
+accurate trajectory shapes in Fig. 1.
+                                                                               “Plateaus & Peaks” (Grant No. 2024TSG06402).
+    The iterative structure of the method, combined with convex
+programming at each stage, enables robust and predictable
+convergence even from a simple straight-line initialization. These             References
+properties make the approach particularly suitable for deployment
+                                                                                [1] A. Yao, S. Pal, C. Dong, X. Li, X. Liu, A framework for user biometric privacy
+in safety-critical scenarios such as UAV-based medical delivery,                    protection in uav delivery systems with edge computing, in: 2024 IEEE In-
+where mission success and timing compliance are essential.                          ternational Conference on Pervasive Computing and Communications
+    To sum up, while the proposed method demonstrates real-time                     Workshops and Other Affiliated Events (PerCom Workshops), IEEE, 2024,
+                                                                                    pp. 631–636.
+efficiency and strong performance in simulated scenarios, several
+                                                                                [2] C. Dong, S. Pal, S. Chen, F. Jiang, X. Liu, A privacy-aware task distribution
+limitations should be acknowledged. First, the current framework                    architecture for uav communications system using blockchain, IEEE Internet
+assumes static obstacles, and its performance in highly dynamic                     Things J. (2025).
+environments has not yet been validated. Second, the evaluation is              [3] J. Bauer, D. Moormann, R. Strametz, D.A. Groneberg, Development of un-
+                                                                                    manned aerial vehicle (UAV) networks delivering early defibrillation for out-
+limited to simulation; hardware experiments are needed to assess                    of-hospital cardiac arrests (OHCA) in areas lacking timely access to emer-
+robustness under real-world conditions such as sensor noise, wind                   gency medical services (EMS) in Germany: a comparative economic study,
+disturbances, and communication delays. Addressing these chal-                      BMJ Open 11 (2021), https://doi.org/10.1136/bmjopen-2020-043791.
+                                                                                [4] B. Liu, W. Ni, R.P. Liu, Y.J. Guo, H. Zhu, Decentralized, privacy-preserving
+lenges will be an important step toward deploying the method in                     routing of cellular-connected unmanned aerial vehicles for joint goods de-
+practical UAV medical delivery missions.                                            livery and sensing, IEEE Trans. Intell. Transport. Syst. 24 (2023) 9627–9641.
+                                                                                [5] A. Yao, S. Pal, G. Li, X. Li, Z. Zhang, F. Jiang, C. Dong, J. Xu, X. Liu, Fedshufde: a
+                                                                                    privacy preserving framework of federated learning for edge-based smart
+                                                                                    uav delivery system, Future Gener. Comput. Syst. 166 (2025) 107706.
+5. Conclusion
+                                                                                [6] K. Fang, J. Deng, C. Dong, U. Naseem, T. Liu, H. Feng, W. Wang, Mocfl: mobile
+                                                                                    cluster federated learning framework for highly dynamic network, in: Pro-
+   This paper presents a convex trajectory optimization frame-                      ceedings of the ACM on Web Conference 2025, 2025, pp. 5065–5074.
+work for UAV-based medical delivery missions with spatial and                   [7] H. Kuang, X. Liu, Convergence-guaranteed trajectory optimization for quad-
+                                                                                    rotors subject to aerodynamic drag, IEEE Trans. Aero. Electron. Syst. 60
+temporal constraints. By reformulating STL specifications into                      (2024) 7251–7261, https://doi.org/10.1109/TAES.2024.3414958.
+smooth sub-dynamics and applying convex approximations for                      [8] P. Foehn, A. Romero, D. Scaramuzza, Time-optimal planning for quadrotor
+obstacle avoidance, the method transforms a non-convex planning                     waypoint flight, Sci. Robot. 6 (2021) eabh1221, https://doi.org/10.1126/scir-
+                                                                                    obotics.abh1221.
+problem into a standard convex program solvable by efficient                    [9] A. Romero, S. Sun, P. Foehn, D. Scaramuzza, Model predictive contouring
+optimization tools. Simulation results show that the proposed                       control for time-optimal quadrotor flight, IEEE Trans. Robot. 38 (2022)
+approach produces dynamically feasible, obstacle-free trajectories                  3340–3356, https://doi.org/10.1109/TRO.2022.3173711.
+                                                                               [10] M. Szmuk, D. Malyuta, T.P. Reynolds, M.S. Mceowen, B. Açikmeşe, Real-Time
+that successfully satisfy all delivery deadlines, outperforming                     quad-rotor Path Planning Using Convex Optimization and Compound state-
+conventional nonlinear methods in both robustness and trajectory                    triggered Constraints, IEEE/RSJ International Conference on Intelligent Ro-
+quality. The algorithm also exhibits fast convergence and low                       bots and Systems (IROS), 2019, pp. 7666–7673, https://doi.org/10.1109/
+                                                                                    IROS40897.2019.8967706.
+computational overhead, making it well-suited for real-time
+                                                                               [11] N. Funk, J. Tarrio, S. Papatheodorou, P.F. Alcantarilla, S. Leutenegger, Orien-
+implementation.                                                                     tation-aware hierarchical, adaptive-resolution A* algorithm for UAV trajec-
+   Beyond the static single-UAV setting studied here, the proposed                  tory planning, IEEE Rob. Autom. Lett. 8 (2023) 6723–6730, https://doi.org/
+                                                                                    10.1109/LRA.2023.3308490.
+framework can be extended to more practical scenarios. In dy-
+                                                                               [12] S. Aggarwal, N. Kumar, Path planning techniques for unmanned aerial ve-
+namic environments, moving obstacles can be modeled as time-                        hicles: a review, solutions, and challenges, Comput. Commun. 149 (2020)
+varying convex regions and handled through the same CFS-based                       270–299, https://doi.org/10.1016/j.comcom.2019.10.014.
+procedure. For multi-UAV missions, cooperative tasks and inter-                [13] Q. Chen, S. Cheng, N. Hovakimyan, Simultaneous spatial and temporal
+                                                                                    assignment for fast uav trajectory optimization using bilevel optimization,
+vehicle separation can be formulated as additional convex con-                      IEEE Rob. Autom. Lett. 8 (2023) 3860–3867, https://doi.org/10.1109/
+straints. Therefore, future work will extend the approach to multi-                 LRA.2023.3273399.
+agent coordination and dynamic, uncertain environments.                        [14] B. Morrell, R. Thakker, G. Merewether, R. Reid, M. Rigter, T. Tzanetos,
+                                                                                    G. Chamitoff, Comparison of trajectory optimization algorithms for high-
+                                                                                    speed quadrotor flight near obstacles, IEEE Rob. Autom. Lett. 3 (2018)
+                                                                                    4399–4406, https://doi.org/10.1109/LRA.2018.2868866.
+CRediT authorship contribution statement                                       [15] J.T. Betts, Practical Methods for Optimal Control and Estimation Using
+                                                                                    Nonlinear Programming, second ed., Society for Industrial and Applied
+                                                                                    Mathematics, 2010 https://doi.org/10.1137/1.9780898718577.
+   Kaiyuan Chen: Writing – review & editing, Writing – original
+                                                                               [16] Y. Gilpin, V. Kurtz, H. Lin, A smooth robustness measure of signal temporal
+draft, Software, Methodology. Yuhan Suo: Writing – original draft,                  logic for symbolic control, IEEE Control Sys. Lett. 5 (2021) 241–246, https://
+Software, Methodology. Shaowei Cui: Writing – review & editing.                     doi.org/10.1109/LCSYS.2020.3001875.
+Yuanqing Xia: Writing – review & editing. Wannian Liang:                       [17] C. Belta, S. Sadraddini, Formal methods for control synthesis: an optimization
+                                                                                    perspective, Annual Rev. Control, Robot. Autonom. Sys. 2 (2019) 115–140,
+Writing – review & editing, Supervision. Shuo Wang: Writing –                       https://doi.org/10.1146/annurev-control-053018-023717.
+review & editing.                                                              [18] A.T. Buyukkocak, D. Aksaray, Y. Yazıcıog      �lu, Planning of heterogeneous multi-
+
+                                                                         118
+K. Chen, Y. Suo, S. Cui et al.                                                                                                                Global Transitions 8 (2026) 110–119
+
+     agent systems under signal temporal logic specifications with integral                       https://doi.org/10.1109/LRA.2021.3064220.
+     predicates, IEEE Rob. Autom. Lett. 6 (2021) 1375–1382, https://doi.org/                 [26] Z. Chen, M. Cai, Z. Zhou, L. Li, Z. Kan, Fast motion planning in dynamic en-
+     10.1109/LRA.2021.3057049.                                                                    vironments with extended predicate-based temporal logic, IEEE Trans.
+[19] D. Sun, J. Chen, S. Mitra, C. Fan, Multi-agent motion planning from signal                   Autom. Sci. Eng. 22 (2025) 5293–5307, https://doi.org/10.1109/
+     temporal logic specifications, IEEE Rob. Autom. Lett. 7 (2022) 3451–3458.                    TASE.2024.3418409.
+[20] H. Bai, H. Wang, J. Du, R. He, G. Li, Y. Xu, Multi-hop uav relay covert                 [27] G. Zhang, X. Liu, Uav collision avoidance using mixed-integer second-order
+     communication: a multi-agent reinforcement learning approach, in: 2024                       cone programming, J. Guid. Control Dynam. 45 (2022) 1732–1738, https://
+     International Conference on Ubiquitous Communication (Ucom), IEEE, 2024,                     doi.org/10.2514/1.G006353.
+     pp. 356–360.                                                                            [28] D. Malyuta, T.P. Reynolds, M. Szmuk, T. Lew, R. Bonalli, M. Pavone,
+[21] J. Wu, Y. Zhou, H. Yang, Z. Huang, C. Lv, Human-guided reinforcement                         B. Açıkmeşe, Convex optimization for trajectory generation: a tutorial on
+     learning with sim-to-real transfer for autonomous navigation, IEEE Trans.                    generating dynamically feasible trajectories reliably and efficiently, IEEE
+     Pattern Anal. Mach. Intell. 45 (2023) 14745–14759.                                           Control     Syst.    Mag.  42     (2022)    40–113,   https://doi.org/10.1109/
+[22] L. Chen, Z. Jiang, L. Cheng, A.C. Knoll, M. Zhou, Deep reinforcement learning                MCS.2022.3187542.
+     based trajectory planning under uncertain constraints, Front. Neurorob. 16              [29] C. Liu, C.Y. Lin, M. Tomizuka, The convex feasible set algorithm for real time
+     (2022) 883562.                                                                               optimization in motion planning, SIAM J. Control Optim. 56 (2018)
+[23] R. Chai, D. Liu, T. Liu, A. Tsourdos, Y. Xia, S. Chai, Deep learning-based tra-              2712–2733, https://doi.org/10.1137/16M1091460.
+     jectory planning and control for autonomous ground vehicle parking ma-                  [30] M. Grant, S. Boyd, Graph implementations for nonsmooth convex programs,
+     neuver, IEEE Trans. Autom. Sci. Eng. 20 (2022) 1633–1647.                                    in: V. Blondel, S. Boyd, H. Kimura (Eds.), Recent Advances in Learning and
+[24] A.T. Buyukkocak, D. Aksaray, Resilient online planning for Mobile robots with                Control, Springer-Verlag Limited. Lecture Notes in Control and Information
+     minimal relaxation of signal temporal logic specifications, IEEE Rob. Autom.                 Sciences, 2008, pp. 95–110.
+     Lett. 10 (2025) 5935–5942, https://doi.org/10.1109/LRA.2025.3563119.                    [31] P.E. Gill, W. Murray, M.A. Saunders, SNOPT: an SQP algorithm for large-scale
+[25] D. Gundana, H. Kress-Gazit, Event-based signal temporal logic synthesis for                  constrained optimization, SIAM Rev. 47 (2005) 99–131, https://doi.org/
+     single and multi-robot tasks, IEEE Rob. Autom. Lett. 6 (2021) 3687–3694,                     10.1137/S0036144504446096.
+
+
+
+
+                                                                                       119
+

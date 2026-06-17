@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100">
+<title>Robustness and ablation results</title>
+<rect x="0.00" y="0.00" width="900.00" height="1100.00" fill="white" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="47.00" y="53.00" fill="#202020" font-size="21" font-weight="700" text-anchor="start" font-family="Times New Roman, Times, serif">(a) End-to-end mission success</text>
+<line x1="113.00" y1="472.00" x2="847.00" y2="472.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="477.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">0</text>
+<line x1="113.00" y1="406.80" x2="847.00" y2="406.80" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="411.80" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">20</text>
+<line x1="113.00" y1="341.60" x2="847.00" y2="341.60" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="346.60" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">40</text>
+<line x1="113.00" y1="276.40" x2="847.00" y2="276.40" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="281.40" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">60</text>
+<line x1="113.00" y1="211.20" x2="847.00" y2="211.20" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="216.20" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">80</text>
+<line x1="113.00" y1="146.00" x2="847.00" y2="146.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="151.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">100</text>
+<line x1="113.00" y1="472.00" x2="113.00" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="113.00" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">0</text>
+<line x1="296.50" y1="472.00" x2="296.50" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="296.50" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">5</text>
+<line x1="480.00" y1="472.00" x2="480.00" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="480.00" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">10</text>
+<line x1="663.50" y1="472.00" x2="663.50" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="663.50" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">15</text>
+<line x1="847.00" y1="472.00" x2="847.00" y2="478.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="847.00" y="497.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">20</text>
+<line x1="113.00" y1="146.00" x2="113.00" y2="472.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<line x1="113.00" y1="472.00" x2="847.00" y2="472.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<text x="480.00" y="520.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">Per-call failure probability (%)</text>
+<text x="47.00" y="309.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif" transform="rotate(-90 47 309.0)">Mission success (%)</text>
+<polygon points="113.00,146.00 296.50,209.28 480.00,256.16 663.50,289.32 847.00,332.10 847.00,351.10 663.50,313.47 480.00,274.91 296.50,226.16 113.00,146.00" fill="#FF8C00" opacity="0.1" stroke="none"/>
+<polyline points="113.00,146.00 296.50,217.72 480.00,265.53 663.50,301.39 847.00,341.60" fill="none" stroke="#FF8C00" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="13 5 3 5"/>
+<polygon points="113.00,139.50 107.50,146.00 113.00,152.50 118.50,146.00" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="296.50,211.22 291.00,217.72 296.50,224.22 302.00,217.72" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="480.00,259.03 474.50,265.53 480.00,272.03 485.50,265.53" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="663.50,294.89 658.00,301.39 663.50,307.89 669.00,301.39" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="847.00,335.10 841.50,341.60 847.00,348.10 852.50,341.60" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="113.00,146.00 296.50,207.33 480.00,250.34 663.50,284.21 847.00,321.37 847.00,337.92 663.50,306.62 480.00,268.77 296.50,223.76 113.00,146.00" fill="#5DA5DA" opacity="0.1" stroke="none"/>
+<polyline points="113.00,146.00 296.50,215.55 480.00,259.56 663.50,295.42 847.00,329.65" fill="none" stroke="#5DA5DA" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="107.50" y1="146.00" x2="118.50" y2="146.00"/><line x1="113.00" y1="140.50" x2="113.00" y2="151.50"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="291.00" y1="215.55" x2="302.00" y2="215.55"/><line x1="296.50" y1="210.05" x2="296.50" y2="221.05"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="474.50" y1="259.56" x2="485.50" y2="259.56"/><line x1="480.00" y1="254.06" x2="480.00" y2="265.06"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="658.00" y1="295.42" x2="669.00" y2="295.42"/><line x1="663.50" y1="289.92" x2="663.50" y2="300.92"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="841.50" y1="329.65" x2="852.50" y2="329.65"/><line x1="847.00" y1="324.15" x2="847.00" y2="335.15"/></g>
+<polygon points="113.00,146.00 296.50,207.74 480.00,253.93 663.50,286.60 847.00,323.44 847.00,340.20 663.50,311.84 480.00,272.79 296.50,224.44 113.00,146.00" fill="#B5651D" opacity="0.1" stroke="none"/>
+<polyline points="113.00,146.00 296.50,216.09 480.00,263.36 663.50,299.22 847.00,331.82" fill="none" stroke="#B5651D" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="9 4 2 4"/>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="107.50" y1="146.00" x2="118.50" y2="146.00"/><line x1="113.00" y1="140.50" x2="113.00" y2="151.50"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="291.00" y1="216.09" x2="302.00" y2="216.09"/><line x1="296.50" y1="210.59" x2="296.50" y2="221.59"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="474.50" y1="263.36" x2="485.50" y2="263.36"/><line x1="480.00" y1="257.86" x2="480.00" y2="268.86"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="658.00" y1="299.22" x2="669.00" y2="299.22"/><line x1="663.50" y1="293.72" x2="663.50" y2="304.72"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="841.50" y1="331.82" x2="852.50" y2="331.82"/><line x1="847.00" y1="326.32" x2="847.00" y2="337.32"/></g>
+<polygon points="113.00,146.00 296.50,204.60 480.00,240.95 663.50,282.59 847.00,325.48 847.00,347.94 663.50,307.16 480.00,262.95 296.50,222.15 113.00,146.00" fill="#1B7F79" opacity="0.1" stroke="none"/>
+<polyline points="113.00,146.00 296.50,213.37 480.00,251.95 663.50,294.87 847.00,336.71" fill="none" stroke="#1B7F79" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="2 3"/>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="107.50" y1="146.00" x2="118.50" y2="146.00"/><line x1="113.00" y1="140.50" x2="113.00" y2="151.50"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="291.00" y1="213.37" x2="302.00" y2="213.37"/><line x1="296.50" y1="207.87" x2="296.50" y2="218.87"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="474.50" y1="251.95" x2="485.50" y2="251.95"/><line x1="480.00" y1="246.45" x2="480.00" y2="257.45"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="658.00" y1="294.87" x2="669.00" y2="294.87"/><line x1="663.50" y1="289.37" x2="663.50" y2="300.37"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="841.50" y1="336.71" x2="852.50" y2="336.71"/><line x1="847.00" y1="331.21" x2="847.00" y2="342.21"/></g>
+<polygon points="113.00,146.00 296.50,208.75 480.00,253.61 663.50,285.96 847.00,325.46 847.00,344.70 663.50,310.30 480.00,275.29 296.50,226.69 113.00,146.00" fill="#D62728" opacity="0.1" stroke="none"/>
+<polyline points="113.00,146.00 296.50,217.72 480.00,264.45 663.50,298.13 847.00,335.08" fill="none" stroke="#D62728" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="113.00" cy="146.00" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="296.50" cy="217.72" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="480.00" cy="264.45" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="663.50" cy="298.13" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="847.00" cy="335.08" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<line x1="217.00" y1="86.00" x2="259.00" y2="86.00" stroke="#FF8C00" stroke-width="2.5" opacity="1.0" stroke-dasharray="13 5 3 5"/>
+<polygon points="238.00,80.50 233.50,86.00 238.00,91.50 242.50,86.00" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<text x="267.00" y="91.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">HEFT-DAG</text>
+<line x1="425.67" y1="86.00" x2="467.67" y2="86.00" stroke="#5DA5DA" stroke-width="2.5" opacity="1.0" stroke-dasharray="4 3"/>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="442.17" y1="86.00" x2="451.17" y2="86.00"/><line x1="446.67" y1="81.50" x2="446.67" y2="90.50"/></g>
+<text x="475.67" y="91.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">FIFO+Rec</text>
+<line x1="634.33" y1="86.00" x2="676.33" y2="86.00" stroke="#B5651D" stroke-width="2.5" opacity="1.0" stroke-dasharray="9 4 2 4"/>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="650.83" y1="86.00" x2="659.83" y2="86.00"/><line x1="655.33" y1="81.50" x2="655.33" y2="90.50"/></g>
+<text x="684.33" y="91.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">HEFT+Rec</text>
+<line x1="217.00" y1="114.00" x2="259.00" y2="114.00" stroke="#1B7F79" stroke-width="2.5" opacity="1.0" stroke-dasharray="2 3"/>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="233.50" y1="114.00" x2="242.50" y2="114.00"/><line x1="238.00" y1="109.50" x2="238.00" y2="118.50"/></g>
+<text x="267.00" y="119.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">RL+Rec</text>
+<line x1="425.67" y1="114.00" x2="467.67" y2="114.00" stroke="#D62728" stroke-width="2.5" opacity="1.0"/>
+<circle cx="446.67" cy="114.00" r="4.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<text x="475.67" y="119.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">Proposed</text>
+<text x="47.00" y="593.00" fill="#202020" font-size="21" font-weight="700" text-anchor="start" font-family="Times New Roman, Times, serif">(b) Recovery success after observed failure</text>
+<line x1="113.00" y1="1012.00" x2="847.00" y2="1012.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="1017.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">0</text>
+<line x1="113.00" y1="946.80" x2="847.00" y2="946.80" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="951.80" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">20</text>
+<line x1="113.00" y1="881.60" x2="847.00" y2="881.60" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="886.60" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">40</text>
+<line x1="113.00" y1="816.40" x2="847.00" y2="816.40" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="821.40" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">60</text>
+<line x1="113.00" y1="751.20" x2="847.00" y2="751.20" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="756.20" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">80</text>
+<line x1="113.00" y1="686.00" x2="847.00" y2="686.00" stroke="#D9D9D9" stroke-width="1" opacity="1.0"/>
+<text x="101.00" y="691.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="end" font-family="Times New Roman, Times, serif">100</text>
+<line x1="113.00" y1="1012.00" x2="113.00" y2="1018.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="113.00" y="1037.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">0</text>
+<line x1="296.50" y1="1012.00" x2="296.50" y2="1018.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="296.50" y="1037.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">5</text>
+<line x1="480.00" y1="1012.00" x2="480.00" y2="1018.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="480.00" y="1037.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">10</text>
+<line x1="663.50" y1="1012.00" x2="663.50" y2="1018.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="663.50" y="1037.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">15</text>
+<line x1="847.00" y1="1012.00" x2="847.00" y2="1018.00" stroke="#202020" stroke-width="1" opacity="1.0"/>
+<text x="847.00" y="1037.00" fill="#5A5A5A" font-size="14" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">20</text>
+<line x1="113.00" y1="686.00" x2="113.00" y2="1012.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<line x1="113.00" y1="1012.00" x2="847.00" y2="1012.00" stroke="#202020" stroke-width="1.4" opacity="1.0"/>
+<text x="480.00" y="1060.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif">Per-call failure probability (%)</text>
+<text x="47.00" y="849.00" fill="#202020" font-size="15" font-weight="400" text-anchor="middle" font-family="Times New Roman, Times, serif" transform="rotate(-90 47 849.0)">Recovered workflows (%)</text>
+<polygon points="113.00,686.00 296.50,856.78 480.00,866.02 663.50,872.40 847.00,897.03 847.00,915.74 663.50,898.45 480.00,890.17 296.50,894.97 113.00,686.00" fill="#FF8C00" opacity="0.1" stroke="none"/>
+<polyline points="113.00,686.00 296.50,875.88 480.00,878.10 663.50,885.42 847.00,906.38" fill="none" stroke="#FF8C00" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="13 5 3 5"/>
+<polygon points="113.00,679.50 107.50,686.00 113.00,692.50 118.50,686.00" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="296.50,869.38 291.00,875.88 296.50,882.38 302.00,875.88" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="480.00,871.60 474.50,878.10 480.00,884.60 485.50,878.10" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="663.50,878.92 658.00,885.42 663.50,891.92 669.00,885.42" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="847.00,899.88 841.50,906.38 847.00,912.88 852.50,906.38" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<polygon points="113.00,686.00 296.50,851.60 480.00,856.35 663.50,865.64 847.00,885.07 847.00,900.80 663.50,890.69 480.00,883.25 296.50,893.26 113.00,686.00" fill="#5DA5DA" opacity="0.1" stroke="none"/>
+<polyline points="113.00,686.00 296.50,872.43 480.00,869.80 663.50,878.16 847.00,892.93" fill="none" stroke="#5DA5DA" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="107.50" y1="686.00" x2="118.50" y2="686.00"/><line x1="113.00" y1="680.50" x2="113.00" y2="691.50"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="291.00" y1="872.43" x2="302.00" y2="872.43"/><line x1="296.50" y1="866.93" x2="296.50" y2="877.93"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="474.50" y1="869.80" x2="485.50" y2="869.80"/><line x1="480.00" y1="864.30" x2="480.00" y2="875.30"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="658.00" y1="878.16" x2="669.00" y2="878.16"/><line x1="663.50" y1="872.66" x2="663.50" y2="883.66"/></g>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="841.50" y1="892.93" x2="852.50" y2="892.93"/><line x1="847.00" y1="887.43" x2="847.00" y2="898.43"/></g>
+<polygon points="113.00,686.00 296.50,852.89 480.00,862.41 663.50,868.95 847.00,887.79 847.00,902.07 663.50,895.88 480.00,886.66 296.50,891.80 113.00,686.00" fill="#B5651D" opacity="0.1" stroke="none"/>
+<polyline points="113.00,686.00 296.50,872.34 480.00,874.54 663.50,882.41 847.00,894.93" fill="none" stroke="#B5651D" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="9 4 2 4"/>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="107.50" y1="686.00" x2="118.50" y2="686.00"/><line x1="113.00" y1="680.50" x2="113.00" y2="691.50"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="291.00" y1="872.34" x2="302.00" y2="872.34"/><line x1="296.50" y1="866.84" x2="296.50" y2="877.84"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="474.50" y1="874.54" x2="485.50" y2="874.54"/><line x1="480.00" y1="869.04" x2="480.00" y2="880.04"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="658.00" y1="882.41" x2="669.00" y2="882.41"/><line x1="663.50" y1="876.91" x2="663.50" y2="887.91"/></g>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="841.50" y1="894.93" x2="852.50" y2="894.93"/><line x1="847.00" y1="889.43" x2="847.00" y2="900.43"/></g>
+<polygon points="113.00,686.00 296.50,843.66 480.00,841.12 663.50,863.82 847.00,889.07 847.00,911.10 663.50,892.15 480.00,868.27 296.50,879.86 113.00,686.00" fill="#1B7F79" opacity="0.1" stroke="none"/>
+<polyline points="113.00,686.00 296.50,861.76 480.00,854.70 663.50,877.99 847.00,900.08" fill="none" stroke="#1B7F79" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="2 3"/>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="107.50" y1="686.00" x2="118.50" y2="686.00"/><line x1="113.00" y1="680.50" x2="113.00" y2="691.50"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="291.00" y1="861.76" x2="302.00" y2="861.76"/><line x1="296.50" y1="856.26" x2="296.50" y2="867.26"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="474.50" y1="854.70" x2="485.50" y2="854.70"/><line x1="480.00" y1="849.20" x2="480.00" y2="860.20"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="658.00" y1="877.99" x2="669.00" y2="877.99"/><line x1="663.50" y1="872.49" x2="663.50" y2="883.49"/></g>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="841.50" y1="900.08" x2="852.50" y2="900.08"/><line x1="847.00" y1="894.58" x2="847.00" y2="905.58"/></g>
+<polygon points="113.00,686.00 296.50,856.09 480.00,861.79 663.50,868.13 847.00,889.96 847.00,906.91 663.50,894.32 480.00,888.82 296.50,897.68 113.00,686.00" fill="#D62728" opacity="0.1" stroke="none"/>
+<polyline points="113.00,686.00 296.50,876.89 480.00,875.30 663.50,881.23 847.00,898.43" fill="none" stroke="#D62728" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="113.00" cy="686.00" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="296.50" cy="876.89" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="480.00" cy="875.30" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="663.50" cy="881.23" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<circle cx="847.00" cy="898.43" r="5.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<line x1="217.00" y1="626.00" x2="259.00" y2="626.00" stroke="#FF8C00" stroke-width="2.5" opacity="1.0" stroke-dasharray="13 5 3 5"/>
+<polygon points="238.00,620.50 233.50,626.00 238.00,631.50 242.50,626.00" fill="white" opacity="1.0" stroke="#FF8C00"/>
+<text x="267.00" y="631.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">HEFT-DAG</text>
+<line x1="425.67" y1="626.00" x2="467.67" y2="626.00" stroke="#5DA5DA" stroke-width="2.5" opacity="1.0" stroke-dasharray="4 3"/>
+<g stroke="#5DA5DA" stroke-width="2.5"><line x1="442.17" y1="626.00" x2="451.17" y2="626.00"/><line x1="446.67" y1="621.50" x2="446.67" y2="630.50"/></g>
+<text x="475.67" y="631.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">FIFO+Rec</text>
+<line x1="634.33" y1="626.00" x2="676.33" y2="626.00" stroke="#B5651D" stroke-width="2.5" opacity="1.0" stroke-dasharray="9 4 2 4"/>
+<g stroke="#B5651D" stroke-width="2.5"><line x1="650.83" y1="626.00" x2="659.83" y2="626.00"/><line x1="655.33" y1="621.50" x2="655.33" y2="630.50"/></g>
+<text x="684.33" y="631.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">HEFT+Rec</text>
+<line x1="217.00" y1="654.00" x2="259.00" y2="654.00" stroke="#1B7F79" stroke-width="2.5" opacity="1.0" stroke-dasharray="2 3"/>
+<g stroke="#1B7F79" stroke-width="2.5"><line x1="233.50" y1="654.00" x2="242.50" y2="654.00"/><line x1="238.00" y1="649.50" x2="238.00" y2="658.50"/></g>
+<text x="267.00" y="659.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">RL+Rec</text>
+<line x1="425.67" y1="654.00" x2="467.67" y2="654.00" stroke="#D62728" stroke-width="2.5" opacity="1.0"/>
+<circle cx="446.67" cy="654.00" r="4.5" fill="#D62728" stroke="white" stroke-width="1.5"/>
+<text x="475.67" y="659.00" fill="#202020" font-size="13" font-weight="400" text-anchor="start" font-family="Times New Roman, Times, serif">Proposed</text>
+</svg>

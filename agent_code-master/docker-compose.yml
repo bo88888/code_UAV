@@ -1,0 +1,39 @@
+services:
+  low-altitude-service:
+    build: .
+    working_dir: /workspace
+    command:
+      - python
+      - -m
+      - uvicorn
+      - services.low_altitude_service.app:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8888"
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/workspace
+
+  orchestrator:
+    build: .
+    working_dir: /workspace
+    command:
+      - python
+      - -m
+      - uvicorn
+      - api_main:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "9000"
+    environment:
+      PYTHONUNBUFFERED: "1"
+      LOW_ALTITUDE_SERVICE_URL: "http://low-altitude-service:8888/infer"
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/workspace
+    depends_on:
+      - low-altitude-service

@@ -1,0 +1,1280 @@
+                                                                                                                                                                                           1
+
+
+
+
+                                         Safe and Economical UAV Trajectory Planning in
+                                            Low-Altitude Airspace: A Hybrid DRL-LLM
+                                              Algorithm with Compliance Awareness
+                                         Yanwei Gong, Junchao Fan, Ruichen Zhang, Dusit Niyato, Fellow, IEEE, Yingying Yao, and Xiaolin Chang
+
+                                               Abstract—The rapid growth of the low-altitude economy has driven the widespread adoption of unmanned aerial vehicles (UAVs). This
+                                               growing deployment presents new challenges for UAV trajectory planning in complex urban environments. However, existing studies
+                                               often overlook key factors, such as urban airspace constraints and economic efficiency, which are essential in low-altitude economy
+                                               contexts. Deep reinforcement learning (DRL) is regarded as a promising solution to these issues, while its practical adoption remains
+arXiv:2506.08532v3 [cs.AI] 25 Nov 2025
+
+
+
+
+                                               limited by low learning efficiency. To overcome this limitation, we propose a novel UAV trajectory planning algorithm that integrates DRL
+                                               with the large language model (LLM) reasoning to enable safe, compliant, and economically viable trajectory planning. Specifically,
+                                               we model the trajectory planning task as a partially observable Markov decision process, explicitly incorporating obstacle avoidance,
+                                               regulation awareness, and energy constraints. We design a hybrid optimization algorithm based on the soft actor-critic algorithm and
+                                               LLM reasoning to enable adaptive decision-making in uncertain and dynamic environments. Experimental results demonstrate that our
+                                               algorithm achieves the best overall performance, with the highest data collection rate (99.50%), almost zero collision avoidance rate
+                                               and regulation violation rate, perfect successful landing rate (100%), and the lowest energy consumption rate (76.95%). These results
+                                               validate the effectiveness of our algorithm in addressing UAV trajectory planning key challenges under constraints of the low-altitude
+                                               economy networking.
+
+                                               Index Terms—Data Collection, Large Language Model, Low-Altitude Economy, Reinforcement Learning, Trajectory Planning
+
+                                                                                                                        ✦
+
+
+
+                                         1    I NTRODUCTION                                                                     Despite its potential, trajectory planning for UAV data
+                                                                                                                            acquisition in low-altitude airspace faces the following im-
+                                         With the rapid advancement of the low-altitude economy,
+                                                                                                                            portant challenges:
+                                         low-altitude airspace has emerged as a critical strategic
+                                                                                                                                Challenge 1: Robust Obstacle Avoidance in Urban
+                                         resource to drive urban intelligence, industrial upgrading,
+                                                                                                                            Airspaces. Due to the existence of airspace reuse in the
+                                         and digital economic transformation [1], [2]. This evolving
+                                                                                                                            low-altitude economy [32], operating in low-altitude urban
+                                         domain integrates diverse sectors such as general aviation
+                                                                                                                            environments exposes the data collection UAVs (DCU) not
+                                         and urban air mobility, wherein unmanned aerial vehi-
+                                                                                                                            only to static obstacles (e.g., buildings) but also to dy-
+                                         cles (UAVs) play an increasingly vital role in applications
+                                                                                                                            namic obstacles (e.g., other UAVs). These obstacles are often
+                                         including logistics, agricultural monitoring, infrastructure
+                                                                                                                            partially observable and highly uncertain. Moreover, the
+                                         inspection, and environmental protection [3]. However, the
+                                                                                                                            DCU must also avoid restricted no-fly zones (NFZs) over
+                                         high-density and regulation-intensive nature of low-altitude
+                                                                                                                            sensitive areas. Ensuring robust obstacle avoidance under
+                                         airspace also poses unique challenges for intelligent trajec-
+                                                                                                                            such conditions remains a core challenge. Ensuring robust
+                                         tory planning and safe autonomous operation.
+                                                                                                                            obstacle avoidance under such conditions remains a core
+                                             In this context, UAV-based data acquisition represents
+                                                                                                                            challenge. Traditional optimization methods typically lack
+                                         a fundamental technology enabling high-precision, multi-
+                                                                                                                            the adaptability to handle such stochastic environments,
+                                         modal environmental sensing [4]. The UAV data acquisition
+                                                                                                                            and standard deep reinforcement learning (DRL) struggles
+                                         process typically involves task assignment, flight trajectory
+                                                                                                                            to accumulate sufficient successful trajectories, leading to
+                                         planning, sensor data collection, and data transmission and
+                                                                                                                            low learning efficiency [6].
+                                         processing. Effective trajectory planning is crucial to max-
+                                                                                                                                Challenge 2: Intelligent Planning for the Economy
+                                         imize area coverage and data quality, thereby supporting
+                                                                                                                            with Compliance. In the low-altitude economy, the DCU
+                                         downstream applications with accurate and timely infor-
+                                                                                                                            must not only maximize data acquisition but also minimize
+                                         mation [5]. It also serves as a key enabler for intelligent
+                                                                                                                            energy consumption to ensure cost-effectiveness. Moreover,
+                                         and autonomous decision-making in dense and dynamic
+                                                                                                                            the DCU must adhere to evolving, location-specific reg-
+                                         airspaces.
+                                                                                                                            ulations where the DCU is to reduce speed to minimize
+                                                                                                                            noise [7]. These decisions introduce additional requirements
+                                         •   Yanwei Gong, Junchao Fan, Yingying Yao, and Xiaolin Chang are with             on mission efficiency and regulatory compliance. Traditional
+                                             the Beijing Key Laboratory of Security and Privacy in Intelligent Trans-
+                                             portation, Beijing Jiaotong University, P.R. China.                            methods struggle with multi-objective adaptation under
+                                             E-mail: {22110136, 23111144, yyyao, xlchang}@bjtu.edu.cn                       uncertainty, while conventional DRL approaches often fail
+                                         •   Ruichen Zhang and Dusit Niyato are with the School of Computer Science         to incorporate domain knowledge needed to make econom-
+                                             and Engineering, Nanyang Technological University, Singapore.
+                                             E-mail: {ruichen.zhang, dniyto}@ntu.edu.sg
+                                                                                                                            ically viable decisions.
+                                                                                                                             2
+
+    Challenge 3: Real-Time Decision-Making Under Un-             based modeling approach and elaborates on the proposed
+certainty. Trajectory planning in real-world scenarios re-       algorithm. Section 6 reports the experimental results and
+quires real-time decision making across multiple dimen-          performance evaluations. Finally, Section 7 concludes the
+sions under dynamic and uncertain conditions, including          paper and outlines future research directions.
+obstacle avoidance, route selection, and data collection.
+Traditional optimization methods are often computationally       2     R ELATED W ORK
+intensive and lack responsiveness, whereas standard DRL          In this section, we review existing UAV trajectory planning
+policies may require extensive exploration due to task com-      methods from three perspectives, including traditional op-
+plexity.                                                         timization algorithms, DRL-based approaches, and LLM-
+    Most existing methods address only isolated objectives       enhanced methods. Table 1 summarizes representative stud-
+or assume simplified environments, which prevents them           ies and their characteristics.
+from achieving a unified balance among safety, compliance,
+and economy. To address these limitations, this paper pro-       2.1   UAV Trajectory Planning with Traditional Algo-
+poses a novel hybrid DRL and large language model (LLM)                rithms
+algorithm for safe and economical DCU trajectory plan-           Early studies mainly adopted optimization-based algo-
+ning in low-altitude airspace with compliance-awareness.         rithms to jointly optimize UAV trajectory, communica-
+The motivation is that, while the LLM offers strong rea-         tion, and energy efficiency. Qin et al. [8] used Dinkel-
+soning abilities and can infer safe actions based on high-       bach’s method and block coordinate descent (BCD) for
+level semantic input, it lacks the ability to learn optimal      joint trajectory and resource optimization in reconfigurable
+control policies through interaction with dynamic environ-       intelligent surface-assisted UAV mobile edge computing
+ments [30]. Conversely, DRL excels at learning adaptive          (MEC) systems. Pan et al. [9] combined an improved non-
+control policies via trial and error, but struggles to incor-    dominated sorting genetic algorithm II (NSGA-II) with a
+porate abstract constraints such as regulatory rules [31].       customized particle swarm optimization (PSO) variant for
+Therefore, we introduce an LLM to enhance the DCU’s              multi-objective power and trajectory planning. Pervez et
+decision-making capability in complex, uncertain scenarios       al. [10] formulated a multi-UAV MEC optimization using
+where rule compliance, contextual awareness, and obstacle        game theory and successive convex approximation (SCA).
+interpretation are critical. The main contributions of this      Zhang et al. [11] applied differential evolution to bal-
+paper are summarized as follows:                                 ance UAV deployment and flight planning for Internet of
+• Unified modeling of low-altitude UAV trajectory plan-          Things (IoT) data collection. Heo et al. [12] incorporated
+  ning. We formulate the DCU trajectory planning task            NFZ constraints using quadratic transform and SCA. Other
+  for low-altitude data acquisition as a partially observ-       works [13]–[15] explored swarm intelligence and distributed
+  able Markov decision process (POMDP), which jointly            optimization for beamforming and energy efficiency.
+  captures constraints including both static and dynamic             Traditional optimization algorithms are effective in
+  obstacle avoidance mentioned in Challenge 1, regulation        structured or static environments but lack adaptability to
+  awareness, and energy efficiency mentioned in Chal-            dynamic and uncertain low-altitude airspace conditions,
+  lenge 2, under partial observability.                          and they cannot efficiently handle the stochastic nature of
+                                                                 real-world obstacle distributions (Challenge 1).
+• A hybrid SAC and LLM-based trajectory planning
+  algorithm. We develop a novel optimization algorithm           2.2 UAV Trajectory Planning with DRL
+  that combines the soft actor-critic (SAC) algorithm with
+                                                                 To improve adaptability, many studies employed DRL for
+  an LLM. By combining the adaptive decision-making ca-
+                                                                 UAV trajectory control and resource management. Silviri-
+  pabilities of SAC with the contextual reasoning strength
+                                                                 anti et al. [16] proposed a layerwise quantum DRL method
+  of the LLM, the proposed algorithm enables the DCU to
+                                                                 for joint trajectory and power optimization. Chen et al. [17]
+  perform trajectory planning in real time, with robust ob-
+                                                                 applied DRL to solve a multi-stage mixed-integer problem
+  stacle avoidance, regulatory compliance, and economical
+                                                                 for UAV-assisted MEC. Ning et al. [18] introduced dis-
+  data collection in uncertainty, thus addressing Challenge
+                                                                 tributed DRL with game theory for collaborative control.
+  3.
+                                                                 Song et al. [19] formulated a multi-objective Markov deci-
+• Comprehensive experimental validation and perfor-
+                                                                 sion process (MDP) with a trace-based experience replay
+  mance improvement. Extensive experiments verify that           mechanism. Ding et al. [20] developed a multi-agent advan-
+  the proposed algorithm consistently outperforms state-         tage actor-critic (A2C)–deep deterministic policy gradient
+  of-the-art baselines across all key metrics. Compared with     (DDPG) scheme with attention-based inference. Wang et
+  the best-performing baseline, our method improves the          al. [21] incorporated safety constraints into DRL under a
+  data collection rate by 2.9%, reduces the collision rate and   constrained MDP framework. He et al. [22] and Liu et
+  regulation violation rate to nearly 0%, achieves a 100%        al. [23] extended multi-agent DRL to cooperative trajectory
+  successful landing rate, and lowers the energy consump-        planning. Ning et al. [24] adopted constrained DRL for UAV
+  tion rate by 1.9%. These results confirm the algorithm’s       mobility and connection optimization in IoT networks.
+  effectiveness in addressing the Challenges 1-3.                    DRL-based methods can adapt to partially observable
+   The remainder of this paper is organized as follows.          and dynamic environments, but they often require exten-
+Section 2 reviews the related work. Section 3 describes the      sive exploration to incorporate domain-specific rules such
+overall system architecture, while Section 4 presents the        as regulatory or economic constraints (Challenge 2 and
+formal problem definition. Section 5 introduces the POMDP-       Challenge 3).
+                                                                                                                                           3
+
+                                       TABLE 1: Comparison of Related Works on UAV Trajectory Planning
+                                      Ref.                      Main Method / Algorithm          Obstacle Avoidance      Compliance
+                                  Qin et al. 2023 [8]          Dinkelbach’s method, BCD                   ✗                 ✗
+                                  Pan et al. 2024 [9]             NSGA-II, PSO variant               Static only            ✗
+
+            Traditional
+                              Pervez et al. 2024 [10]              Game theory, SCA                       ✗                 ✗
+                              Zhang et al. 2024 [11]             Evolutionary algorithm                   ✗                 ✗
+                                Heo et al. 2024 [12]            Quadratic transform, SCA                  ✗                 ✗
+                                   Li et al. 2024 [13]    Swarm intelligence-based algorithm              ✗                 ✗
+                                  Fu et al. 2025 [14]    Distributed approximate Newton, BCD              ✗                 ✗
+                               Wang et al. 2025 [15]             Ant colony optimization             Static only            ✗
+                          Silvirianti et al. 2024 [16]          Layerwise quantum-DRL                     ✗                 ✗
+                               Chen et al. 2024 [17]                      DRL                             ✗                 ✗
+                               Ning et al. 2024 [18]               DRL, game theory                       ✗                 ✗
+                               Song et al. 2024 [19]               Multi-objective RL                     ✗                 ✗
+            DRL
+
+
+
+
+                               Ding et al. 2024 [20]                   DDPG, DAI                          ✗                 ✗
+                               Wang et al. 2024 [21]                    Safe DRL                          ✗                 ✗
+                                  He et al. 2024 [22]                     DRL                             ✗                 ✗
+                                 Liu et al. 2025 [23]             Multi-agent RL, SCA                     ✗                 ✗
+                               Ning et al. 2025 [24]                Constrained DRL                  Static only            ✗
+                              Zhong et al. 2024 [25]               Apply LLM directly               Dynamic only            ✗
+                             Phadke et al. 2024 [26]               Apply LLM directly                Static only            ✗
+            LLM
+
+
+
+
+                                Xiao et al. 2025 [27]                  LLM, VLM                      Static only            ✗
+                             Samma et al. 2025 [28]                 Fine-tuned LLM             Both dynamic and static      ✗
+                                 Cai et al. 2025 [29]                  LLM, MPC                Both dynamic and static      ✗
+                   Note: ✗ indicates not considered.
+
+
+
+2.3   UAV Trajectory Planning with LLM
+Recent research has introduced LLMs to enhance UAV
+autonomy by integrating reasoning and natural language
+understanding. Zhong et al. [25] combined lightweight ob-
+ject detection with an LLM for vision-based UAV planning
+in dynamic scenes. Phadke et al. [26] explored LLM-driven
+UAV control via natural language interfaces for improved
+mission coordination and safety. Xiao et al. [27] proposed a
+foundation model-guided trajectory framework integrating
+LLMs and vision-language models (VLMs) for semantic
+reasoning and perception. Samma et al. [28] utilized an
+LLM-based vision system to plan UAV trajectories in GPS-
+denied indoor environments. Cai et al. [29] designed an
+LLM–model predictive control (MPC) hybrid landing sys-
+tem for enhanced safety in unstructured scenarios.
+    LLM-enhanced approaches offer semantic reasoning and
+interpretability but face challenges in real-time decision-
+making for UAVs, including excessive resource consump-
+tion and limited real-time performance.                                         Fig. 1: System model of low-altitude UAV trajectory plan-
+                                                                                ning. The DCU collects data from GE while avoiding static
+                                                                                obstacles (BZs, NFZs, RZs) and dynamic obstacles (OUs)
+2.4   Discussion                                                                under energy and compliance constraints.
+Existing UAV trajectory planning methods contribute valu-
+able insights but exhibit limitations when applied to low-
+altitude data collection missions. Traditional algorithms [8]-                  3   S YSTEM D ESCRIPTION
+[15] cannot adapt to dynamic and uncertain obstacle pat-
+terns in real urban airspaces. DRL-based methods [16]- [24]                     In this section, we provide a comprehensive description of
+improve adaptability but overlook regulatory compliance                         the system, including the system model and the associated
+and economic trade-offs. LLM-based frameworks [25]- [29]                        models for UAV mobility, data transmission, and energy
+offer strong reasoning but lack real-time adaptability. Con-                    consumption. The system model defines the main entities
+sequently, none of these approaches can simultaneously                          involved. The models for mobility, data transmission, and
+ensure robust obstacle avoidance, compliance with evolving                      energy consumption characterize the UAV’s movement,
+regulations, and energy-efficient trajectory design in low-                     communication behavior, and energy usage, respectively,
+altitude environments. To overcome these issues, this pa-                       in a manner consistent with real-world operations. This
+per proposes a hybrid DRL–LLM algorithm that integrates                         modeling approach enhances the credibility of experimental
+adaptive control and semantic reasoning to achieve safe,                        results presented in Section 6. The notation used throughout
+compliant, and economical UAV trajectory planning.                              the remainder of the paper is summarized in Table 2.
+                                                                                                                                        4
+
+               TABLE 2: Notations and Descriptions                        X , Y , and Z , respectively. The system entities include the
+                                                                          data collection UAV (DCU), other UAVs (OUs), and ground
+ Notation                       Description
+ A = (X, Y, Z)                  Area where the DCU conducts data
+                                                                          equipment (GE), which are detailed as follows.
+                                collection, with length X , width Y ,         Data Collection UAV (DCU). The DCU is responsible
+                                and height Z                              for the data collection in the low-altitude economy and flies
+ BGEi (t)                       Effective rate between the DCU and        at a fixed altitude H . It takes off from TA, then conducts
+                                GEi in the time slot t                    data collection in A, and eventually reaches LA. When
+ dt,XX                          Distance between the DCU and XX at
+                                the beginning of time slot t (XX = A,
+                                                                          conducting data collection, the DCU is not allowed to fly
+                                LA, OU, BZ, or NFZ)                       into NFZs. Furthermore, when the DCU flies into residential
+ dmin,XX                        Minimum distance between the DCU          zones (RZs), to ensure noise control, its flight speed must
+                                and XX (XX = A, OU, BZ, or NFZ)           be less than vlimit [25]. The DCU must also ensure that it
+ dsafe,XX                       Safe distance between the DCU and         does not collide with building zones (BZs) and other UAVs
+                                XX (XX = A, OU, BZ, or NFZ)
+                                                                          (OUs) in the low-altitude economic networking. Therefore,
+ DVGEi ,t                       Data volume of the i-th GE at the
+                                beginning of time slot t                  we assume that the DCU is equipped with a sensing device
+ E(t)                           Remaining energy at the beginning of      with a perception radius of P R. Through this device, the
+                                time slot t                               DCU can detect the positions and flight directions of OUs
+ Elimit                         Maximum energy that the DCU can           and thereby adjust its flight trajectory to avoid collisions.
+                                consume                                       Other UAVs (OUs). Considering the existence of
+ Etotal                         Total energy the DCU has                  airspace reuse in the low-altitude economy [32], there will
+ e(t)                           Energy consumed in the time slot t of
+                                the DCU
+                                                                          also be OUs performing other tasks in the system. These
+ efly (t)                       Flight energy consumption in the time     UAVs may appear on the flight trajectories where the DCU
+                                slot t of the DCU                         collects data. To avoid collisions, the algorithm proposed in
+ ehover (t)                     Hover energy consumption in the time      this paper considers this issue when optimizing the DCU’s
+                                slot t of the DCU                         flight trajectory.
+ EL = (xEL , yEL , zEL )        Ending location of the DCU                    Ground Equipment (GE). GE refers to devices that
+ H                              Fixed flight altitude of the DCU and      generate data in the low-altitude economy, such as intel-
+                                OUs
+ LA = (pLA , lLA , wLA )        Landing area location of the DCU
+                                                                          ligent traffic devices, power infrastructure equipment, and
+ LGEi = (xGEi , yGEi , 0)       Location of the i-th GE                   environmental monitoring devices [33]. These data are col-
+ LXX,t                    =     Location of XX at the beginning of        lected regularly by the DCU. NGE GEs are placed inde-
+ (xXX,t , yXX,t , zXX,t )       time slot t (XX = DCU or OU)              pendently and uniformly at random over A, while main-
+ NXX                            Number of XX (XX = GE, OU, NFZ,           taining appropriate clearance from obstacle boundaries and
+                                BZ, or RZ)                                zones (NFZ/BZ/RZ). Such random deployment is widely
+ PR                             Perception radius of the DCU              adopted in UAV-enabled data collection trajectory planning
+ SL = (xSL , ySL , zSL )        Starting location of the DCU
+                                                                          scenarios, as it captures diverse and unpredictable real-
+ SNRGEi (t)                     The signal-to-noise ratio at the begin-
+                                ning of time slot t of GEi
+                                                                          world layouts without imposing artificial structural pat-
+ TA = (pTA , lTA , wTA )        Take-off area location with lower-        terns.
+                                left coordinate point, length lTA , and
+                                width wTA
+ T                              Total number of time slots
+                                                                          3.2   Models Related to UAV
+ T DGEi (t)                     Data transmitted between the DCU          This section presents models about how UAV moves, trans-
+                                and GEi in the time slot t                mits data, and consumes energy in our system.
+ T PGEi                         Transmit power of the i-th GE
+ tfly                           Time used for flight in the time slot t
+                                                                          3.2.1 Mobility Model
+                                of the DCU
+ thover                         Time used for hovering in the time slot   The movement model is used to describe how the position
+                                t of the DCU                              of the DCU changes. The high velocity and dynamic topol-
+ vDCU (t)                   =   Flight speed of the DCU at the begin-     ogy of UAVs can lead to Doppler frequency shift (DFS)
+ (vx (t), vy (t), vz (t))       ning of time slot t
+                                                                          and fast-fading effects, which significantly degrade com-
+ vmax                           Maximum flight speed of the DCU
+                                and OUs                                   munication quality during data collection [37]. To mitigate
+ vlimit                         Speed limit in RRZ for the DCU and        these effects and maintain stable links with mobile devices,
+                                OUs                                       DCU adopts a hover-and-fly strategy [38]. In this scheme, the
+ ∧                              Logical AND operator                      DCU first travels within the designated area A to locate an
+ ⊙                              Hadamard (element-wise) product           optimal communication position and then hovers at that
+ ∥CP 1 − CP 2/A∥                Distance between two coordinate           point to collect data. This hovering mechanism effectively
+                                points or to area A
+                                                                          stabilizes the communication channel by reducing DFS-
+ RXXx                       =   Location of the x-th XX in A (XX =
+ (pXXx , lXXx , wXXx )          NFZ, BZ, or RZ)
+                                                                          induced distortion and intercarrier interference.
+ ∆t                             Fixed time slot duration                      To model this process in a tractable manner, the entire
+ τ                              The threshold of SNRGEi (t)               trajectory planning period is divided into equal time slots of
+                                                                          length ∆t, where t ∈ [0, T ] denotes the slot index and T is
+                                                                          the total number of time slots determined by mission dura-
+3.1 System Model                                                          tion. Each time slot is equally divided into a flight phase and
+The system model is shown in Fig. 1. The DCU collects                     a data collection phase. During the flight phase, the DCU
+data in area A. The length, width, and height of A are
+                                                                                                                                       5
+
+moves within A to search for a better position, and during         is currently collecting data is GEi , the effective information
+the data collection phase, it hovers to communicate with           rate during the time slot t is as follows:
+mobile devices. In practice, there may be cases where no
+                                                                                  BGEi (t) = log2 (1 + SNRGEi (t)) ,                 (4)
+devices are within the sensing range during data collection,
+causing idle waiting and unnecessary energy consumption.           where SNRGEi (t) = T PGEi · GGEi (t)/N is the signal-to-
+    To minimize this energy waste and maintain modeling            noise ratio at the beginning of time slot t, T PGEi is the
+simplicity, the duration of both phases is set to 1 s, yielding    transmit power of GEi , GGEi (t) is the channel power gain
+a total slot length of ∆t = 2 s. This fine-grained time            from the DCU to GEi at the beginning of time slot t, and N
+division allows the DCU to frequently adjust its position          is the noise power.
+while ensuring stable communication in each slot. The DCU              Given the fixed flight altitude of the DCU H , the commu-
+is equipped with a single antenna and moves within the             nication link with GEi is assumed to follow a line-of-sight
+area A. The DCU flies at a fixed altitude H with a maximum         (LoS) air-to-ground (A2G) channel model [46]. This assump-
+speed vmax and can communicate with at most one device             tion aligns well with the characteristics of UAV-assisted data
+per slot.                                                          collection, where the DCU actively approaches each GE and
+    Given the DCU’s position LDCU,t = (xDCU,t , yDCU,t , H         performs data acquisition at short distances during hover-
+and the velocity vDCU (t) = (vx (t), vy (t), 0) at the beginning   ing. Such close-range outdoor A2G communication typically
+of time slot t, the DCU’s position at time t + 1 is as follows:    presents dominant LoS components, making the LoS model
+                                                                   a widely adopted and effective abstraction in UAV data
+        LDCU,t+1 =                                                 collection trajectory planning scenarios. The free-space path-
+                                                             (1)
+        (xDCU,t + vx (t)tfly , yDCU,t + vy (t)tfly , H),           loss model is used to compute GGEi (t) as follows [39]:
+
+where tfly = ∆t/2 is the length of the flight phase. Given
+                                                                     GGEi (t) =
+                                                                                                 α
+the maximum flight speed of the DCU, the distance be-                q                                                             , (5)
+tween LDCU,t+1 and LDCU,t should satisfy the following                  ||(xDCU,i+tfly , yDCU,i+tfly , H) − (xGEi , yGEi , 0)||2
+constraint:
+                                                                   where
+                                                                   q          α     is    the      channel   power        gain at
+                                                                                                                           2
+              ∥LDCU,t+1 − LDCU,t ∥ ≤ vmax tfly .             (2)       (xDCU,i+tfly , yDCU,i+tfly , H) − (xGEi , yGEi , 0) = 1 m
+                                                                   distance.
+   If the DCU flies into RRZ , the distance between LDCU,t+1           Note that, if the DCU wants to transmit data, SNRGEi (t)
+and LDCU,t should satisfy the following constraint:                must exceed a certain threshold τ [40]. Therefore, according
+                                                                   to Eqs. (4) and (5), the data collection volume of the DCU
+             ∥LDCU,t+1 − LDCU,t ∥ ≤ vlimit tfly ,            (3)   collects in the time slot t T DGEi (t) can be computed as
+                                                                   follows:
+where vlimit is the speed limit in RRZ for the DCU.
+    The OUs follow the same mobility model as the DCU                            
+described in Eq. (1). However, unlike the DCU whose trajec-                      
+                                                                                 BGEi (t)thover , if DVGEi ,t > BGEi (t)
+                                                                                                   and SNRGEi (t) ≥ τ,
+                                                                                 
+tory is optimized by the proposed algorithm, the trajectories
+                                                                                 
+                                                                                 
+                                                                                 
+of all OUs are randomly generated prior to simulation. Each          T DGEi (t) = DVGEi ,t ,       if DVGEi ,t ≤ BGEi (t) (6)
+OU’s velocity vOU (t) is sampled from a uniform distribution                                       and SNRGEi (t) ≥ τ,
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                                 
+within [0, vmax ], and its movement direction is randomly
+                                                                                 
+                                                                                 0,               if SNRGEi (t) < τ,
+initialized and updated according to the same motion equa-
+tions as the DCU. During trajectory generation, each OU’s          where DVGEi ,t is the data volume of the i-th GE at the
+path is constrained to ensure that it does not intersect with      beginning of time slot t.
+any BZs or NFZs, thereby maintaining physically valid
+                                                                   3.2.3 Energy Consumption Model
+and collision-free motion throughout the environment. This
+stochastic trajectory generation emulates the unpredictable        The energy consumption model is used to describe how
+movement of other UAVs or aerial entities in low-altitude          much the remaining energy of the the DCU changes in the
+airspace, introducing dynamic uncertainty for the DCU’s            time slot t. The energy consumption of the DCU in the time
+trajectory planning.                                               slot t can be divided into two parts: the energy consumed
+                                                                   by flying (denoded as efly (t)) and the energy consumed
+                                                                   by hovering (denoted by ehover (t)). For efly (t), it can be
+3.2.2   Data Transmission Model                                    computed as follows [42]:
+The data transmission model describes how much the data            efly (t) =
+collection volume of the DCU collects in the time slot                                                 !
+t. Before giving how to compute it, we first present the
+                                                                   λ
+                                                                              3 3          3vDCU (t)2       1                   
+                                                                        ρηAr ℑ rrotor 1 +       2        + d0 ρsAr vDCU (t)3 tfly ,
+effective information rate of the DCU in the time slot t.            8                        Utip          2
+The DCU collects data from a single selected GE within                                                                           (7)
+its communication range in each time slot by using the             where λ denotes the profile drag coefficient, Ar the rotor
+standard time division multiple access [34]. When DCU              disc area, ℑ the blade angular velocity, rrotor the rotor radius,
+collects data, it is in a hovering state without moving. The       d0 denotes the fuselage drag coefficient, ρ the density of air,
+DCU begins to collect data at time t + tfly (tfly = ∆t/2) and      η the rotor solidity factor, Utip the tip velocity of the rotor
+lasts for thover = ∆t − tfly . As a result, assuming the GE that   blade, and vDCU the velocity of DCU.
+                                                                                                                                                6
+
+      For ehover (t), it can be computed as follows:                         s.t.
+                                                                                                                                           
+    ehover (t) =                                                                 GEi = arg max {BGEi (t)}N        GE
+                                                                                                                i=1  ∧ (SNR  GE  i (t) ≥ τ )  ,
+                         s                                  !
+                            vDCU (t)4   vDCU (t)2 /2v0                                                                                        (9a)
+                   3/2
+      (1 + ℜ)w           1+           −    √                    thover ,
+                              4v04           2ρAr                                LDCU,t+1
+                                                          (8)                     = (xDCU,t + vx (t)tfly , yDCU,t + vy (t)tfly , H),         (9b)
+where ℜ is the incremental correction factor to induced                          vDCU (t) = (vx (t), vy (t), 0) ≤ vmax , ∀t,                  (9c)
+power, w the weight of DCU, and v0 the mean rotor induced
+velocity in hover.                                                               vDCU (t) ≤ vlimit , if LDCU,t ∈ {RRZ,m }N
+                                                                                                                         m=1 ,
+                                                                                                                          RZ
+                                                                                                                                             (9d)
+    Note that since the energy consumed by DCU for com-                          (LDCU,t , LOU,t ) ∈ A, ∀t,                                  (9e)
+munication is much less than that consumed for hover-                                              / {RNFZ,l }N
+                                                                                 (LDCU,t , LOU,t ) ∈                 ∀t,
+                                                                                                              l=1 ,
+                                                                                                                NFZ
+                                                                                                                                              (9f)
+ing [41], when calculating ehover (t), we ignore the energy                                                  NBZ
+consumed by DCU for data transmission. Besides, the UAV-
+                                                                                                   / {RBZ,n }n=1 , ∀t,
+                                                                                 (LDCU,t , LOU,t ) ∈                                         (9g)
+related parameter values in this section follow the settings                      LDCU,t − LOUj ,t > 0, ∀t, j ∈ [1, NOU ],                   (9h)
+provided in [42].                                                                (LDCU,1 = SL ∈ TA) ∧ (LDCU,T = EL ∈ LA),                     (9i)
+                                                                                 XT
+                                                                                      (efly (t) + ehover (t)) ≤ Elimit , ∀t.                  (9j)
+                                                                                     t=1
+4     O PTIMIZATION P ROBLEM
+                                                                                 The objective function OP maximizes the amount of data
+In this section, we present the main requirements behind
+                                                                             collected over the given time slots. Constraint (9a) selects a
+the optimization problem to highlight the motivation before
+                                                                             GE to collect data because the DCU follows a maximum
+formally defining it. Then we detail the formalized problem
+                                                                             signal strength policy to connect to the GE with the highest
+and its characteristic.
+                                                                             received signal power [46]. Note that constraint (9a) defines
+                                                                             the feasible region for data collection, where a GE can be
+4.1     Requirement Analysis                                                 served only when the DCU is within its communication
+The optimization problem involves two primary require-                       range, instead of enforcing a distance-priority rule. Once
+ments. The first requirement includes the constraints im-                    the DCU enters the feasible range of a GE, data collection
+posed by the physical environment, and the second one                        occurs automatically. When multiple GEs have the same
+involves the task-specific requirements associated with data                 effective rate BGEi (t), a randomly GE will be collected data
+collection in the low-altitude economy. For the former, the                  by the DCU. Constraint (9b) governs the position updates
+following requirement is taken into consideration:                           of the DCU according to the mobility model. Constraint
+    R1) Limited Mobility. The moving distance of DCU                         (9c) enforces the maximum speed limit, and Constraint (9d)
+during each time slot should satisfy the Eq. (2).                            enforces the maximum speed limit in RRZ to satisfy R1 and
+    For the latter, the following requirements are taken into                R3. Constraints (9e), (9f), (9g), and (9h) ensure that the DCU
+consideration:                                                               operates within A, avoids RNFZ , and prevents collisions
+    R2) Robust Obstacle Avoidance. Since data collection                     with RBZ or OUs to satisfy R2 and R3. constraint (9i) ensures
+in the low-altitude economy is concentrated in urban areas                   DCU takes off from TA and lands off in LA, while constraint
+and there is airspace reuse in low-altitude areas [32], when                 (9j) ensures the maximum energy consumption of the DCU
+the DCU conducts data collection, it not only needs to avoid                 in a trajectory planning task to satisfy R4.
+RBZ , RNFZ , but also OUs.
+    R3) Compliance. Unlike general trajectory planning                       4.3    Problem Characteristics
+tasks, DCU operating in urban low-altitude environments
+                                                                             This optimization problem involves continuous control,
+must comply with strict regulations. They must reduce
+                                                                             nonlinear constraints, dynamic environmental factors (such
+speed near RRZ to minimize noise and meet regulatory
+                                                                             as OUs), as well as regulatory and energy limitations,
+standards.
+                                                                             making it structurally complex and difficult. Traditional
+    R4) Economy. Within the low-altitude economy, trajec-
+                                                                             optimization algorithms often perform inefficiently and lack
+tory planning tasks must jointly consider the maximization
+                                                                             adaptability when dealing with such high-dimensional, dy-
+of data acquisition and the minimization of energy con-
+                                                                             namic, and partially observable problems. In contrast, DRL
+sumption to maximize the trajectory planning task benefits.
+                                                                             offers adaptive learning capabilities, making it well-suited
+Consequently, the DCU is required not only to collect suf-
+                                                                             for continuous control and long-term optimization. LLMs,
+ficient data but also to complete the task along an energy-
+                                                                             on the other hand, can provide rule-compliant and reason-
+efficient trajectory that minimizes energy costs.
+                                                                             ing decisions in critical scenarios by leveraging rich prior
+                                                                             knowledge. The integration of DRL and LLM leverages ef-
+4.2     Problem Formulation                                                  ficiency, generalization, and safety, making it more suitable
+According to the requirement analysis introduced in Section                  than traditional methods to solve complex UAV trajectory
+4.1, we try to optimize the flight trajectory of DCU while                   planning problems.
+maximizing the amount of collected data. The optimization
+problem can be formally formulated as follows:                               5      P ROPOSED A LGORITHM
+                                        XT                                   This section first formulates the optimization problem from
+                   OP:       arg max           T DGEi (t)              (9)
+                             vDCU (t)    t=1                                 Section 4 as a POMDP to enable solution via DRL. We then
+                                                                                                                                        7
+
+present SAC algorithm, which serves as the foundation for           which is used for the DCU to adjust the speed to avoid col-
+our algorithm. Finally, we introduce the proposed algorithm         lisions, and dsafe,OU is the safe distance threshold between
+and demonstrate its effectiveness in addressing the formu-          the DCU and OUs.
+lated problem.                                                          r3t is used to ensure that the DCU will not collide with
+                                                                    tall buildings and is as follows:
+5.1     POMDP Modeling                                                         
+                                                                                0,                        if dt,BZ ≥ dsafe,BZ ,
+As the future position of the DCU is determined solely by
+                                                                               
+                                                                                         dsafe,BZ −dt,BZ
+                                                                               
+                                                                                 −σ3 × dsafe,BZ −dmin,BZ , if dmin,BZ < dt,BZ
+                                                                               
+its current state (i.e., position and velocity), the trajectory         r3t =
+                                                                                                           and dt,BZ < dsafe,BZ ,
+planning problem satisfies the Markov property. Never-
+                                                                               
+                                                                               
+                                                                               
+                                                                                 −σ3 ,                     if dt,BZ ≤ dmin,BZ ,
+                                                                               
+theless, due to the DCU’s limited ability to perceive the
+full environmental state, the problem is more appropriately                                                                      (13)
+formulated as a POMDP, defined by a corresponding tu-               where dt,BZ = arg min{||LDCU,t − RBZ,n ||}N        n=1 , dmin,BZ
+                                                                                                                        BZ
+
+
+ple (O, A, r, P, δ), where the observation space O replaces         is the minimum safe distance between the DCU and tall
+the state space [43]. Then, the details of O, A, and r in           buildings, which is used for the DCU to adjust the speed to
+(O, A, r, P, δ) are as follows:                                     avoid collisions, and dsafe,BZ is the safe distance threshold
+    Observation Space O: ot ∈ O is the state                        between the DCU and tall buildings.
+that the DCU can observe at time t, where ot =                          r4t is used to ensure that the DCU will not fly into NFZs
+(oGE,t , oZ,t , oOU,t , oDCU,t ).                                   and is as follows:
+ • oGE,t is the state about all GEs and oGE,t                =       r4t =
+   {LGEi , DVGEi ,t , T PGEi }N     GE
+                                                                     
+                                  i=1  .                               0,                              if dt,NFZ ≥ dsafe,NFZ ,
+                                                                     
+ • oZ,t is the state about all zones and oZ,t                =                 dsafe,NFZ −dt,NFZ
+                                                                     
+                                                                        −σ4 × dsafe,NFZ                                          (14)
+                                                                                        −dmin,NFZ ,     if dmin,NFZ < dt,NFZ
+                                                                     
+   {{RNFZ,l }N                    NRZ        NBZ
+                 l=1 , {RRZ,m }m=1 , {RBZ,n }n=1 }.
+                   NFZ
+                                                                     
+                                                                                                       and dt,NFZ < dsafe,NFZ ,
+ • oOU,t represents the state information of OUs located
+                                                                     
+                                                                        −σ4 ,                           if dt,NFZ ≤ dmin,NFZ ,
+                                                                     
+   within the perception radius of the DCU during time
+   slot t. It is defined as oOU,t = {(LOUj ,t , vOUj ,t )}N OU
+                                                          j=1 ,     where dt,NFZ         =       arg min {∥LDCU,t − RNFZ,l ∥}l=1
+                                                                                                                                   NNFZ
+                                                                                                                                         ,
+   where LOUj ,t and vOUj ,t denote the position and velocity       dmin,NFZ is the minimum safe distance between the DCU
+   of OUj at the beginning of time slot t. The number of            and NFZs, which is used for the DCU to adjust the speed to
+   OUs within the perception radius of the DCU may vary             avoid collisions, and dsafe,NFZ is the safe distance threshold
+   across different time slots, resulting in changes in the         between the DCU and NFZs.
+   dimension of oOU,t . To maintain a consistent input size,            r5t is used to ensure that the speed of the DCU when
+   the zero-padding method is employed to standardize the           flying into residential areas meets the speed limit and is as
+   dimension of oOU,t .                                             follows:
+ • oDCU,t is the state about DCU itself and oDCU,t =                       
+                                                                              0,                        if vDCU (t) ≤ vlimit and
+   {LDCU,t , vDCU,t , E(t), T DGEi (t), TA, LA}.
+                                                                           
+                                                                           
+                                                                                                                             NRZ
+                                                                           
+                                                                                                        LDCU,t ∈ {RRZ,m }m=1      ,
+    Action Space A: at ∈ A is the sampled action at time t          r5t =            v     (t)−v
+and at = (vx (t), vy (t)), which means the DCU will move at
+                                                                           
+                                                                           
+                                                                             −σ5 × vmax −vlimit , if vlimit < vDCU (t) ≤ vmax
+                                                                                       DCU       limit
+
+                                                                                                                                  NRZ
+                                                                                                        and LDCU,t ∈ {RRZ,m }m=1
+                                                                           
+the velocity (vx (t), vy (t)) at time t.                                                                                               .
+    Reward function r: r is used to effectively guide the                                                                           (15)
+trajectory planning during the data collection process and              r6t is used to ensure that the DCU should not fly out of
+plays a critical role in both the efficiency and performance        the given area and is as follows:
+of policy learning. To facilitate learning an optimal policy               
+                                                                              0,                            if dt,A ≥ dsafe,A ,
+aligned with the objective function OP and its associated
+                                                                           
+                                                                           
+                                                                           
+                                                                           
+                                                                    r6t = −σ6 × dsafe,A − dt,A , if dmin,A < dt,A < dsafe,A ,
+                                                                           
+constraints, we formulate a composite reward function,
+expressed as follows:                                                      
+                                                                                    dsafe,A − dmin,A
+                                                                           
+                                                                           
+                                                                           −σ ,                            if LDCU,t ∈/ A,
+ rt = r1t + r2t + r3t + r4t + r5t + r6t + r7t + r8t + r9t . (10)                 6
+                                                                                                                                    (16)
+      r1t encourages the DCU to collect data, and is as follows:    where dt,A = ∥LDCU,t − A∥ is the distance between the
+                    
+                       σ1 , if T DGEi (t + 1) ≥ 0,                  DCU and the boundary of A in the time slot t, dmin,A is the
+              r1t =                                          (11)   minimum safe distance between the DCU and the boundary
+                       0,   otherwise.
+                                                                    of A, which is used for the DCU to adjust the speed to avoid
+    r2t is used to ensure that the DCU will not collide with        flying out, and dsafe,A is the safe distance threshold between
+OUs and is as follows:                                              the DCU and the boundary of A.
+       
+       
+          0,                        if dt,OU ≥ dsafe,OU ,              r7t is used to encourage that the DCU can land within
+       
+                dsafe,OU − dt,OU                                   the landing area and is as follows:
+ r2t =     −σ2                     , if dmin,OU < dt,OU .
+               dsafe,OU − dmin,OU and d
+                                            t,OU < dsafe,OU ,
+                                                                            
+                                                                            0,                             if dt,LA ≥ dtar,LA ,
+       
+       
+       
+           −σ2 ,                     if dt,OU ≤ dmin,OU ,
+                                                                           
+                                                           (12)       r7t =           
+                                                                                               d
+                                                                                                       
+                                                                            −σ7 × 1 − t,LA , if 0 < dt,LA < dtar,LA .
+where dt,OU = arg min{||LDCU,t − LOUj ,t ||}N
+                                                                            
+                                                j=1 , dmin,OU
+                                                  OU
+                                                                                              dtar,LA
+is the minimum safe distance between the DCU and OUs,                                                                               (17)
+                                                                                                                                           8
+
+     r8t is used to encourage the DCU to return to the landing               5.3.1   Main Idea
+area before its energy is exhausted and is as follows:                       Based on the POMDP formulation in Section 5.1 and the
+            
+                                       if E(t) ≥ Emin (t),                   continuous nature of DCU’s velocity, we adopt SAC algo-
+            0,
+            
+                                                                             rithm to optimize the DCU’s flight trajectory during the
+    r8t =             E (t) − E(t)                                           data collection. However, in the context of low-altitude
+            −σ8 × min
+                                  , if E(t) < Emin (t),
+                         Emin (t)                                            economy scenarios, where strict regulatory compliance and
+                                                           (18)              robust obstacle-avoidance capability are critical, the use of
+where Emin (t) is the minimum energy required for DCU to                     DRL alone may be insufficient due to its reliance on trial-
+reach the LA at the beginning of time slot t and Emin (t) =                  and-error learning and lack of prior domain knowledge.
+efly (t) · dt,LA /vmax .                                                     To address this issue, we propose an enhanced decision-
+     r9t is used to encourage the DCU can complete the data                  making algorithm by integrating an LLM into the action
+collection quickly to reduce energy consumption and is as                    selection module, as illustrated in Fig. 2. Specifically, when
+follows:                                                                     the DCU detects the presence of nearby obstacles (e.g., BZs,
+                           r9t = −σ9 .                     (19)              NFZs, RZs, or OUs), a decision condition is triggered that
+                                                                             activates the LLM-based action selection pathway. In this
+                                                                             mode, a Prompt Generator compiles semantic information,
+5.2     SAC Algorithm
+                                                                             including environmental context, DCU status, and obstacle
+SAC is an off-policy DRL method based on the maximum-                        details, into a structured prompt, which is then input to
+entropy framework [35], [36]. Its off-policy property enables                an LLM. The LLM responds with a recommended action,
+efficient training and easy incorporation of LLM guidance,                   leveraging its rich prior knowledge to ensure safety and
+making it suitable for continuous-control problems such as                   regulatory compliance. An Extractor then parses the LLM’s
+UAV trajectory planning.                                                     response into actionable control parameters for the DCU.
+    SAC maximizes both the expected cumulative reward                        Conversely, when no immediate obstacle is detected, the
+and the policy entropy:                                                      system defaults to the standard SAC policy network for
+                        ∞
+                        X                                                    action selection. This hybrid structure enables the agent
+      π ∗ = arg max           EP,π δ t rt + µ H(π(· | ot )) ,
+                                                          
+                                                                     (20)    to benefit from both data-driven learning and knowledge-
+                    π
+                        t=0                                                  driven reasoning: the SAC component provides efficient
+where δ is the discount factor,      µ is the temperature parame-            trajectory planning in general scenarios, while the LLM
+                                R
+ter, and H(π(· | ot )) = − π(at | ot ) log π(at | ot ) dat is the            supplements decision-making in critical or unfamiliar envi-
+policy entropy. The soft Bellman equation is defined as:                     ronments requiring sophisticated judgment. By combining
+   (                                                                         the generalization capability of DRL with the reasoning
+      Qsoft (ot , at ) = rt + δ EP [Vsoft (ot+1 )] ,                         capability and prior knowledge of an LLM, the proposed
+          Vsoft (ot ) = Eat ∼π [Qsoft (ot , at ) − µ log π(at | ot )] .      algorithm achieves superior performance in complex real-
+                                                                      (21)   world scenarios, ensuring not only energy efficiency but also
+      The critic network minimizes the following loss:                       operational safety and compliance.
+                                       h                    2 i
+      JQ (φi ) = E(ot ,at ,rt ,ot+1 )∼D Qθi (ot , at ) − yt      ,    (22)   5.3.2   Algorithm Detail
+with      target           value       yt            =         rt   +       Our proposed algorithm, which is detailed in Algorithm
+                                                                             1, is designed to enable the DCU to effectively perform
+ 
+δ minj Qθj tar (ot+1 , ãt+1 ) − µ log π ϕ (ãt+1 | ot+1 ) ,     where
+                                                                             trajectory planning by learning an optimal velocity control
+D is the experience pool, and θtar denotes target critic                     policy that guides its trajectory to maximize data acquisition
+parameters. The actor is optimized via reparameterization:                   and avoid collision. The main process of our algorithm is
+                                                                             shown in Fig. 2.
+                                  h
+    Jπ (ϕ) = Eot ∼D, ς∼K(0,1) µ log π ϕ (ãϕt (ot , ς) | ot )
+                                                             i     (23)          The proposed algorithm takes the environment as input
+                                    − Qθ (ot , ãϕt (ot , ς)) ,              (Line 1) and outputs an optimal policy network (Line 2)
+                                                                             that governs the DCU velocity control. Upon initialization
+        ϕ
+where ãt (ot , ς) = tanh β ϕ (ot ) + αϕ (ot ) ⊙ ς , β ϕ and αϕ              (Line 3), the initialization of the Q-function parameters,
+                                                  
+
+denote the Gaussian mean and standard deviation, ς is a                      policy network parameters, the LLM, the experience pool,
+standard normal noise, and ⊙ is element-wise multiplica-                     and the target network parameters is conducted.
+tion.                                                                            For each training episode, the environment is first re-
+    Through iterative updates of π , Q, and V , SAC achieves                 set (Line 5). Then, at each time step within the episode,
+a stable, high-performance policy for continuous control                     the algorithm observes the current state and determines
+under uncertainty.                                                           whether to invoke the LLM for action selection (Lines 7–
+                                                                             8). It is important to note that this state (õt ) differs from
+                                                                             the state (ot ) used by the policy network. Specifically, it
+5.3     Our Algorithm                                                        refers to the pre-processed, semantically rich environmental
+This section presents the core design principles of our                      information, such as the positions of obstacles within the
+trajectory planning algorithm, outlines its detailed imple-                  DCU’s observation range, as illustrated in Fig. 2. If the
+mentation, and provides a comprehensive analysis of its                      decision condition is met, i.e., there are obstacles near the
+computational complexity.                                                    DCU, the LLM is utilized to select an action for the DCU
+                                                                                                                                                    9
+
+
+
+
+Fig. 2: The proposed algorithm integrates an LLM into SAC for conditional action selection. The LLM is invoked to
+generate actions when obstacles are detected; otherwise, actions are selected by the SAC policy network. The chosen
+actions interact with the environment, and transitions are stored to train the critic networks.
+
+    (a) Task definition and observation description: you are a reinforcement        above, we further detail the design of the LLM Prompt
+    learning decision agent controlling a Data Collection UAV (DCU) in a            Generator, which enables the integration of LLM-based
+    500×500 m low-altitude environment. The primary objective is to ensure
+    safety and avoid collisions. The secondary objective is to maintain com-        reasoning into the decision loop. When the decision condi-
+    pliance—never enter NFZs, and if inside an RZ, do not exceed the local          tion is triggered, the prompt generator converts the UAV’s
+    speed limit 5m/s. It can observe all GEs and their remaining data, static
+    obstacles (buildings, NFZs, RZs), and only the nearby dynamic obstacles         structured observation into a semantically rich text prompt
+    (OUs) within the observation radius. Decide the next continuous velocity        that guides the LLM’s inference. As shown in Fig. 3, the
+    vector (vx , vy ) for the DCU. The observation includes the DCU state
+    (position, velocity), GEs (positions and remaining data), static obstacles      generator follows a chain-of-thought (CoT) design com-
+    (positions of buildings, NFZs, and RZs), and dynamic obstacles (visible         posed of three tightly connected parts: (i) task definition and
+    OUs and positions).
+                                                                                    observation description, which specifies the UAV’s operat-
+    (b) Chain-of-thought reasoning guidelines: 1) Safety first: ensure (vx , vy )   ing environment and observation elements; (ii) reasoning
+    will not cause collisions with buildings, NFZ borders, or visible OUs; 2)
+    Compliance: never enter NFZs and within RZs ensure |v| ≤ rz limit; 3)           guidelines, which instruct the LLM to reason according
+    Data efficiency: move toward GEs, which have remaining data; 4) Energy          to safety, compliance, and efficiency rules; and (iii) output
+    efficiency: prefer smaller |v| if equally effective; 5) Stability: maintain
+    current direction when options are equivalent.                                  format, which constrains the model to produce a strict JSON
+                                                                                    object representing a continuous velocity vector (vx , vy ),
+                                                                   q velocity
+    (c) Action space and output format: the action is a continuous 2D
+                                                                      2 + v2
+                                                                                    confidence score, and reasoning summary. This prompt
+    (vx , vy ), each within [−10, 10]. The magnitude |v| =           vx     y
+    represents the flight speed (m/s), where +x denotes east and +y denotes         structure ensures interpretability and physical validity of
+    north. The model must output a strict JSON object as follows:                   the LLM’s output, enabling seamless conversion into exe-
+    {"vx":4.2,"vy":1.6,"Confidence":0.86,"Reasoning":"Moves
+    toward GE with remaining data, avoids                                           cutable control actions for the UAV. Additionally, to address
+    NFZ/OUs/buildings, and respects RZ."}                                           the potential issue of hallucination by LLM, which can lead
+                                                                                    to the failure of producing valid actions, an Extractor is
+Fig. 3: CoT-based prompt generator used for UAV control.                            employed. The extractor first checks whether any action is
+Part (a) defines the task and observation, (b) describes the                        produced. If no action is generated, the LLM is called again,
+reasoning principles, and (c) specifies the action format and                       with a threshold of 10 attempts. If this threshold is exceeded,
+compact JSON output.                                                                the episode is terminated. Furthermore, after receiving the
+                                                                                    action, the extractor verifies whether the magnitude of the
+                                                                                    velocity vector is less than vmax . If the velocity exceeds vmax ,
+based on the semantic state information generated by the                            the LLM is called again, with the same 10-attempt threshold.
+prompt generator. Otherwise, the action is selected using                           If the limit is exceeded again, the episode is terminated. This
+the policy network (Lines 9–12). The selected action is                             process ensures the robustness of the decision-making loop
+then executed, resulting in the next state and corresponding                        and maintains valid and feasible UAV control actions.
+reward for the subsequent time slot. Simultaneously, the
+current state, action, and reward are stored in the experience                      5.3.3 Algorithm Computational Complexity Analysis
+pool (Lines 14–15). The algorithm then checks whether the                           During training, our algorithm largely follows the SAC
+current episode has terminated. If so, it proceeds to the next                      framework for policy optimization. However, unlike stan-
+episode (Line 17).                                                                  dard SAC, our algorithm intermittently replaces the policy
+   For each gradient update step, a batch of samples is                             network’s action outputs with those generated by an ex-
+drawn from the experience pool (Line 21). Based on this                             ternal LLM based on specific conditions. As a result, the
+batch, the target values are computed, and the Q-function,                          overall training complexity consists of two components: the
+policy network, and target network parameters are updated                           standard SAC update steps and the LLM inference overhead
+accordingly (Lines 22–24). This process repeats until the                           incurred during action selection. Due to each SAC training
+episode concludes, after which the next episode begins.                             step including policy network updates with complexity
+Upon completion of all training episodes, the algorithm                             O(dπ ), Q-network updates with complexity O(dQ ), and tar-
+outputs the final optimized policy network.                                         get network updates with negligible computational cost, the
+   After the hybrid SAC–LLM training process described                              training computation complexity of SAC is O(n·(dπ +2dQ )),
+                                                                                                                                                  10
+
+Algorithm 1 SAC with LLM-based Trajectory Planning Al-                 mental setup and evaluation metrics.
+gorithm
+ 1: Input: The environment E                                           6.1     Experiment Setting
+ 2: Output: The optimal policy network π ∗
+                                                                       For the hardware, all experiments in this study were con-
+ 3: Initialize: Q-function parameters θ1 , θ2 , policy parame-
+                                                                       ducted on a computing platform equipped with Intel®
+    ter ϕ, the LLM π LLM , experience pool D, target param-            Xeon® Gold 6230 CPUs and NVIDIA GeForce RTX 4090
+    eters θ1,tar , θ2,tar                                              GPUs.
+ 4: for episode = 1, 2, . . . , L do
+ 5:      Initialize environment: E ← EnvReset()                                   TABLE 3: Environment Parameters Setting
+ 6:      for each step = 1, 2, . . . , N do
+                                                                              Para.    Value      Para.      Value       Para.          Value
+ 7:            Observe state: ot ← ObsState(E)                                NGE     [11, 15]    vmax      10 m/s        N             10−6
+ 8:            Judge if using the LLM: bool ← useLLM(õt )                   DVGEi     [1, 3]     vlimit     5 m/s        PR            20 m
+ 9:            if bool then                                                  T PGEi   0.01 W      Etotal   1 × 106 J   dmin , dsafe   5 m, 15 m
+                                                                              NOU      [3, 7]     Elimit   8 × 105 J       τ             3.6
+10:                 Select action from the LLM: at ← π LLM (õt )
+11:            else
+12:                 Select action from policy network: at ←
+                                                                       6.1.1 Environment Parameters
+    π ϕ (ot )
+13:            end if                                                  The experimental environment is simplified to a two-
+14:            Execute action and get new state and reward:            dimensional space with A of 500 m in both length and
+    (ot+1 , rt , done) ← ExeAct(at )                                   width. TA and LA are square regions measuring 25 × 25
+15:            Store       transition   in   experience        pool:   m, located at the top-left and bottom-right corners of A,
+    (ot , rt , at , ot+1 ) → D                                         respectively. Given the urban deployment scenario, the envi-
+16:            if done then                                            ronment includes rectangular RNFZ , RRZ , and RBZ with the
+17:                 Reset the environment and continue                 range of [50, 200] m for both length and width. The number
+18:            end if                                                  of such regions are randomly chosen from the range [1, 3].
+19:      end for                                                       The weights assigned to the components of the reward func-
+20:      for each gradient step do                                     tion are set to [8, 0.4, 0.4, 0.4, 0.6, 0.4, 0.6, 1, 0.01] and
+21:            Randomly sample a batch: (ot , rt , at , ot+1 ) ← D     can be flexibly adjusted to reflect different task priorities.
+22:            Compute targets and update Q-functions: Qθ1 , Qθ2       Other environmental parameters are detailed in Table 3.
+23:            Update policy network π ϕ
+24:            Update target parameters: θ1,tar , θ2,tar               6.1.2 Algorithm Parameters
+25:      end for                                                       For the algorithm, hyperparameters used by the proposed
+26: end for                                                            algorithm and other baselines, including SAC+LLM, SAC,
+                                                                       Proximal Policy Optimization (PPO) [49], DDPG [50], and
+                                                                       Constrained Policy Optimization (CPO) [53], are shown in
+where n is the batch size [47]. Assuming the LLM is queried            Table 4. For the LLM used in our algorithm and other
+for p · n samples per batch, the training computation com-             baselines, including LLM and SAC+LLM, we choose the
+plexity of the LLM is O(p · n · LLLM · d2LLM ), where LLLM             DeepSeek-R1, which has a total of 672B parameters and 37B
+is the number of tokens and dLLM is the LLM hidden layer               activated parameters [44].
+size [48]. Therefore, the training computation complexity of
+our algorithm is O((1−p)·n·(dπ +2dQ )+p·n·LLLM ·d2LLM ).                               TABLE 4: Hyperparameters Setting
+    It is important to clarify that the LLM is employed only
+                                                                                      Parameter                                 Value
+during the offline training phase to assist the DRL process,
+rather than during real-time deployment. Specifically, the                            Learning rate of actor network            0.0001
+                                                                                      Learning rate of critic network           0.0003
+LLM provides high-level semantic guidance to the SAC                                  Number of episodes                         4000
+agent, helping it select more informative and regulation-                             Clip range                                  0.2
+compliant actions during exploration, thereby accelerating                            Batch size                                  256
+                                                                                      Discount factor                            0.99
+policy convergence and improving training stability. Once
+                                                                                      Number of hidden layers of DNNs              2
+the SAC policy network is fully trained, the LLM is com-                              Hidden layer size                           64
+pletely removed from the control loop. During online execu-
+tion, the UAV relies solely on the lightweight SAC policy for
+real-time trajectory planning and obstacle avoidance. This
+                                                                       6.2     Evaluation Metrics
+design ensures that the runtime control algorithm operates
+efficiently and achieves collision-free navigation without             For the metrics used to evaluate the proposed algorithm and
+invoking any LLM inference, thereby fully guaranteeing                 other baselines, we use the metrics commonly adopted in
+real-time performance and computational feasibility.                   general UAV data collection trajectory planning tasks [45].
+                                                                       In addition, we include metrics that reflect the specific
+                                                                       requirements in this paper. All metrics are directly aligned
+6   E XPERIMENTS                                                       with the core demands of urban low-altitude data collection
+In this section, we present the experimental results of the            in the emerging low-altitude economy, where robust ob-
+proposed algorithm. Prior to that, we describe the experi-             stacle avoidance (R2), compliance (R3), and economy (R4),
+                                                                                                                                 11
+
+mentioned in Section 4.1, are essential. Assuming Ntotal is           RBZ is encountered, the DCU performs detouring ma-
+the number of experimental tests:                                     neuvers. For dynamic obstacles like OUs, it either hovers
+ • Data collection rate (DCR): This metric quantifies the             in place or retreats to avoid collision until the OU moves
+   average ratio of successfully collected data by the DCU            away. To limit the noise impact when flying over RRZ ,
+   relative to the total target data volume in Ntotal data            the DCU must reduce its speed below vlimit in accordance
+   collection:               PNtest                                   with regulatory requirements [7]. Furthermore, if the
+                                      DDCU,i                          remaining energy is only sufficient for returning to LA,
+                    DCR = Pi=1  Ntest
+                                             ,          (24)          the DCU will immediately head back.
+                                i=1 Dtotal,i
+                                                                    • LLM: An LLM, DeepSeek-R1, is used in real-time to
+  where DDCU,i is the collected data volume and Dtotal,i is
+                                                                      decide the actions of the DCU. We provide the LLM with
+  the total target data volume in the i-th task.
+                                                                      the state information within a 20 m radius around the
+• Collision rate (CR): This metric quantifies the ratio of            DCU, as well as the positions and remaining data of GEs.
+  trajectory planning tasks in which the DCU collides with            In addition, we also provide the LLM with Elimit of the
+  OUs, RBZ , or flies into RNFZ :                                     DCU.
+                                  NC                                • SAC+Heuristic: Similar to SAC+LLM, this variant em-
+                           CR =          ,                  (25)
+                                  Ntotal                              ploys the heuristic rule-based policy for obstacle avoid-
+  where NC is the number of tasks involving collisions or             ance instead of using the LLM. Specifically, when the
+  regulatory violations.                                              DCU encounters potential collisions with OUs or static
+                                                                      obstacles such as RNFZ or RBZ , the heuristic controller
+• Successful landing rate (SLR): This metric quantifies the
+                                                                      overrides the SAC policy to execute avoidance or speed-
+  ratio of trajectory planning tasks in which the DCU can
+                                                                      reduction maneuvers according to predefined rules. This
+  return to LA before depleting its energy:
+                                                                      baseline serves to evaluate the effectiveness of integrating
+                                  NSLR                                domain-specific expert knowledge into the SAC frame-
+                          SLR =          ,                  (26)
+                                  Ntotal                              work.
+   where NSLR is the number of tasks where the DCU                  • SAC+LLM (Fixed-f p): SAC is used during training, with
+
+   successfully lands.                                                a certain probability (f p ∈ {0.3, 0.4, 0.5, 1.0}) of dele-
+    In addition to the commonly used metrics mentioned                gating action selection to the LLM instead of the policy
+above, the following indicators are also employed to eval-            network. The LLM used here is the same as the one
+uate the effectiveness of satisfying the requirement for data         employed in the proposed algorithm, i.e., DeepSeek-R1.
+collection trajectory planning under the low-altitude econ-         • SAC: A pure deep reinforcement learning approach using
+
+omy.                                                                  the SAC without LLM integration2 , which also imple-
+ • Regulatory violation rate (RVR): This metric quantifies
+                                                                      ments PPO and DDPG, all available within the same
+   the ratio of tasks in which the DCU exceeds speed limits           repository.
+   within RRZ :                                                     • PPO: A representative on-policy reinforcement learning
+                                  NRVR                                method, implemented within the same codebase as SAC,
+                          RVR =          ,               (27)
+                                  Ntotal                              following the same architecture and parameterization.
+  where NRVR is the number of such violations.                      • DDPG: A classic off-policy actor-critic method designed
+                                                                      for continuous control, also implemented within the SAC
+• Energy consumption rate (ECR): This metric quantifies
+                                                                      codebase, ensuring consistency in experimental setup.
+  the average ratio of energy consumed by the DCU rela-
+  tive to the total energy:                                         • CPO: A constrained reinforcement learning baseline
+
+                            PNtest                                    based on safety-starter-agents from OpenAI3 . It optimizes
+                              i=1 EECR,i                              the expected cumulative reward while enforcing a safety
+                      ECR = PN             ,       (28)
+                                test                                  constraint on the discounted cumulative cost. In our
+                              i=1 Etotal,i
+                                                                      implementation, the instantaneous cost ct is defined as
+  where EECR,i is the consumed energy and Etotal,i is the             a weighted combination of safety violations, including
+  total available energy in the i-th task.                            boundary collisions, OUs collisions, tall buildings colli-
+                                                                      sions, and entries into NFZs. The threshold d is set to 0.05,
+6.3   Experiment Results                                              corresponding to an acceptable violation rate of 5%. The
+In this section, we present a comparative analysis between            policy and value networks follow the same architecture
+the proposed algorithm and several baseline methods in                as SAC, and the trust-region constraint on policy update
+terms of the DCU flight trajectories and the evaluation               is enforced with a maximum KL divergence of 0.01.
+metrics mentioned above. The parameter settings of these            • Existing methods: We also include two recent RL ap-
+baselines are introduced in Section 6.1.2. The baselines are          proaches [51], [52] for comparison to benchmark against
+as follows:                                                           state-of-the-art path planning and cooperative UAV con-
+                                             1
+ • Heuristic method: A greed-based policy is used to de-
+   termine the actions of the DCU for data acquisition and
+   obstacle avoidance. If a static obstacle such as RNFZ or            2. We referenced the code from: https://github.com/DLR-RM/
+                                                                    stable-baselines3
+  1. We referenced the code from: https://github.com/Rosenkrands/      3. We referenced the code from: https://github.com/openai/
+sar-path-planning                                                   safety-starter-agents
+                                                                                                                                        12
+
+                                                                           baselines, CPO achieves slightly lower DCR but lower CR
+                                                                           than PPO, Theile et al. [51] and Wang et al. [52] perform
+                                                                           between SAC and PPO, and SAC+Heuristic outperforms the
+                                                                           heuristic baseline with better safety and efficiency.
+                                                                               Fig. 6 presents the results under increasing GEs. Our
+                                                                           algorithm maintains DCR ≈ 1.0 and SLR ≈ 1.0, showing
+                                                                           excellent reliability. SAC, PPO, and DDPG exhibit moderate
+                                                                           declines in DCR and SLR as complexity rises. SAC+LLM
+                                                                           collapses under high complexity, while CPO reduces CR at
+                                                                           the cost of minor DCR loss. Theile et al. [51] and Wang et
+                                                                           al. [52] remain close to PPO, and SAC+Heuristic balances
+                                                                           performance and safety better than the rule-based baseline.
+                                                                           These results demonstrate the superior adaptability of our
+                                                                           method to complex mission scenarios.
+Fig. 4: Training reward curves of the proposed algorithm                       Figs. 7 and 8 examine static obstacle cases (NFZs and
+and all baseline methods over 4000 episodes, including                     BZs). Our approach maintains DCR ≈ 1.0 and CR ≈ 0,
+SAC, PPO, DDPG, CPO, Theile et al. [51], Wang et al. [52],                 achieving the best obstacle avoidance and lowest ECR.
+SAC+Heuristic, and SAC+LLM variants with different in-                     SAC and PPO perform well but show rising CR with
+vocation probabilities.                                                    denser obstacles, while CPO achieves slightly lower DCR
+                                                                           yet improved safety. Theile et al. [51] and Wang et al. [52]
+   trol methods45 .                                                        remain moderate, and SAC+Heuristic improves both DCR
+                                                                           and CR over the heuristic baseline. These confirm the al-
+6.3.1  Training Reward Curves about DRL Baselines and                      gorithm’s effectiveness in static, constrained environments
+       Our Algorithm                                                       (Challenges 1–2).
+We show the training reward curves of all DRL baselines                        Fig. 9 evaluates compliance under increasing RZs. Our
+and the proposed algorithm, as illustrated in Fig. 4. Over                 method sustains the highest DCR with minimal CR and
+4000 training episodes, the proposed method achieves the                   RVR, indicating excellent trade-offs between efficiency and
+highest and most stable cumulative rewards, indicating                     regulatory adherence. SAC+LLM achieves high DCR but
+superior learning efficiency and policy quality. SAC and                   violates more frequently, while SAC, PPO, and DDPG show
+PPO converge well, with PPO showing slightly slower im-                    moderate compliance. CPO further lowers violations, Theile
+provement, while DDPG reaches a lower reward plateau                       et al. [51] and Wang et al. [52] stay between SAC and PPO,
+under complex constraints. The CPO algorithm exhibits                      and SAC+Heuristic enhances both safety and DCR com-
+stable but lower convergence due to its conservative opti-                 pared to heuristic control. Overall, our algorithm uniquely
+mization. Theile et al. [51] achieves faster and more stable               balances safety, compliance, and efficiency under soft con-
+convergence through equivariant ensemble regularization,                   straints (Challenge 3).
+whereas Wang et al. [52] converges slowly with lower final                     The radar chart in Fig. 10 clearly demonstrates the supe-
+rewards. The SAC+Heuristic method shows early stability                    rior performance of our proposed algorithm across all five
+but limited long-term performance. Overall, the proposed                   metrics. It achieves high DCR and low ECR, indicating effec-
+hybrid LLM-augmented DRL algorithm achieves the best                       tive data collection and energy-efficient mission completion
+trade-off among efficiency, stability, and safety, outperform-             (R4). Simultaneously, it maintains high SLR and low CR
+ing both traditional and enhanced baselines.                               and RVR, ensuring both obstacle avoidance and regulatory
+                                                                           compliance, critical for safe operation in urban, airspace-
+6.3.2 Metrics about Baselines and Our Algorithm                            reused environments (R2 and R3).
+The experimental results in Figs. 5–10 evaluate five core                      In summary, the results validate that our algorithm, by
+metrics (DCR, CR, SLR, RVR, and ECR) under varying                         selectively engaging the LLM for obstacle avoidance, em-
+numbers of OUs, GEs, NFZs, BZs, and RZs, verifying how                     powers the DCU to make informed and adaptive decisions
+our algorithm satisfies the requirements of robust obstacle                in complex, dynamic environments. This targeted integra-
+avoidance (R2), compliance (R3), and economy (R4) while                    tion enables our algorithm to uniquely balance the three
+addressing Challenges 1–3.                                                 core demands of the low-altitude economy: R2, R3, and R4.
+   Fig. 5 shows the performance under increasing OUs.                      By meeting these requirements, our algorithm effectively
+Our method consistently achieves the highest DCR and                       addresses the corresponding Challenges 1–3. No other
+the lowest CR and ECR, confirming its robustness and                       baseline achieves comparable comprehensive performance
+energy efficiency in dynamic environments. SAC and PPO                     across these dimensions. Thus, our algorithm stands out as
+converge well but suffer from rising CR, while SAC+LLM                     a practical solution for urban low-altitude data collection
+becomes unstable with CR exceeding 90%. DDPG performs                      trajectory planning scenarios.
+moderately, and the standalone LLM and heuristic meth-
+ods remain conservative with limited DCR. Among new                        6.3.3 Parameters Sensitive Analysis
+                                                                           To comprehensively evaluate the robustness and general-
+  4. We referenced the code for Theile et al. [51] from: https://github.
+com/theilem/uavSim
+                                                                           ization capability of the proposed algorithm, we conduct
+  5. We referenced the code for Wang et al. [52] from: https://github.     a series of sensitivity analyses covering four aspects: (1) hy-
+com/BIT-MCS/DRL-UCS-AoI-Threshold                                          perparameters of the training process, (2) weight coefficients
+                                                                                                                         13
+
+
+
+
+Fig. 5: The DCR, CR, and ECR about baselines and our algorithm when NOU increases. The proposed algorithm consistently
+achieves the highest DCR with almost zero CR and lowest ECR, demonstrating superior efficiency and safety.
+
+
+
+
+Fig. 6: The DCR, CR, and SLR about baselines and our algorithm when NGE increases. Our algorithm maintains a stable
+and high DCR and CR of almost zero, while other baselines show declining performance and increased collisions. This
+highlights our algorithm’s robustness in complex environments.
+
+
+
+
+Fig. 7: The DCR, CR, and ECR about baselines and our algorithm when NNFZ increases. While other algorithms suffer
+from reduced data collection or increased collisions, our algorithm sustains near-perfect DCR and near zero CR, with
+competitive energy consumption.
+
+
+of the reward function, (3) the invocation threshold distance   and RVR remain nearly zero, indicating stable learning
+for triggering the LLM-based decision process, and (4) the      and strong safety. ECR varies slightly within [0.76, 0.78],
+reasoning objectives embedded in the LLM prompt. The            showing consistent energy efficiency. Overall, the proposed
+detailed analyses and corresponding results are presented       model exhibits high robustness to hyperparameter changes.
+as follows.                                                         To evaluate the impact of reward composition, we vary
+    As shown in Fig. 11, variations in the actor and critic     the weights of r1 , r2 , r5 , and r8 , which correspond to
+learning rates and batch size cause only minor fluctuations     task efficiency, obstacle avoidance, compliance, and energy
+in performance. DCR and SLR stay close to 1.0, while CR         return, respectively. As shown in Fig. 12, increasing r1
+                                                                                                                            14
+
+
+
+
+Fig. 8: The DCR, CR, and ECR about baselines and our algorithm when NBZ increases. The proposed algorithm preserves
+a high DCR and almost avoids collisions entirely, while other baselines experience noticeable performance degradation.
+
+
+
+
+Fig. 9: The DCR, CR, and RVR about baselines and our algorithm when NRZ increases. Our algorithm maintains full
+compliance (RVR 0), with high data collection efficiency and no collisions, while other baselines fails to adapt to regulatory
+constraints.
+
+
+                                                                enhances DCR and SLR but slightly raises ECR and CR,
+                                                                while higher r2 effectively lowers CR at a small cost of DCR.
+                                                                Increasing r5 improves compliance (lower RVR) but slightly
+                                                                reduces efficiency, and larger r8 values yield better energy
+                                                                use and landing stability with a minor DCR drop. Overall,
+                                                                the proposed algorithm remains stable and well-balanced
+                                                                under moderate reward weight variations.
+                                                                    As shown in Fig. 13, the variation of the LLM invocation
+                                                                threshold exhibits a clear trade-off among safety, efficiency,
+                                                                and energy consumption. When the threshold is too small
+                                                                (e.g., 5 m), the LLM is triggered too late, leading to oc-
+                                                                casional collisions and reduced data collection efficiency.
+                                                                Conversely, excessively large thresholds (e.g., 25 m) cause
+                                                                premature or frequent invocations, increasing energy con-
+                                                                sumption and slightly reducing stability. Moderate thresh-
+                                                                olds such as 10 m and 20 m achieve similar performance
+                                                                to 15 m, but the latter offers the best balance, maintaining
+                                                                high DCR and SLR with low CR and ECR. Therefore, 15 m is
+                                                                adopted as the default setting in all subsequent experiments.
+Fig. 10: Average performance summary across all environ-           We ablate the four reasoning objectives in the LLM
+mental configurations. Our algorithm achieves the highest       prompt by removing one component at a time and compare
+DCR (99.49%), lowest CR (0%), and strong compliance (RVR        against the complete prompt shown in Fig. 3. The result is
+0% and ECR 76.95%), validating its overall effectiveness        shown in Fig. 14. Removing Safety increases CR and slightly
+across diverse low-altitude scenarios.                          reduces DCR, confirming its primary role in risk control.
+                                                                Removing Compliance markedly degrades RVR despite sim-
+                                                                                                                            15
+
+
+
+
+Fig. 11: Variations of DCR, CR, ECR, SLR, and RVR under different hyperparameter settings of (a) actor LR, (b) critic LR,
+and (c) batch size.
+
+
+
+
+     Fig. 12: Variations of DCR, CR, ECR, SLR, and RVR under different reward weight settings for r1 , r2 , r5 , and r8 .
+
+
+
+
+                                                                 Fig. 14: Ablation on reasoning objectives embedded in the
+                                                                 LLM prompt. Bars compare the Complete Prompt with four
+Fig. 13: Sensitivity analysis of the LLM invocation thresh-      variants that remove one objective at a time (without Safety,
+old the threshold. The figure shows the impact of varying        without Compliance, without Data efficiency, without Energy
+dth ∈ {5, 10, 15, 20, 25} m on five key performance metrics      efficiency) across five metrics (DCR, CR, ECR, SLR, RVR).
+(DCR, CR, ECR, SLR, and RVR). Excessively small thresh-
+olds (e.g., 5 m) cause delayed LLM activation, leading to
+higher collision rates and lower DCR, while overly large
+thresholds (e.g., 25 m) result in frequent LLM invocations
+and increased energy consumption. The threshold of 15 m          and efficiency.
+achieves the best trade-off between safety, efficiency, and
+energy consumption, validating the choice used in the main           In summary, all sensitivity analyses consistently demon-
+experiments.                                                     strate the robustness and adaptability of the proposed al-
+                                                                 gorithm under diverse parameter and configuration set-
+                                                                 tings. Neither hyperparameter tuning nor moderate reward
+ilar CR, indicating the necessity of explicit compliance guid-   reweighting leads to noticeable performance degradation,
+ance. Removing Data efficiency lowers DCR and slightly           and both the LLM invocation threshold and reasoning ob-
+changes ECR, showing that prioritizing informative targets       jectives exhibit stable behavior with interpretable effects.
+contributes to sustained task completion. Removing En-           These results collectively validate that the proposed hybrid
+ergy efficiency harms energy behavior and landing stability,     SAC–LLM algorithm maintains a well-balanced trade-off
+demonstrating that explicit energy-aware reasoning helps         among safety, compliance, efficiency, and energy perfor-
+maintain safe mission termination. Overall, the complete         mance, even when the underlying parameters or decision
+prompt provides the best balance across safety, compliance,      conditions vary across different environments.
+                                                                                                                                                   16
+
+7     C ONCLUSION                                                           [11] Y. Zhang, Y. Huang, C. Huang, H. Huang, and A.-T. Nguyen,
+                                                                                 “Joint optimization of deployment and flight planning of multi-
+This paper developed a hybrid unmanned aerial vehicle                            UAVs for long-distance data collection from large-scale IoT de-
+(UAV) trajectory planning algorithm that combines deep                           vices,” IEEE Internet of Things Journal, vol. 11, no. 1, pp. 791–804,
+reinforcement learning with large language model reason-                         Jan. 2024, doi: 10.1109/JIOT.2023.3285942.
+ing for low-altitude data collection in complex urban envi-                 [12] K. Heo, G. Park, and K. Lee, “Joint optimization of UAV
+                                                                                 trajectory and communication resources with complete avoid-
+ronments. The proposed algorithm jointly considers obsta-                        ance of no-fly-zones,” IEEE Transactions on Intelligent Transporta-
+cle avoidance, regulation awareness, and energy efficiency,                      tion Systems, vol. 25, no. 10, pp. 14259–14265, Oct. 2024, doi:
+achieving safe and adaptive decision-making under uncer-                         10.1109/TITS.2024.3403887.
+tainty.                                                                     [13] J. Li, G. Sun, L. Duan, and Q. Wu, “Multi-objective optimization
+                                                                                 for UAV swarm-assisted IoT with virtual antenna arrays,” IEEE
+    Future work will explore extending the algorithm to                          Transactions on Mobile Computing, vol. 23, no. 5, pp. 4890–4907,
+multi-UAV collaboration and large-scale city scenarios. An-                      May 2024, doi: 10.1109/TMC.2023.3298888.
+other direction is to enhance three-dimensional obstacle                    [14] Z. Fu, J. Liu, Y. Mao, L. Q. Qu, L. F. Xie, and X. Wang, “Energy-
+avoidance and communication-aware coordination under                             efficient UAV-assisted federated learning: Trajectory optimization,
+                                                                                 device scheduling, and resource management,” IEEE Transactions
+partial or unstable network conditions. In addition, incorpo-                    on Network and Service Management, vol. 22, no. 2, pp. 974–988, Jun.
+rating more realistic air-to-ground channel models, includ-                      2025, doi: 10.1109/TNSM.2025.3531237.
+ing probabilistic line-of-sight and non-line-of-sight propaga-              [15] Z. Wang, J. Wen, J. He, L. Yu, and Z. Li, “Energy efficiency
+tion in urban environments, will help capture complex com-                       optimization of RIS-assisted UAV search-based cognitive com-
+                                                                                 munication in complex obstacle avoidance environments,” IEEE
+munication dynamics. Furthermore, integrating real sensor                        Transactions on Cognitive Communications and Networking, early
+noise, multimodal perception, and dynamic regulatory feed-                       access, Feb. 2025, doi: 10.1109/TCCN.2025.3544267.
+back will be essential for improving robustness and real-                   [16] S. Silvirianti, B. N. Narottama, and S. Y. Shin, “Layerwise quantum
+world applicability in low-altitude economy networks.                            deep reinforcement learning for joint optimization of UAV trajec-
+                                                                                 tory and resource allocation,” IEEE Internet of Things Journal, vol.
+                                                                                 11, no. 1, pp. 430–443, Jan. 2024, doi: 10.1109/JIOT.2023.3285968.
+                                                                            [17] Y. Chen, Y. Yang, Y. Wu, J. Huang, and L. Zhao, “Joint trajectory
+R EFERENCES                                                                      optimization and resource allocation in UAV-MEC systems: A
+[1]  R. Zhang, J. He, X. Luo, D. Niyato, J. Kang, Z. Xiong, Y. Li, and B.        Lyapunov-assisted DRL approach,” IEEE Transactions on Services
+     Sikdar, “Toward democratized generative AI in next-generation               Computing, early access, Feb. 2025, doi: 10.1109/TSC.2025.3544124.
+     mobile edge networks,” IEEE Network, early access, 2025, doi:          [18] Z. Ning, Y. Yang, X. Wang, Q. Song, L. Guo, and A. Jamalipour,
+     10.1109/MNET.2025.3541078.                                                  “Multi-agent deep reinforcement learning based UAV trajectory
+[2] R. Zhang, H. Du, Y. Liu, D. Niyato, J. Kang, Z. Xiong, A. Ja-                optimization for differentiated services,” IEEE Transactions on
+     malipour, and D. I. Kim, “Generative AI agents with large lan-              Mobile Computing, vol. 23, no. 5, pp. 5818–5834, May 2024, doi:
+     guage model for satellite networks via a mixture of experts trans-          10.1109/TMC.2023.3312276.
+     mission,” IEEE Journal on Selected Areas in Communications, vol. 42,   [19] F. Song, M. Deng, H. Xing, Y. Liu, F. Ye, and Z. Xiao, “Energy-
+     no. 12, pp. 3581–3596, Dec. 2024, doi: 10.1109/JSAC.2024.3459037.           efficient trajectory optimization with wireless charging in UAV-
+[3] M. Ahmed, A. A. Soofi, F. Khan, S. Raza, W. U. Khan, L. Su, F.               assisted MEC based on multi-objective reinforcement learning,”
+     Xu, and Z. Han, “Toward a sustainable low-altitude economy:                 IEEE Transactions on Mobile Computing, vol. 23, no. 12, pp. 10867–
+     A survey of energy-efficient RIS-UAV networks,” arXiv preprint,             10884, Dec. 2024, doi: 10.1109/TMC.2024.3384405.
+     arXiv:2504.02162, Apr. 2025. [Online]. Available: https://arxiv.       [20] R. Ding, F. Zhou, Q. Wu, and D. W. K. Ng, “From external in-
+     org/abs/2504.02162.                                                         teraction to internal inference: An intelligent learning framework
+[4] R. Zhang, K. Xiong, Y. Lu, P. Fan, D. W. K. Ng, and K. B. Letaief,           for spectrum sharing and UAV trajectory optimization,” IEEE
+     “Energy efficiency maximization in RIS-assisted SWIPT networks              Transactions on Wireless Communications, vol. 23, no. 9, pp. 12099–
+     with RSMA: A PPO-based approach,” IEEE Journal on Selected                  12114, Sept. 2024, doi: 10.1109/TWC.2024.3387980.
+     Areas in Communications, vol. 41, no. 5, pp. 1413–1430, May 2023,      [21] T. Wang, W. Du, C. Jiang, Y. Li, and H. Zhang, “Safety constrained
+     doi: 10.1109/JSAC.2023.3240707.                                             trajectory optimization for completion time minimization for UAV
+[5] R. Zhang et al., “Generative AI for Space-Air-Ground Integrated              communications,” IEEE Internet of Things Journal, vol. 11, no. 21,
+     Networks,” IEEE Wireless Communications, vol. 31, no. 6, pp. 10–            pp. 34482–34491, Nov. 2024, doi: 10.1109/JIOT.2024.3355906.
+     20, Dec. 2024, doi: 10.1109/MWC.016.2300547.                           [22] H. He, W. Yuan, S. Chen, X. Jiang, F. Yang, and J. Yang, “Deep rein-
+[6] N. Zhang, M. Zhang, and K. H. Low, “3D trajectory planning                   forcement learning-based distributed 3D UAV trajectory design,”
+     and real-time collision resolution of multirotor drone operations           IEEE Transactions on Communications, vol. 72, no. 6, pp. 3736–3751,
+     in complex urban low-altitude airspace,” Transportation Research            Jun. 2024, doi: 10.1109/TCOMM.2024.3361534.
+     Part C: Emerging Technologies, vol. 129, p. 103123, 2021, doi:
+                                                                            [23] Z. Liu, J. Zhang, Y. Zeng, and B. Ai, “Energy-efficient multi-agent
+     10.1016/j.trc.2021.103123.
+                                                                                 reinforcement learning for UAV trajectory optimization in cell-free
+[7] H. J. Hadi, Y. Cao, K. U. Nisa, Y. Mekdad, A. Aris, L. Babun, A. E.
+                                                                                 massive MIMO networks,” IEEE Transactions on Wireless Commu-
+     Fergougui, M. Conti, R. Lazzeretti, and A. S. Uluagac, “A compre-
+                                                                                 nications, early access, Mar. 2025, doi: 10.1109/TWC.2025.3550266.
+     hensive survey on security, privacy issues and emerging defence
+     technologies for UAVs,” Journal of Network and Computer Applica-       [24] Z. Ning, H. Ji, X. Wang, E. C. H. Ngai, L. Guo, and J. Liu, “Joint
+     tions, vol. 213, p. 103607, 2023, doi: 10.1016/j.jnca.2023.103607.          optimization of data acquisition and trajectory planning for UAV-
+[8] X. Qin, Z. Song, T. Hou, W. Yu, J. Wang, and X. Sun, “Joint opti-            assisted wireless powered Internet of Things,” IEEE Transactions
+     mization of resource allocation, phase shift, and UAV trajectory for        on Mobile Computing, vol. 24, no. 2, pp. 1016–1030, Feb. 2025, doi:
+     energy-efficient RIS-assisted UAV-enabled MEC systems,” IEEE                10.1109/TMC.2024.3470831.
+     Transactions on Green Communications and Networking, vol. 7, no.       [25] J. Zhong, M. Li, Y. Chen, Z. Wei, F. Yang, and H. Shen, “A safer
+     4, pp. 1778–1792, Dec. 2023, doi: 10.1109/TGCN.2023.3287604.                vision-based autonomous planning system for quadrotor UAVs
+[9] H. Pan, Y. Liu, G. Sun, J. Fan, S. Liang, and C. Yuen, “Joint power          with dynamic obstacle trajectory prediction and its application
+     and 3D trajectory optimization for UAV-enabled wireless powered             with LLMs,” in Proc. IEEE/CVF Winter Conference on Applications of
+     communication networks with obstacles,” IEEE Transactions on                Computer Vision Workshops (WACV Workshops), 2024, pp. 920–929.
+     Communications, vol. 71, no. 4, pp. 2364–2380, Apr. 2023, doi:         [26] A. Phadke, A. Hadimlioglu, T. Chu, and C. N. Sekharan, “In-
+     10.1109/TCOMM.2023.3240697.                                                 tegrating large language models for UAV control in simulated
+[10] F. Pervez, A. Sultana, C. Yang, and L. Zhao, “Energy and latency            environments: A modular interaction approach,” arXiv preprint,
+     efficient joint communication and computation optimization in a             arXiv:2410.17602, 2024. [Online]. Available: https://arxiv.org/
+     multi-UAV-assisted MEC network,” IEEE Transactions on Wireless              abs/2410.17602.
+     Communications, vol. 23, no. 3, pp. 1728–1741, Mar. 2024, doi:         [27] J. Xiao, C. Tsao, Y. Zhang, and M. Feroskhan, “FM-Planner:
+     10.1109/TWC.2023.3291692.                                                   Foundation model guided trajectory planning for autonomous
+                                                                                                                                                       17
+
+     drone navigation,” arXiv preprint, arXiv:2505.20783, 2025. [Online].       [48] J. Kaplan et al., “Scaling Laws for Neural Language Models,” arXiv
+     Available: https://arxiv.org/abs/2505.20783.                                    preprint, arXiv:2001.08361, 2020. [Online]. Available: https://arxiv.
+[28] H. Samma and S. El-Ferik, “UAV visual trajectory planning using                 org/abs/2001.08361.
+     large language models,” Transportation Research Procedia, vol. 84,         [49] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov,
+     pp. 339–345, 2025, doi: 10.1016/j.trpro.2025.03.081.                            “Proximal Policy Optimization Algorithms,” arXiv preprint,
+[29] S. Cai, Y. Wu, and L. Zhou, “LLM-Land: Large language models                    arXiv:1707.06347, Jul. 2017. [Online]. Available: https://arxiv.org/
+     for context-aware drone landing,” arXiv preprint, arXiv:2505.06399,             abs/1707.06347.
+     2025. [Online]. Available: https://arxiv.org/abs/2505.06399.               [50] T. Lillicrap et al., “Continuous control with deep reinforcement
+[30] P. Li, Z. An, S. Abrar, and L. Zhou, “Large language models for                 learning,” arXiv preprint, arXiv:1509.02971, Sep. 2015. [Online].
+     multi-robot systems: a survey,” arXiv preprint, arXiv:2502.03814,               Available: https://arxiv.org/abs/1509.02971.
+     Feb. 2025. [Online]. Available: https://arxiv.org/abs/2502.03814.          [51] M. Theile, H. Cao, M. Caccamo, and A. L. Sangiovanni-Vincentelli,
+                                                                                     “Equivariant ensembles and regularization for reinforcement
+[31] P. Razzaghi et al., “A survey on reinforcement learning in aviation             learning in map-based path planning,” in Proc. IEEE/RSJ Int. Conf.
+     applications,” Engineering Applications of Artificial Intelligence, vol.        Intell. Robots Syst. (IROS), Oct. 2024, pp. 14164–14171.
+     115, pp. 1–18, Aug. 2023.                                                  [52] H. Wang, C. H. Liu, H. Yang, G. Wang, and K. K. Leung, “Ensuring
+[32] Y. Wang, Z. Wei, H. Wu, and Z. Feng, “Toward Realization of Low-                threshold AoI for UAV-assisted mobile crowdsensing by multi-
+     Altitude Economy Networks: Core Architecture, Integrated Tech-                  agent deep reinforcement learning with transformer,” IEEE/ACM
+     nologies, and Future Directions,” arXiv preprint, arXiv:2504.21583,             Trans. Netw., vol. 32, no. 1, pp. 566–581, 2023.
+     Apr. 2025. [Online]. Available: https://arxiv.org/abs/2504.21583.          [53] J. Achiam, D. Held, A. Tamar, and P. Abbeel, “Constrained policy
+[33] Z. Wei et al., “UAV-assisted data collection for Internet of Things:            optimization,” in Proc. Int. Conf. Mach. Learn. (ICML), Sydney,
+     A survey,” IEEE Internet of Things Journal, vol. 9, no. 17, pp. 15460–          Australia, Jul. 2017, pp. 22–31.
+     15483, Sept. 2022, doi: 10.1109/JIOT.2022.3182483.
+[34] D. D. Falconer, F. Adachi, and B. Gudmundson, “Time division
+     multiple access methods for wireless personal communications,”
+     IEEE Communications Magazine, vol. 33, no. 1, pp. 50–57, Jan. 1995.
+[35] Y. Li, “Deep reinforcement learning: An overview,” arXiv preprint,
+     arXiv:1701.07274, Jan. 2017. [Online]. Available: https://arxiv.org/
+     abs/1701.07274.
+[36] X. Tang, Y. Wang, Q. Huang, Y. Li, and C. Wang, “Highway
+     decision-making and motion planning for autonomous driving via
+     soft actor-critic,” IEEE Transactions on Vehicular Technology, vol. 71,
+     no. 5, pp. 4706–4717, May 2022, doi: 10.1109/TVT.2022.3151651.
+[37] Q. Zhang et al., “Data-Aided Doppler Frequency Shift Estimation
+     and Compensation for UAVs,” IEEE Internet of Things Journal, vol.
+     7, no. 1, pp. 400–415, Jan. 2020, doi: 10.1109/JIOT.2019.2943608.
+[38] H.-T. Ye, X. Kang, J. Joung, and Y.-C. Liang, “Optimization for Full-
+     Duplex Rotary-Wing UAV-Enabled Wireless-Powered IoT Net-
+     works,” IEEE Transactions on Wireless Communications, vol. 19, no.
+     7, pp. 5057–5072, Jul. 2020, doi: 10.1109/TWC.2020.2989302.
+[39] C. Wen, L. Qiu, and X. Liang, “Securing UAV communi-
+     cation with mobile UAV eavesdroppers: Joint trajectory and
+     communication design,” in Proc. IEEE Wireless Communica-
+     tions and Networking Conference (WCNC), 2021, pp. 1–6, doi:
+     10.1109/WCNC49053.2021.9417318.
+[40] X. Wang, M. C. Gursoy, T. Erpek, and Y. E. Sagduyu,
+     “Collision-aware UAV trajectories for data collection via re-
+     inforcement learning,” in Proc. IEEE Global Communications
+     Conference (GLOBECOM), 2021, pp. 1–6, doi: 10.1109/GLOBE-
+     COM46510.2021.9686015.
+[41] S. Rahim, L. Peng, and P.-H. Ho, “TinyFDRL-Enhanced Energy-
+     Efficient Trajectory Design for Integrated Space-Air-Ground Net-
+     works,” IEEE Internet of Things Journal, pp. 1–1, 2024, doi:
+     10.1109/JIOT.2024.3361394.
+[42] Y. Zeng, J. Xu, and R. Zhang, “Energy Minimization for Wireless
+     Communication With Rotary-Wing UAV,” IEEE Transactions on
+     Wireless Communications, vol. 18, no. 4, pp. 2329–2345, Apr. 2019,
+     doi: 10.1109/TWC.2019.2902559.
+[43] D. Chen and W. Hua, “Hierarchical VAE Based Semantic Com-
+     munications for POMDP Tasks,” in Proc. IEEE Int. Conf. Acoust.,
+     Speech Signal Process. (ICASSP), Apr. 2024, pp. 5540–5544, doi:
+     10.1109/ICASSP48485.2024.10445833.
+[44] DeepSeek, “DeepSeek: Large Language Models and Multimodal
+     Intelligence,” [Online]. Available: https://www.deepseek.com/.
+     [Accessed: May 27, 2025].
+[45] X. Wang, M. C. Gursoy, T. Erpek, and Y. E. Sagduyu, “Learning-
+     Based UAV Trajectory planning for Data Collection With Inte-
+     grated Collision Avoidance,” IEEE Internet of Things Journal, vol. 9,
+     no. 17, pp. 16663–16676, Sep. 2022, doi: 10.1109/JIOT.2022.3153585.
+[46] J. Fan et al., “Energy-constrained safe trajectory planning for UAV-
+     assisted data collection of mobile IoT devices,” IEEE Internet of
+     Things Journal, vol. 11, no. 24, pp. 39971–39983, Dec. 2024, doi:
+     10.1109/JIOT.2024.3448537.
+[47] T. Haarnoja, A. Zhou, P. Abbeel, and S. Levine, “Soft Actor-Critic:
+     Off-Policy Maximum Entropy Deep Reinforcement Learning with
+     a Stochastic Actor,” in Proc. 35th Int. Conf. Mach. Learn. (ICML),
+     Stockholm, Sweden, 2018, pp. 1861–1870.
+
