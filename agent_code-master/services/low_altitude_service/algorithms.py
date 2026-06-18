@@ -65,20 +65,69 @@ def _distance(mission: Dict[str, Any], multiplier: float = 1.0) -> float:
     return round(distance * multiplier, 3)
 
 
-def _waypoints(mission: Dict[str, Any], altitude_m: float) -> List[List[float]]:
+def _point_node(
+    point: Dict[str, Any],
+    altitude_m: float,
+    node_type: str,
+    default_name: str,
+) -> Dict[str, Any]:
+    return {
+        "id": point.get("id", default_name),
+        "name": point.get("id", default_name),
+        "lon": float(point.get("lon", 0.0)),
+        "lat": float(point.get("lat", 0.0)),
+        "altitude_m": round(float(altitude_m), 1),
+        "type": node_type,
+    }
+
+
+def _safe_transfer_node(
+    pickup: Dict[str, Any],
+    dropoff: Dict[str, Any],
+    altitude_m: float,
+) -> Dict[str, Any]:
+    return {
+        "id": "SAFE_TRANSFER_NODE",
+        "name": "安全接驳点",
+        "lon": round(
+            (float(pickup.get("lon", 0.0)) + float(dropoff.get("lon", 0.0))) / 2
+            + 0.015,
+            6,
+        ),
+        "lat": round(
+            (float(pickup.get("lat", 0.0)) + float(dropoff.get("lat", 0.0))) / 2
+            - 0.010,
+            6,
+        ),
+        "altitude_m": round(float(altitude_m), 1),
+        "type": "transfer",
+    }
+
+
+def _waypoint_nodes(
+    mission: Dict[str, Any],
+    altitude_m: float,
+    lateral_offset_lon: float = 0.005,
+    lateral_offset_lat: float = -0.004,
+) -> List[Dict[str, Any]]:
     pickup, dropoff = _point_pair(mission)
-    start_lon = float(pickup.get("lon", 0.0))
-    start_lat = float(pickup.get("lat", 0.0))
-    end_lon = float(dropoff.get("lon", 0.0))
-    end_lat = float(dropoff.get("lat", 0.0))
+    start = _point_node(pickup, altitude_m, "pickup", "pickup")
+    end = _point_node(dropoff, altitude_m, "dropoff", "dropoff")
+    mid = {
+        "id": "WP_MID",
+        "name": "低空航路转向点",
+        "lon": round((start["lon"] + end["lon"]) / 2 + lateral_offset_lon, 6),
+        "lat": round((start["lat"] + end["lat"]) / 2 + lateral_offset_lat, 6),
+        "altitude_m": round(float(altitude_m), 1),
+        "type": "waypoint",
+    }
+    return [start, mid, end]
+
+
+def _waypoints(mission: Dict[str, Any], altitude_m: float) -> List[List[float]]:
     return [
-        [start_lon, start_lat, altitude_m],
-        [
-            round((start_lon + end_lon) / 2 + 0.005, 6),
-            round((start_lat + end_lat) / 2 - 0.004, 6),
-            altitude_m,
-        ],
-        [end_lon, end_lat, altitude_m],
+        [node["lon"], node["lat"], node["altitude_m"]]
+        for node in _waypoint_nodes(mission, altitude_m)
     ]
 
 
@@ -92,6 +141,153 @@ def _window_result(
         ready_at = datetime(2026, 6, 11, 10, 0, 0)
     eta = ready_at + timedelta(minutes=duration_mins)
     return eta.isoformat(timespec="seconds"), deadline is None or eta <= deadline
+
+
+def _segment_distance_km(a: Dict[str, Any], b: Dict[str, Any]) -> float:
+    return haversine_km(float(a["lon"]), float(a["lat"]), float(b["lon"]), float(b["lat"]))
+
+
+def _geo_bounds(nodes: List[Dict[str, Any]]) -> Dict[str, float]:
+    if not nodes:
+        return {"min_lon": 0, "max_lon": 0, "min_lat": 0, "max_lat": 0}
+    lons = [float(node["lon"]) for node in nodes]
+    lats = [float(node["lat"]) for node in nodes]
+    lon_pad = max((max(lons) - min(lons)) * 0.18, 0.01)
+    lat_pad = max((max(lats) - min(lats)) * 0.18, 0.01)
+    return {
+        "min_lon": round(min(lons) - lon_pad, 6),
+        "max_lon": round(max(lons) + lon_pad, 6),
+        "min_lat": round(min(lats) - lat_pad, 6),
+        "max_lat": round(max(lats) + lat_pad, 6),
+    }
+
+
+def _interpolate_route(
+    nodes: List[Dict[str, Any]], progress: float
+) -> Tuple[Dict[str, float], int]:
+    if not nodes:
+        return {"lon": 0.0, "lat": 0.0, "altitude_m": 0.0}, 0
+    if len(nodes) == 1:
+        node = nodes[0]
+        return {
+            "lon": node["lon"],
+            "lat": node["lat"],
+            "altitude_m": node["altitude_m"],
+        }, 0
+
+    distances = [
+        max(_segment_distance_km(nodes[i], nodes[i + 1]), 0.0001)
+        for i in range(len(nodes) - 1)
+    ]
+    total = sum(distances)
+    target = max(0.0, min(1.0, progress)) * total
+    travelled = 0.0
+    for idx, segment_distance in enumerate(distances):
+        if target <= travelled + segment_distance or idx == len(distances) - 1:
+            ratio = (target - travelled) / segment_distance
+            a, b = nodes[idx], nodes[idx + 1]
+            return {
+                "lon": round(a["lon"] + (b["lon"] - a["lon"]) * ratio, 6),
+                "lat": round(a["lat"] + (b["lat"] - a["lat"]) * ratio, 6),
+                "altitude_m": round(
+                    a["altitude_m"]
+                    + (b["altitude_m"] - a["altitude_m"]) * ratio,
+                    1,
+                ),
+            }, idx
+        travelled += segment_distance
+    node = nodes[-1]
+    return {
+        "lon": node["lon"],
+        "lat": node["lat"],
+        "altitude_m": node["altitude_m"],
+    }, len(nodes) - 2
+
+
+def _build_route_visualization(
+    mission: Dict[str, Any],
+    route_nodes: List[Dict[str, Any]],
+    duration_mins: float,
+    vehicle_type: str,
+    algorithm: str,
+    uav_id: str = "",
+    scenario: str = "normal",
+    risk_tags: Optional[List[str]] = None,
+) -> Dict[str, Any]:
+    risk_tags = risk_tags or []
+    total_distance = round(
+        sum(
+            _segment_distance_km(route_nodes[i], route_nodes[i + 1])
+            for i in range(max(len(route_nodes) - 1, 0))
+        ),
+        3,
+    )
+    route_segments = []
+    for idx in range(max(len(route_nodes) - 1, 0)):
+        start = route_nodes[idx]
+        end = route_nodes[idx + 1]
+        segment_distance = round(_segment_distance_km(start, end), 3)
+        route_segments.append(
+            {
+                "segment_id": f"SEG_{idx + 1:02d}",
+                "from": start["id"],
+                "to": end["id"],
+                "mode": "ground" if vehicle_type == "ground_vehicle" else "low_altitude_uav",
+                "distance_km": segment_distance,
+                "planned_altitude_m": start.get("altitude_m", 0.0),
+            }
+        )
+
+    telemetry_stream: List[Dict[str, Any]] = []
+    steps = 36
+    base_battery = 92.0
+    battery_drop = 5.0 + total_distance * (0.8 if vehicle_type != "ground_vehicle" else 0.25)
+    for step in range(steps + 1):
+        progress = step / steps
+        point, segment_idx = _interpolate_route(route_nodes, progress)
+        elapsed = round(duration_mins * progress, 2)
+        if progress < 0.08:
+            phase = "takeoff" if vehicle_type != "ground_vehicle" else "departing"
+        elif progress > 0.92:
+            phase = "landing" if vehicle_type != "ground_vehicle" else "arriving"
+        else:
+            phase = "cruise" if vehicle_type != "ground_vehicle" else "ground_transfer"
+        telemetry_stream.append(
+            {
+                "t_seconds": round(elapsed * 60, 1),
+                "elapsed_mins": elapsed,
+                "progress": round(progress, 3),
+                "lon": point["lon"],
+                "lat": point["lat"],
+                "altitude_m": point["altitude_m"],
+                "speed_kmh": 0
+                if step in {0, steps}
+                else (48 if vehicle_type == "ground_vehicle" else 58),
+                "battery_percent": round(base_battery - battery_drop * progress, 1),
+                "segment_id": route_segments[segment_idx]["segment_id"]
+                if route_segments
+                else "SEG_00",
+                "phase": phase,
+                "vehicle_type": vehicle_type,
+                "uav_id": uav_id or "GROUND-RESCUE-01",
+            }
+        )
+
+    return {
+        "operational_mode": vehicle_type,
+        "algorithm_trace_name": algorithm,
+        "route_polyline_geo": route_nodes,
+        "route_segments": route_segments,
+        "geo_bounds": _geo_bounds(route_nodes),
+        "telemetry_stream": telemetry_stream,
+        "live_state": telemetry_stream[0] if telemetry_stream else {},
+        "visual_overlays": {
+            "scenario": scenario,
+            "risk_tags": risk_tags,
+            "show_no_fly_zone": "temporary_airspace_restriction" in risk_tags,
+            "show_weather_cell": "adverse_weather" in risk_tags,
+        },
+    }
 
 
 def _recovered_uav() -> Dict[str, Any]:
@@ -125,12 +321,22 @@ def airspace_check(input_data: Dict[str, Any]) -> Dict[str, Any]:
     restricted = _scenario(input_data) == "airspace_restricted" or bool(
         constraints.get("restricted_airspace", False)
     )
+    pickup, dropoff = _point_pair(mission)
     return {
         "is_clear": not restricted,
         "no_fly_zones": [
             {
                 "zone_id": "NFZ-TEMP-01",
                 "reason": "temporary emergency control",
+                "center_lon": round(
+                    (float(pickup.get("lon", 0.0)) + float(dropoff.get("lon", 0.0))) / 2,
+                    6,
+                ),
+                "center_lat": round(
+                    (float(pickup.get("lat", 0.0)) + float(dropoff.get("lat", 0.0))) / 2,
+                    6,
+                ),
+                "radius_km": 2.8,
             }
         ]
         if restricted
@@ -152,6 +358,7 @@ def weather_check(input_data: Dict[str, Any]) -> Dict[str, Any]:
     max_wind = float(constraints.get("max_wind_speed_mps", 10.0))
     max_rain = float(constraints.get("max_precipitation_mm_h", 5.0))
     min_visibility = float(constraints.get("minimum_visibility_km", 2.0))
+    pickup, dropoff = _point_pair(mission)
     return {
         "wind_speed_mps": wind,
         "precipitation_mm_h": precipitation,
@@ -162,6 +369,20 @@ def weather_check(input_data: Dict[str, Any]) -> Dict[str, Any]:
             and visibility >= min_visibility
         ),
         "weather_window_mins": 45 if not bad_weather else 0,
+        "weather_cell": {
+            "center_lon": round(
+                (float(pickup.get("lon", 0.0)) + float(dropoff.get("lon", 0.0))) / 2
+                + 0.01,
+                6,
+            ),
+            "center_lat": round(
+                (float(pickup.get("lat", 0.0)) + float(dropoff.get("lat", 0.0))) / 2
+                + 0.008,
+                6,
+            ),
+            "radius_km": 3.5,
+            "level": "convective_rain" if bad_weather else "normal",
+        },
     }
 
 
@@ -178,12 +399,16 @@ def uav_status(input_data: Dict[str, Any]) -> Dict[str, Any]:
             "battery_percent": 92,
             "max_payload_kg": 5.0,
             "health": "ready",
+            "current_lon": 114.052,
+            "current_lat": 22.538,
         },
         {
             "uav_id": "UAV-MED-002",
             "battery_percent": 81,
             "max_payload_kg": 3.0,
             "health": "ready",
+            "current_lon": 114.060,
+            "current_lat": 22.535,
         },
     ]
     available = [
@@ -223,18 +448,18 @@ def compliance_route(
     if not uavs:
         return 409, "no available UAV for compliance route", {}
 
+    altitude = min(float(airspace.get("altitude_limit_m", 120)), 100.0)
+    route_nodes = _waypoint_nodes(mission, altitude)
     distance = _distance(mission, 1.06)
     wind = float(weather.get("wind_speed_mps", 0.0))
     cargo = float(mission.get("cargo_weight_kg", 0.0))
     duration = round(distance / 58.0 * 60.0 + 2.0, 2)
     energy = round(distance * (23.0 + cargo * 3.2) * (1 + wind / 45), 2)
     eta, time_window_met = _window_result(mission, duration)
-    return 200, "DRL-LLM compliance route generated", {
+    output = {
         "algorithm": "DRL-LLM",
         "uav_id": uavs[0]["uav_id"],
-        "waypoints_3d": _waypoints(
-            mission, min(float(airspace.get("altitude_limit_m", 120)), 100.0)
-        ),
+        "waypoints_3d": [[n["lon"], n["lat"], n["altitude_m"]] for n in route_nodes],
         "flight_distance_km": distance,
         "estimated_duration_mins": duration,
         "estimated_energy_kj": energy,
@@ -243,6 +468,18 @@ def compliance_route(
         "compliance_score": 0.97,
         "collision_risk": 0.03,
     }
+    output.update(
+        _build_route_visualization(
+            mission=mission,
+            route_nodes=route_nodes,
+            duration_mins=duration,
+            vehicle_type="uav",
+            algorithm="DRL-LLM compliance route",
+            uav_id=uavs[0]["uav_id"],
+            scenario=_scenario(input_data),
+        )
+    )
+    return 200, "DRL-LLM compliance route generated", output
 
 
 def weather_adaptive_dispatch(
@@ -257,23 +494,31 @@ def weather_adaptive_dispatch(
     unsafe_air = airspace and not airspace.get("is_clear", True)
     unsafe_weather = not weather.get("is_flyable", False)
     ground_mode = unsafe_air or unsafe_weather or not available_uavs
+    risk_tags = []
+    if unsafe_air:
+        risk_tags.append("temporary_airspace_restriction")
+    if unsafe_weather:
+        risk_tags.append("adverse_weather")
+
+    pickup, dropoff = _point_pair(mission)
+    altitude = 0.0 if ground_mode else 85.0
+    route_nodes = [
+        _point_node(pickup, altitude, "pickup", "pickup"),
+        _safe_transfer_node(pickup, dropoff, altitude),
+        _point_node(dropoff, altitude, "dropoff", "dropoff"),
+    ]
     distance = _distance(mission, 1.24 if ground_mode else 1.1)
     speed = 50.0 if ground_mode else 55.0
     delay = 5.0 if ground_mode else 2.0
     duration = round(distance / speed * 60.0 + delay, 2)
     energy = round(distance * (44.0 if ground_mode else 30.0), 2)
     eta, time_window_met = _window_result(mission, duration)
-    pickup, dropoff = _point_pair(mission)
-    return 200, "weather-adaptive air-ground plan generated", {
+    vehicle_type = "ground_vehicle" if ground_mode else "air_ground_coordination"
+    output = {
         "algorithm": "NN-AirGround",
-        "assigned_vehicle_type": "ground_vehicle"
-        if ground_mode
-        else "air_ground_coordination",
-        "adjusted_route": [
-            pickup.get("id", "pickup"),
-            "SAFE_TRANSFER_NODE",
-            dropoff.get("id", "dropoff"),
-        ],
+        "assigned_vehicle_type": vehicle_type,
+        "uav_id": available_uavs[0]["uav_id"] if available_uavs and not ground_mode else "GROUND-RESCUE-01",
+        "adjusted_route": [node["id"] for node in route_nodes],
         "weather_delay_mins": delay,
         "flight_distance_km": distance,
         "estimated_duration_mins": duration,
@@ -282,6 +527,19 @@ def weather_adaptive_dispatch(
         "time_window_met": time_window_met,
         "compliance_score": 0.99 if ground_mode else 0.91,
     }
+    output.update(
+        _build_route_visualization(
+            mission=mission,
+            route_nodes=route_nodes,
+            duration_mins=duration,
+            vehicle_type=vehicle_type,
+            algorithm="NN weather-adaptive air-ground dispatch",
+            uav_id=output["uav_id"],
+            scenario=_scenario(input_data),
+            risk_tags=risk_tags,
+        )
+    )
+    return 200, "weather-adaptive air-ground plan generated", output
 
 
 def medical_time_window_schedule(
@@ -292,6 +550,12 @@ def medical_time_window_schedule(
     if not uavs:
         return 409, "no available UAV for emergency medical mission", {}
 
+    route_nodes = _waypoint_nodes(
+        mission,
+        altitude_m=90.0,
+        lateral_offset_lon=-0.004,
+        lateral_offset_lat=0.006,
+    )
     distance = _distance(mission, 1.03)
     duration = round(distance / 65.0 * 60.0 + 1.5, 2)
     energy = round(
@@ -300,13 +564,14 @@ def medical_time_window_schedule(
     )
     eta, time_window_met = _window_result(mission, duration)
     pickup, dropoff = _point_pair(mission)
-    return 200, "TWA-MILP optimal schedule generated", {
+    output = {
         "algorithm": "TWA-MILP",
         "uav_id": uavs[0]["uav_id"],
         "dispatch_sequence": [
             pickup.get("id", "pickup"),
             dropoff.get("id", "dropoff"),
         ],
+        "waypoints_3d": [[n["lon"], n["lat"], n["altitude_m"]] for n in route_nodes],
         "flight_distance_km": distance,
         "estimated_duration_mins": duration,
         "estimated_energy_kj": energy,
@@ -316,6 +581,18 @@ def medical_time_window_schedule(
         "solver_status": "OPTIMAL",
         "compliance_score": 0.9,
     }
+    output.update(
+        _build_route_visualization(
+            mission=mission,
+            route_nodes=route_nodes,
+            duration_mins=duration,
+            vehicle_type="uav",
+            algorithm="TWA-MILP medical time-window schedule",
+            uav_id=uavs[0]["uav_id"],
+            scenario=_scenario(input_data),
+        )
+    )
+    return 200, "TWA-MILP optimal schedule generated", output
 
 
 def agentic_task_allocation(
@@ -327,12 +604,19 @@ def agentic_task_allocation(
         return 409, "no available UAV for CoordField allocation", {}
 
     pickup, dropoff = _point_pair(mission)
+    route_nodes = _waypoint_nodes(
+        mission,
+        altitude_m=78.0,
+        lateral_offset_lon=0.012,
+        lateral_offset_lat=0.004,
+    )
     distance = _distance(mission, 1.08)
     response_time = round(distance / 55.0 * 60.0 + 2.5, 2)
     energy = round(distance * 28.0, 2)
     eta, time_window_met = _window_result(mission, response_time)
-    return 200, "CoordField allocation generated", {
+    output = {
         "algorithm": "CoordField",
+        "uav_id": uavs[0]["uav_id"],
         "assignments": [
             {
                 "uav_id": uavs[0]["uav_id"],
@@ -351,6 +635,18 @@ def agentic_task_allocation(
         else 0,
         "compliance_score": 0.88,
     }
+    output.update(
+        _build_route_visualization(
+            mission=mission,
+            route_nodes=route_nodes,
+            duration_mins=response_time,
+            vehicle_type="uav",
+            algorithm="CoordField agentic task allocation",
+            uav_id=uavs[0]["uav_id"],
+            scenario=_scenario(input_data),
+        )
+    )
+    return 200, "CoordField allocation generated", output
 
 
 def risk_assessment(input_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -404,6 +700,8 @@ def risk_assessment(input_data: Dict[str, Any]) -> Dict[str, Any]:
         "recommended_subtask_id": recommended,
         "risk_factors": risk_factors,
         "evaluated_candidates": list(route_candidates),
+        "airspace_snapshot": airspace,
+        "weather_snapshot": weather,
     }
 
 
