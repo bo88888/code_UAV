@@ -6,6 +6,9 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from agents.invoker_agent import InvokerAgent
@@ -20,6 +23,24 @@ from scheduler.scheduler_center import IntelligentScheduler
 
 
 app = FastAPI(title="低空任务智能体调度中心 API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+BASE_DIR = Path(__file__).resolve().parent
+FRONTEND_DIR = BASE_DIR / "frontend"
+
+if FRONTEND_DIR.exists():
+    app.mount(
+        "/frontend",
+        StaticFiles(directory=str(FRONTEND_DIR)),
+        name="frontend",
+    )
 
 
 def build_registry() -> ToolRegistry:
@@ -63,6 +84,17 @@ async def execute_pipeline(
     context = await scheduler.run_async(context)
     context = PostprocessAgent().run(context)
     return ReportAgent().run(context)
+
+
+@app.get("/", include_in_schema=False)
+def web_console():
+    index_path = FRONTEND_DIR / "index.html"
+    if index_path.exists():
+        return FileResponse(index_path)
+    return {
+        "status": "frontend_not_found",
+        "message": "请确认 frontend/index.html 已存在。",
+    }
 
 
 @app.get("/health")
