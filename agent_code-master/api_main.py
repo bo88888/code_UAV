@@ -131,7 +131,7 @@ def llm_status():
         "enabled": client.enabled,
         "base_url_configured": bool(client.base_url),
         "workspace_configured": bool(client.workspace_slug),
-        "api_key_configured": bool(client.token),
+        "credential_configured": bool(client.token),
         "llm_analysis_enabled": LLM_ANALYSIS_ENABLED,
     }
 
@@ -166,6 +166,8 @@ async def submit_task(req: PipelineRequest):
     )
 
     response = dict(context.final_report)
+    response["llm_used"] = bool(context.metadata.get("llm_analysis"))
+    response["llm_analysis"] = context.metadata.get("llm_analysis", {})
     response["completed_at"] = datetime.now().astimezone().isoformat(
         timespec="seconds"
     )
