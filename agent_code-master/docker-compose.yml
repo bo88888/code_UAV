@@ -28,9 +28,13 @@ services:
       - 0.0.0.0
       - --port
       - "9000"
+    env_file:
+      - .env
     environment:
       PYTHONUNBUFFERED: "1"
       LOW_ALTITUDE_SERVICE_URL: "http://low-altitude-service:8888/infer"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "9000:9000"
     volumes:
