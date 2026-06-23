@@ -12,11 +12,18 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from agents.invoker_agent import InvokerAgent
+from agents.llm_analysis_agent import LLMAnalysisAgent
 from agents.orchestrator_agent import OrchestratorAgent
 from agents.postprocess_agent import PostprocessAgent
 from agents.replan_agent import ReplanDecisionAgent
 from agents.report_agent import ReportAgent
-from config import HTTP_TIMEOUT, REQUIREMENT_XML_PATH, TOOL_SERVICE_MAP
+from clients.anythingllm_client import AnythingLLMClient
+from config import (
+    HTTP_TIMEOUT,
+    LLM_ANALYSIS_ENABLED,
+    REQUIREMENT_XML_PATH,
+    TOOL_SERVICE_MAP,
+)
 from core.schema import ExecutionContext, TaskRequest
 from mcp.registry import ToolRegistry
 from scheduler.scheduler_center import IntelligentScheduler
@@ -63,9 +70,17 @@ class PipelineRequest(BaseModel):
             "format": "json",
             "need_risk_assessment": True,
             "need_orchestration_trace": True,
+            "need_llm_analysis": True,
         }
     )
     simulation_scenario: str = "normal"
+
+
+class LLMChatRequest(BaseModel):
+    message: str
+    mode: str = "chat"
+    session_id: Optional[str] = None
+    reset: bool = False
 
 
 async def execute_pipeline(
@@ -83,7 +98,14 @@ async def execute_pipeline(
     scheduler = IntelligentScheduler(invoker, ReplanDecisionAgent())
     context = await scheduler.run_async(context)
     context = PostprocessAgent().run(context)
-    return ReportAgent().run(context)
+    context = ReportAgent().run(context)
+
+    need_llm = bool(request.output_requirements.get("need_llm_analysis", True))
+    if LLM_ANALYSIS_ENABLED and need_llm:
+        context = await LLMAnalysisAgent().run_async(context)
+        context = ReportAgent().run(context)
+
+    return context
 
 
 @app.get("/", include_in_schema=False)
@@ -100,6 +122,29 @@ def web_console():
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "low-altitude-orchestrator"}
+
+
+@app.get("/api/v1/llm/status")
+def llm_status():
+    client = AnythingLLMClient()
+    return {
+        "enabled": client.enabled,
+        "base_url_configured": bool(client.base_url),
+        "workspace_configured": bool(client.workspace_slug),
+        "api_key_configured": bool(client.token),
+        "llm_analysis_enabled": LLM_ANALYSIS_ENABLED,
+    }
+
+
+@app.post("/api/v1/llm/chat")
+async def llm_chat(req: LLMChatRequest):
+    client = AnythingLLMClient()
+    return await client.chat(
+        message=req.message,
+        mode=req.mode,
+        session_id=req.session_id or "frontend-llm-panel",
+        reset=req.reset,
+    )
 
 
 @app.post("/api/v1/task/submit")
