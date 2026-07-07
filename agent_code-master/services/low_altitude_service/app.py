@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from fastapi import FastAPI
 
-from services.low_altitude_service.algorithms import execute_tool
+from services.low_altitude_service.enhanced_algorithms import execute_tool
 
 
 app = FastAPI(title="低空物流多算法服务")
