@@ -111,6 +111,7 @@ async def execute_pipeline(
 @app.get("/", include_in_schema=False)
 def web_console():
     for filename in (
+        "index_offline_map.html",
         "index_leaflet_map.html",
         "index_realtime_map_v2.html",
         "index_realtime_map.html",
@@ -123,7 +124,7 @@ def web_console():
             return FileResponse(index_path)
     return {
         "status": "frontend_not_found",
-        "message": "请确认 frontend/index_leaflet_map.html 或 frontend/index_realtime_map_v2.html 已存在。",
+        "message": "请确认 frontend/index_offline_map.html 或 frontend/index_leaflet_map.html 已存在。",
     }
 
 
