@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "name": "handan_medical_delivery_demo_basemap",
+  "metadata": {
+    "description": "Offline vector basemap for low-altitude medical delivery demo. It is a schematic local layer for offline visualization and can be replaced by OSM-derived GeoJSON/MBTiles.",
+    "center": [114.10, 22.59]
+  },
+  "features": [
+    {"type":"Feature","properties":{"layer":"district","name":"城市医疗服务区A","class":"district"},"geometry":{"type":"Polygon","coordinates":[[[114.028,22.518],[114.092,22.518],[114.102,22.586],[114.036,22.602],[114.028,22.518]]]}},
+    {"type":"Feature","properties":{"layer":"district","name":"城市医疗服务区B","class":"district"},"geometry":{"type":"Polygon","coordinates":[[[114.092,22.518],[114.178,22.522],[114.176,22.672],[114.106,22.654],[114.102,22.586],[114.092,22.518]]]}},
+    {"type":"Feature","properties":{"layer":"river","name":"城市水系/隔离带","class":"river"},"geometry":{"type":"LineString","coordinates":[[114.032,22.654],[114.061,22.628],[114.092,22.614],[114.125,22.592],[114.158,22.555],[114.176,22.528]]}},
+    {"type":"Feature","properties":{"layer":"road","name":"主干路-医疗通道1","class":"primary"},"geometry":{"type":"LineString","coordinates":[[114.038,22.542],[114.072,22.568],[114.112,22.604],[114.158,22.642]]}},
+    {"type":"Feature","properties":{"layer":"road","name":"主干路-医疗通道2","class":"primary"},"geometry":{"type":"LineString","coordinates":[[114.045,22.635],[114.083,22.606],[114.122,22.574],[114.164,22.548]]}},
+    {"type":"Feature","properties":{"layer":"road","name":"补能节点连接路","class":"secondary"},"geometry":{"type":"LineString","coordinates":[[114.056,22.548],[114.076,22.612],[114.103,22.650]]}},
+    {"type":"Feature","properties":{"layer":"road","name":"县域联络路","class":"secondary"},"geometry":{"type":"LineString","coordinates":[[114.138,22.524],[114.132,22.574],[114.148,22.625],[114.170,22.666]]}},
+    {"type":"Feature","properties":{"layer":"building","name":"高层建筑组-示范A","class":"building"},"geometry":{"type":"Polygon","coordinates":[[[114.080,22.575],[114.091,22.575],[114.092,22.586],[114.080,22.589],[114.080,22.575]]]}},
+    {"type":"Feature","properties":{"layer":"building","name":"高层建筑组-示范B","class":"building"},"geometry":{"type":"Polygon","coordinates":[[[114.092,22.585],[114.104,22.584],[114.105,22.596],[114.094,22.599],[114.092,22.585]]]}},
+    {"type":"Feature","properties":{"layer":"building","name":"高层建筑组-示范C","class":"building"},"geometry":{"type":"Polygon","coordinates":[[[114.068,22.558],[114.077,22.558],[114.079,22.568],[114.069,22.572],[114.068,22.558]]]}},
+    {"type":"Feature","properties":{"layer":"sensitive","name":"学校/人口密集敏感区","class":"sensitive"},"geometry":{"type":"Polygon","coordinates":[[[114.124,22.594],[114.139,22.596],[114.143,22.608],[114.133,22.618],[114.119,22.612],[114.124,22.594]]]}},
+    {"type":"Feature","properties":{"layer":"restricted","name":"临时管控区示范","class":"restricted"},"geometry":{"type":"Polygon","coordinates":[[[114.142,22.548],[114.162,22.550],[114.166,22.568],[114.149,22.578],[114.135,22.566],[114.142,22.548]]]}},
+    {"type":"Feature","properties":{"layer":"powerline","name":"高压线走廊","class":"powerline"},"geometry":{"type":"LineString","coordinates":[[114.071,22.603],[114.102,22.609],[114.138,22.614]]}},
+    {"type":"Feature","properties":{"layer":"medical","name":"邯郸中心血站/血液保障点","class":"blood_station","role":"depot"},"geometry":{"type":"Point","coordinates":[114.050,22.540]}},
+    {"type":"Feature","properties":{"layer":"medical","name":"中心医院/急救接收点","class":"hospital","role":"hospital"},"geometry":{"type":"Point","coordinates":[114.150,22.640]}},
+    {"type":"Feature","properties":{"layer":"medical","name":"县级检验中心","class":"lab","role":"lab"},"geometry":{"type":"Point","coordinates":[114.118,22.578]}},
+    {"type":"Feature","properties":{"layer":"medical","name":"乡镇卫生院示范点","class":"clinic","role":"clinic"},"geometry":{"type":"Point","coordinates":[114.072,22.628]}},
+    {"type":"Feature","properties":{"layer":"dock","name":"无人机机巢/补能点A","class":"dock"},"geometry":{"type":"Point","coordinates":[114.074,22.566]}},
+    {"type":"Feature","properties":{"layer":"dock","name":"无人机机巢/补能点B","class":"dock"},"geometry":{"type":"Point","coordinates":[114.131,22.620]}}
+  ]
+}
