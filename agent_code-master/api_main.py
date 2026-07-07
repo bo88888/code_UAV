@@ -110,13 +110,18 @@ async def execute_pipeline(
 
 @app.get("/", include_in_schema=False)
 def web_console():
-    for filename in ("index_enhanced.html", "index_llm.html", "index.html"):
+    for filename in (
+        "index_realtime_map.html",
+        "index_enhanced.html",
+        "index_llm.html",
+        "index.html",
+    ):
         index_path = FRONTEND_DIR / filename
         if index_path.exists():
             return FileResponse(index_path)
     return {
         "status": "frontend_not_found",
-        "message": "请确认 frontend/index_enhanced.html 或 frontend/index_llm.html 已存在。",
+        "message": "请确认 frontend/index_realtime_map.html 或 frontend/index_enhanced.html 已存在。",
     }
 
 
