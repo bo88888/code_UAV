@@ -13,62 +13,28 @@
   <div class="titleRow">
     <div>
       <h1>低空医疗配送任务调度看板</h1>
-      <div class="sub">围绕血站、医院、检验中心、卫生院等医疗配送任务展示：任务输入、路径重规划、动态障碍、UAV 航迹、风险评估和时间窗结果。底图只是任务态势的承载层，不再作为页面主标题。</div>
+      <div class="sub">围绕血站、医院、检验中心、卫生院等医疗配送任务展示：任务输入、路径重规划、动态障碍、UAV 航迹、风险评估、时间窗结果和多智能体调度过程。底图只是任务态势的承载层。</div>
     </div>
-    <div class="status">
-      <span class="tag green">医疗任务优先</span>
-      <span class="tag cyan">路径重规划</span>
-      <span class="tag purple">多 UAV 协同</span>
-      <span class="tag yellow">支持离线</span>
-    </div>
+    <div class="status"><span class="tag green">医疗任务优先</span><span class="tag cyan">多智能体调度</span><span class="tag purple">多 UAV 协同</span><span class="tag yellow">支持离线</span></div>
   </div>
   <div class="modeBar">
     <button id="modeOffline" class="modeBtn active" onclick="switchMode('offline')">医疗配送任务态势图｜本地离线</button>
-    <button id="modeLeaflet" class="modeBtn" onclick="switchMode('leaflet')">医疗配送任务态势图｜Leaflet 真实底图</button>
+    <button id="modeLeaflet" class="modeBtn" onclick="switchMode('leaflet')">多智能体调度图｜Leaflet 真实底图</button>
     <button id="modeEngineering" class="modeBtn" onclick="switchMode('engineering')">工程离线瓦片方案｜PMTiles / MBTiles</button>
   </div>
 </header>
 <main class="shell">
-  <div class="notice">
-    <div>
-      <b id="modeTitle">当前：本地离线任务态势图</b>
-      <div id="modeDesc" class="noteSmall">不依赖外网，直接使用本地 GeoJSON 展示医疗点位、建筑、风险区、动态障碍和 UAV 航迹。适合内网演示和答辩。</div>
-    </div>
-    <div class="links">
-      <a id="openLink" class="linkBtn" target="_blank" href="/frontend/index_offline_map.html">新窗口打开当前模式</a>
-      <a class="linkBtn" target="_blank" href="/frontend/index_leaflet_map.html">Leaflet 版本</a>
-      <a class="linkBtn" target="_blank" href="/frontend/index_offline_map.html">离线版本</a>
-    </div>
-  </div>
-  <div id="frameWrap" class="frameWrap">
-    <iframe id="taskFrame" src="/frontend/index_offline_map.html"></iframe>
-  </div>
+  <div class="notice"><div><b id="modeTitle">当前：本地离线医疗配送任务态势图</b><div id="modeDesc" class="noteSmall">不依赖外网，直接使用本地 GeoJSON 展示医疗点位、建筑、风险区、动态障碍和 UAV 航迹。适合内网演示和答辩。</div></div><div class="links"><a id="openLink" class="linkBtn" target="_blank" href="/frontend/index_offline_map.html">新窗口打开当前模式</a><a class="linkBtn" target="_blank" href="/frontend/index_multi_agent_dispatch.html">多智能体版</a><a class="linkBtn" target="_blank" href="/frontend/index_offline_map.html">离线版本</a></div></div>
+  <div id="frameWrap" class="frameWrap"><iframe id="taskFrame" src="/frontend/index_offline_map.html"></iframe></div>
 </main>
 <script>
 const modes={
   offline:{btn:'modeOffline',url:'/frontend/index_offline_map.html',title:'当前：本地离线医疗配送任务态势图',desc:'不依赖外网，直接使用本地 GeoJSON 展示医疗点位、建筑、风险区、动态障碍和 UAV 航迹。适合内网演示和答辩。'},
-  leaflet:{btn:'modeLeaflet',url:'/frontend/index_leaflet_map.html',title:'当前：Leaflet 真实底图医疗配送任务态势图',desc:'使用 Leaflet 的真实地图图层能力展示医疗点位、路线和障碍编辑。若内网不能访问 CDN/在线瓦片，底图可能不可用。后续可把 Leaflet 和瓦片服务本地化。'},
+  leaflet:{btn:'modeLeaflet',url:'/frontend/index_multi_agent_dispatch.html',title:'当前：多智能体医疗配送调度图',desc:'突出任务智能体、路径智能体、风险智能体、CoordField 多 UAV 分配、主运输/护航/备援无人机协同。障碍物采用建筑块体、高压线塔架、敏感区多边形、受限区围栏表达。'},
   engineering:{btn:'modeEngineering',url:'/frontend/index_offline_map.html',title:'工程建议：PMTiles / MBTiles 离线瓦片交付',desc:'正式项目建议使用本地 PMTiles 单文件或 TileServer GL + MBTiles，前端用 MapLibre/Leaflet 读取本地瓦片；当前仍打开本地离线任务态势图作为无外网兜底。'}
 };
-function switchMode(name){
-  Object.values(modes).forEach(m=>document.getElementById(m.btn).classList.remove('active'));
-  const m=modes[name];
-  document.getElementById(m.btn).classList.add('active');
-  document.getElementById('modeTitle').textContent=m.title;
-  document.getElementById('modeDesc').textContent=m.desc;
-  document.getElementById('openLink').href=m.url;
-  document.getElementById('taskFrame').src=m.url;
-}
-// Hide old page headers inside same-origin iframes so the outer title stays task-focused.
-document.getElementById('taskFrame').addEventListener('load',()=>{
-  try{
-    const doc=document.getElementById('taskFrame').contentDocument;
-    const header=doc.querySelector('header');
-    if(header) header.style.display='none';
-    const main=doc.querySelector('main');
-    if(main){main.style.paddingTop='18px';}
-  }catch(e){}
-});
+function switchMode(name){Object.values(modes).forEach(m=>document.getElementById(m.btn).classList.remove('active'));const m=modes[name];document.getElementById(m.btn).classList.add('active');document.getElementById('modeTitle').textContent=m.title;document.getElementById('modeDesc').textContent=m.desc;document.getElementById('openLink').href=m.url;document.getElementById('taskFrame').src=m.url;}
+document.getElementById('taskFrame').addEventListener('load',()=>{try{const doc=document.getElementById('taskFrame').contentDocument;const header=doc.querySelector('header');if(header)header.style.display='none';const main=doc.querySelector('main');if(main)main.style.paddingTop='18px';}catch(e){}});
 </script>
 </body>
 </html>
