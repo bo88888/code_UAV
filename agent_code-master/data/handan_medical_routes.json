@@ -1,0 +1,113 @@
+{
+  "version": "2026.07",
+  "routes": [
+    {
+      "route_id": "L1",
+      "name": "中心血站—中心医院西区",
+      "route_type": "urban_loop",
+      "daily_frequency": "平峰每小时1班，急诊随叫随飞",
+      "cargo_types": ["blood", "blood_product", "emergency_medicine"],
+      "cruise_altitude_m": 90,
+      "corridor_width_m": 120,
+      "airspace_rule": "airport_clearance_limited_height",
+      "segments": [
+        {"segment_id": "L1-S1", "from_node": "HD_BLOOD_CENTER", "to_node": "HD_CENTER_WEST", "distance_km": 3.7, "max_altitude_m": 100, "relay_required": false}
+      ]
+    },
+    {
+      "route_id": "L2",
+      "name": "中心医院西区—中心医院东区",
+      "route_type": "urban_loop",
+      "daily_frequency": "每日固定8班，高峰按需加密",
+      "cargo_types": ["blood", "sample", "medicine", "medical_supply"],
+      "cruise_altitude_m": 90,
+      "corridor_width_m": 120,
+      "airspace_rule": "west_section_limited_height",
+      "segments": [
+        {"segment_id": "L2-S1", "from_node": "HD_CENTER_WEST", "to_node": "HD_CENTER_EAST", "distance_km": 6.0, "max_altitude_m": 105, "relay_required": false}
+      ]
+    },
+    {
+      "route_id": "L3",
+      "name": "第一医院—河北工程大学附属医院",
+      "route_type": "urban_loop",
+      "daily_frequency": "每日固定6班",
+      "cargo_types": ["sample", "pathology_sample", "medicine", "medical_supply"],
+      "cruise_altitude_m": 85,
+      "corridor_width_m": 100,
+      "airspace_rule": "controlled_corridor",
+      "segments": [
+        {"segment_id": "L3-S1", "from_node": "HD_FIRST_HOSPITAL", "to_node": "HEU_AFFILIATED_HOSPITAL", "distance_km": 1.1, "max_altitude_m": 100, "relay_required": false}
+      ]
+    },
+    {
+      "route_id": "L4",
+      "name": "河北工程大学附属医院—中心医院东区",
+      "route_type": "urban_loop",
+      "daily_frequency": "每日固定6班",
+      "cargo_types": ["sample", "pathology_sample", "medicine", "medical_supply"],
+      "cruise_altitude_m": 90,
+      "corridor_width_m": 110,
+      "airspace_rule": "controlled_corridor",
+      "segments": [
+        {"segment_id": "L4-S1", "from_node": "HEU_AFFILIATED_HOSPITAL", "to_node": "HD_CENTER_EAST", "distance_km": 3.5, "max_altitude_m": 110, "relay_required": false}
+      ]
+    },
+    {
+      "route_id": "L5",
+      "name": "第一医院—复兴区人民医院",
+      "route_type": "urban_loop",
+      "daily_frequency": "每日固定4班",
+      "cargo_types": ["blood", "medicine", "trauma_supply", "medical_supply"],
+      "cruise_altitude_m": 90,
+      "corridor_width_m": 120,
+      "airspace_rule": "controlled_corridor",
+      "segments": [
+        {"segment_id": "L5-S1", "from_node": "HD_FIRST_HOSPITAL", "to_node": "FUXING_HOSPITAL", "distance_km": 4.5, "max_altitude_m": 105, "relay_required": false}
+      ]
+    },
+    {
+      "route_id": "L6",
+      "name": "武安近郊干线",
+      "route_type": "county_trunk",
+      "daily_frequency": "每日2班，应急24小时待命",
+      "cargo_types": ["blood", "emergency_medicine", "trauma_supply", "aed", "medical_supply"],
+      "cruise_altitude_m": 110,
+      "corridor_width_m": 160,
+      "airspace_rule": "urban_limited_then_county_normal",
+      "segments": [
+        {"segment_id": "L6-S1", "from_node": "HD_FIRST_HOSPITAL", "to_node": "FUXING_HOSPITAL", "distance_km": 4.5, "max_altitude_m": 105, "relay_required": false},
+        {"segment_id": "L6-S2", "from_node": "FUXING_HOSPITAL", "to_node": "TAOYI_RELAY", "distance_km": 13.4, "max_altitude_m": 120, "relay_required": true},
+        {"segment_id": "L6-S3", "from_node": "TAOYI_RELAY", "to_node": "WUAN_HOSPITAL", "distance_km": 14.6, "max_altitude_m": 120, "relay_required": true}
+      ]
+    },
+    {
+      "route_id": "L7",
+      "name": "永年近郊干线",
+      "route_type": "county_trunk",
+      "daily_frequency": "每日固定3班",
+      "cargo_types": ["sample", "medicine", "medical_supply", "blood"],
+      "cruise_altitude_m": 105,
+      "corridor_width_m": 150,
+      "airspace_rule": "south_limited_north_normal",
+      "segments": [
+        {"segment_id": "L7-S1", "from_node": "HD_FIRST_HOSPITAL", "to_node": "HUANGLIANGMENG_RELAY", "distance_km": 8.3, "max_altitude_m": 105, "relay_required": true},
+        {"segment_id": "L7-S2", "from_node": "HUANGLIANGMENG_RELAY", "to_node": "YONGNIAN_HOSPITAL", "distance_km": 11.2, "max_altitude_m": 120, "relay_required": true}
+      ]
+    },
+    {
+      "route_id": "L8",
+      "name": "肥乡近郊干线",
+      "route_type": "county_trunk",
+      "daily_frequency": "每日固定3班",
+      "cargo_types": ["sample", "pathology_sample", "medicine", "medical_supply"],
+      "cruise_altitude_m": 105,
+      "corridor_width_m": 150,
+      "airspace_rule": "urban_limited_then_county_normal",
+      "segments": [
+        {"segment_id": "L8-S1", "from_node": "HD_FIRST_HOSPITAL", "to_node": "DALEBAO_RELAY", "distance_km": 13.0, "max_altitude_m": 110, "relay_required": true},
+        {"segment_id": "L8-S2", "from_node": "DALEBAO_RELAY", "to_node": "FEIXIANG_HOSPITAL", "distance_km": 14.6, "max_altitude_m": 120, "relay_required": true}
+      ]
+    }
+  ]
+}
