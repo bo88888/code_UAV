@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>低空医疗配送多智能体调度平台 V3</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="/frontend/assets/dispatch_v3.css" />
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+#map{width:100%;height:100%;background:#08111f}.agentOverlay{position:absolute;right:14px;top:68px;z-index:500;width:248px;background:rgba(2,6,23,.88);border:1px solid #334155;border-radius:16px;padding:10px}.agentOverlay h4{margin:0 0 8px;font-size:13px}.leaflet-container{font-family:inherit}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0f172a;color:#e8f1ff;border:1px solid #334155}.leaflet-control-layers{background:rgba(15,23,42,.94)!important;color:#e8f1ff!important;border:1px solid #334155!important}.leaflet-control-layers-expanded{padding:10px!important}.uav-shell{position:relative;width:54px;height:54px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.45))}.uav-shell svg{width:42px;height:42px;position:absolute;left:6px;top:0}.uav-label{position:absolute;left:50%;top:39px;transform:translateX(-50%);white-space:nowrap;border-radius:8px;padding:2px 6px;background:rgba(2,6,23,.88);border:1px solid currentColor;font-size:9px;font-weight:900}.medical-icon,.relay-icon,.agent-icon,.weather-icon,.forbid-icon{display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 7px 18px rgba(0,0,0,.38);font-weight:900}.medical-icon{width:30px;height:30px;border-radius:8px}.relay-icon{width:27px;height:27px;border-radius:50%;background:#60a5fa;color:#06101d}.agent-icon{width:25px;height:25px;border-radius:8px;background:#a78bfa}.weather-icon{width:34px;height:28px;border-radius:15px;background:#fb923c}.forbid-icon{width:30px;height:30px;border-radius:50%;background:#ef4444}.building-icon{width:50px;height:38px;position:relative}.building-icon span{position:absolute;bottom:0;width:14px;border:1px solid rgba(255,255,255,.75);background:linear-gradient(180deg,#94a3b8,#475569)}.building-icon span:nth-child(1){left:0;height:25px}.building-icon span:nth-child(2){left:17px;height:38px}.building-icon span:nth-child(3){left:34px;height:30px}.fleetStatus{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.fleetCard{border:1px solid #26364f;background:#08111f;border-radius:12px;padding:8px}.fleetCard b{display:block;font-size:11px}.fleetCard small{display:block;color:var(--muted);margin-top:3px}.roleLine{display:flex;align-items:center;gap:6px}.roleDot{width:9px;height:9px;border-radius:50%}
+</style>
+</head>
+<body>
+<header>
+  <h1>低空医疗配送多智能体调度平台</h1>
+  <div class="sub">展示任务解析、环境感知、三维航路、多 UAV 分配、风险评估和派发执行全过程。三架无人机分别承担主运输、护航中继和备援接管任务，并以独立航迹和独立动画运行。</div>
+</header>
+<main class="layout">
+<section class="card">
+  <div class="hd">医疗配送任务输入</div>
+  <div class="bd">
+    <div class="row"><div class="f"><label>任务 ID</label><input id="taskId" placeholder="留空自动生成" /></div><div class="f"><label>XML 路径</label><input id="xmlPath" value="data/requirement.xml" /></div></div>
+    <div class="row"><div class="f"><label>任务类型</label><select id="missionType"><option value="emergency_medical">应急医疗配送</option><option value="emergency_supply">应急物资配送</option></select></div><div class="f"><label>货物重量 kg</label><input id="cargoWeight" type="number" value="2.5" step="0.1" /></div></div>
+    <div class="row"><div class="f"><label>优先级 1-5</label><input id="priority" type="number" value="4" /></div><div class="f"><label>仿真场景</label><select id="scenario"><option value="normal">正常任务</option><option value="bad_weather">恶劣天气</option><option value="airspace_restricted">临时受限空域</option><option value="dock_congested">机巢拥堵</option></select></div></div>
+    <div class="sec">医疗点位</div>
+    <div class="row"><div class="f"><label>起点名称</label><input id="pickupId" value="Hosp_A" /></div><div class="f"><label>准备时间</label><input id="pickupReady" value="2026-06-11T10:00:00" /></div></div>
+    <div class="row"><div class="f"><label>起点经度</label><input id="pickupLon" type="number" step="0.000001" value="114.05" /></div><div class="f"><label>起点纬度</label><input id="pickupLat" type="number" step="0.000001" value="22.54" /></div></div>
+    <div class="row"><div class="f"><label>终点名称</label><input id="dropoffId" value="Clinic_B" /></div><div class="f"><label>截止时间</label><input id="dropoffDeadline" value="2026-06-11T10:30:00" /></div></div>
+    <div class="row"><div class="f"><label>终点经度</label><input id="dropoffLon" type="number" step="0.000001" value="114.15" /></div><div class="f"><label>终点纬度</label><input id="dropoffLat" type="number" step="0.000001" value="22.64" /></div></div>
+    <div class="sec">动态障碍编辑</div>
+    <div class="row"><div class="f"><label>障碍类型</label><select id="obsType"><option value="building">高层建筑群</option><option value="powerline">高压线走廊</option><option value="sensitive">人口密集敏感区</option><option value="restricted">临时受限区域</option><option value="weather">恶劣天气单元</option></select></div><div class="f"><label>影响半径 km</label><input id="obsRadius" type="number" value="0.45" step="0.1" /></div></div>
+    <label class="switch"><input id="autoReplan" type="checkbox" checked /> 编辑障碍后自动重规划</label>
+    <label class="switch"><input id="fromCurrent" type="checkbox" checked /> 从当前主运输机位置继续规划</label>
+    <div class="btns"><button id="submitBtn" class="primary">启动多智能体调度</button><button id="placeBtn" class="warn">开启地图放障碍</button><button id="clearBtn" class="ghost">清空动态障碍</button><button id="weatherBtn" class="ghost">恶劣天气演示</button></div>
+    <div class="hint" style="margin-top:10px">障碍编辑采用唯一编号、事件阻断和防抖重规划。建筑、高压线、敏感区、受限区和天气单元使用不同几何形态，不再统一显示为圆圈。</div>
+    <div id="err" class="toast"></div>
+  </div>
+</section>
+<section>
+  <div class="dash">
+    <div class="card">
+      <div class="hd">多智能体任务态势：协同 UAV / 动态障碍 / 航路 / 接力节点</div>
+      <div class="bd">
+        <div class="mapWrap">
+          <div class="badges"><span id="src" class="tag green">LIVE_SIMULATION</span><span class="tag cyan">三机协同</span><span id="algo" class="tag orange">算法：--</span><span id="risk" class="tag purple">风险：--</span><span id="placeState" class="tag yellow">放障碍：OFF</span></div>
+          <div class="agentOverlay"><h4>智能体协同链路</h4><div id="agentChain" class="agentChain"></div></div>
+          <div id="map"></div>
+          <div class="legend"><div class="lg"><span class="sw" style="background:#34d399"></span>血站/起点</div><div class="lg"><span class="sw" style="background:#fb7185"></span>医院/终点</div><div class="lg"><span class="sw" style="background:#22d3ee"></span>主运输机</div><div class="lg"><span class="sw" style="background:#60a5fa"></span>护航中继机</div><div class="lg"><span class="sw" style="background:#facc15"></span>备援无人机</div><div class="lg"><span class="sw" style="background:#64748b"></span>建筑块体</div><div class="lg"><span class="sw" style="background:#a78bfa"></span>敏感区</div><div class="lg"><span class="sw" style="background:#ef4444"></span>受限区</div></div>
+        </div>
+        <div id="fleetStatus" class="fleetStatus"></div>
+        <div class="metrics"><div class="metric"><small>当前时刻</small><b id="timeNow">--</b></div><div class="metric"><small>主机阶段</small><b id="phase">--</b></div><div class="metric"><small>主机坐标</small><b id="pos">--</b></div><div class="metric"><small>主机高度</small><b id="alt">--</b></div><div class="metric"><small>主机速度</small><b id="speed">--</b></div><div class="metric"><small>在线 UAV</small><b id="uavCount">0</b></div></div>
+        <div class="progress"><span id="progress"></span></div>
+        <div class="btns"><button id="playBtn" class="primary">继续飞行</button><button id="pauseBtn" class="ghost">暂停</button><button id="restartBtn" class="ghost">从头回放</button><button id="replanBtn" class="ghost">从当前位置重规划</button></div>
+      </div>
+    </div>
+    <div class="side">
+      <div class="card"><div class="hd">推荐方案核心指标</div><div class="bd"><div id="overview" class="miniGrid"></div></div></div>
+      <div class="card"><div class="hd">UAV 分配矩阵</div><div class="bd"><div id="uavMatrix">等待调度。</div></div></div>
+      <div class="card"><div class="hd">协同时间轴</div><div class="bd"><div id="dispatchTimeline" class="timeline">等待调度。</div></div></div>
+    </div>
+  </div>
+  <div class="panels"><div class="panel"><h3>动态障碍列表</h3><div id="obsPanel">暂无障碍。</div></div><div class="panel"><h3>路径选择 / 重规划原因</h3><div id="routeSelection">等待调度。</div></div><div class="panel"><h3>A* 避障解释</h3><div id="avoidance">等待调度。</div></div><div class="panel"><h3>原始 JSON</h3><div id="raw" class="json">等待调度结果。</div></div></div>
+</section>
+</main>
+<script src="/frontend/assets/multi_agent_dispatch_v3.js"></script>
+</body>
+</html>
