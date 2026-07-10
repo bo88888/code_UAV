@@ -17,6 +17,7 @@ from agents.orchestrator_agent import OrchestratorAgent
 from agents.postprocess_agent import PostprocessAgent
 from agents.replan_agent import ReplanDecisionAgent
 from agents.report_agent import ReportAgent
+from api_medical import router as medical_router
 from clients.anythingllm_client import AnythingLLMClient
 from config import (
     HTTP_TIMEOUT,
@@ -38,6 +39,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(medical_router)
 
 BASE_DIR = Path(__file__).resolve().parent
 FRONTEND_DIR = BASE_DIR / "frontend"
@@ -131,7 +133,11 @@ def web_console():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "low-altitude-orchestrator"}
+    return {
+        "status": "ok",
+        "service": "low-altitude-orchestrator",
+        "medical_dispatch_api": "/api/v1/medical",
+    }
 
 
 @app.get("/api/v1/llm/status")
