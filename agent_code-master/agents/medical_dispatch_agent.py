@@ -65,5 +65,7 @@ class MedicalDispatchAgent:
         }
 
     def _sort_key(self, task: DispatchTask) -> tuple:
-        deadline = parse_datetime(task.deadline, datetime.max.astimezone()) if task.deadline else datetime.max.astimezone()
+        timezone = datetime.now().astimezone().tzinfo
+        far_future = datetime.max.replace(tzinfo=timezone)
+        deadline = parse_datetime(task.deadline, far_future) if task.deadline else far_future
         return (-self.priority_score(task), deadline, task.requested_at or task.task_id)
