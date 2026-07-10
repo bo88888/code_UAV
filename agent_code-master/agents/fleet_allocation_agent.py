@@ -76,10 +76,11 @@ class FleetAllocationAgent:
         excluded_uav_ids: List[str],
         origin_node_id: str,
         start_time: datetime,
-        reserve_until: datetime,
+        reserve_until: Optional[datetime] = None,
     ) -> Optional[dict]:
         if task.priority < 4 and not task.emergency:
             return None
+        reserve_until = reserve_until or (start_time + timedelta(minutes=60))
         candidates = []
         for uav in fleet.values():
             if uav.uav_id in excluded_uav_ids:
