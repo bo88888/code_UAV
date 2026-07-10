@@ -1,0 +1,56 @@
+name: Medical Dispatch Tests
+
+on:
+  push:
+    branches:
+      - codex/enhance-medical-algorithms
+  pull_request:
+    paths:
+      - "agent_code-master/core/medical_models.py"
+      - "agent_code-master/agents/**"
+      - "agent_code-master/scheduler/medical_dispatch_center.py"
+      - "agent_code-master/services/medical_dispatch_*.py"
+      - "agent_code-master/api_medical.py"
+      - "agent_code-master/data/handan_medical_*.json"
+      - "agent_code-master/data/uav_fleet.json"
+      - "agent_code-master/tests/test_medical_dispatch.py"
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        working-directory: agent_code-master
+        run: python -m pip install -r requirements.txt
+
+      - name: Compile medical dispatch modules
+        working-directory: agent_code-master
+        run: |
+          python -m py_compile \
+            api_medical.py \
+            core/medical_models.py \
+            agents/network_route_agent.py \
+            agents/medical_dispatch_agent.py \
+            agents/fleet_allocation_agent.py \
+            agents/node_resource_agent.py \
+            agents/relay_operation_agent.py \
+            agents/cold_chain_agent.py \
+            agents/airspace_approval_agent.py \
+            agents/flight_monitor_agent.py \
+            agents/emergency_response_agent.py \
+            agents/handover_agent.py \
+            scheduler/medical_dispatch_center.py \
+            services/medical_dispatch_repository.py \
+            services/medical_dispatch_service.py
+
+      - name: Run medical dispatch tests
+        working-directory: agent_code-master
+        run: python -m unittest tests.test_medical_dispatch -v
