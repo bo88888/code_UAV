@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>低空医疗配送本地离线调度平台 V3</title>
+<link rel="stylesheet" href="/frontend/assets/dispatch_v3.css" />
+<style>
+.mapWrap{height:720px}.offlineSvg{width:100%;height:100%;display:block;background:#07111f}.mapOverlay{position:absolute;left:14px;bottom:14px;z-index:5;background:rgba(2,6,23,.88);border:1px solid #334155;border-radius:14px;padding:9px 11px;font-size:11px;color:#cbd5e1}.mapOverlay b{color:#e8f1ff}.fleetStatus{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.fleetCard{border:1px solid #26364f;background:#08111f;border-radius:12px;padding:8px}.fleetCard b{display:block;font-size:11px}.fleetCard small{display:block;color:var(--muted);margin-top:3px}.roleLine{display:flex;align-items:center;gap:6px}.roleDot{width:9px;height:9px;border-radius:50%}.map-shape{pointer-events:none}.obstacle-action{cursor:pointer}.map-tooltip{position:absolute;z-index:30;display:none;pointer-events:none;max-width:260px;border-radius:10px;padding:7px 10px;background:rgba(2,6,23,.94);border:1px solid #334155;color:#e8f1ff;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>低空医疗配送本地离线调度平台</h1>
+  <div class="sub">完全离线运行。底图为本地城市道路、街区建筑、水系和行政区矢量图层；动态障碍、三架 UAV 航迹、接力节点和实时重规划均在本地页面中展示。</div>
+</header>
+<main class="layout">
+<section class="card"><div class="hd">医疗配送任务输入</div><div class="bd">
+  <div class="row"><div class="f"><label>任务 ID</label><input id="taskId" placeholder="留空自动生成" /></div><div class="f"><label>XML 路径</label><input id="xmlPath" value="data/requirement.xml" /></div></div>
+  <div class="row"><div class="f"><label>任务类型</label><select id="missionType"><option value="emergency_medical">应急医疗配送</option><option value="emergency_supply">应急物资配送</option></select></div><div class="f"><label>货物重量 kg</label><input id="cargoWeight" type="number" value="2.5" step="0.1" /></div></div>
+  <div class="row"><div class="f"><label>优先级 1-5</label><input id="priority" type="number" value="4" /></div><div class="f"><label>仿真场景</label><select id="scenario"><option value="normal">正常任务</option><option value="bad_weather">恶劣天气</option><option value="airspace_restricted">临时受限空域</option><option value="dock_congested">机巢拥堵</option></select></div></div>
+  <div class="sec">医疗点位</div>
+  <div class="row"><div class="f"><label>起点名称</label><input id="pickupId" value="Hosp_A" /></div><div class="f"><label>准备时间</label><input id="pickupReady" value="2026-06-11T10:00:00" /></div></div>
+  <div class="row"><div class="f"><label>起点经度</label><input id="pickupLon" type="number" step="0.000001" value="114.05" /></div><div class="f"><label>起点纬度</label><input id="pickupLat" type="number" step="0.000001" value="22.54" /></div></div>
+  <div class="row"><div class="f"><label>终点名称</label><input id="dropoffId" value="Clinic_B" /></div><div class="f"><label>截止时间</label><input id="dropoffDeadline" value="2026-06-11T10:30:00" /></div></div>
+  <div class="row"><div class="f"><label>终点经度</label><input id="dropoffLon" type="number" step="0.000001" value="114.15" /></div><div class="f"><label>终点纬度</label><input id="dropoffLat" type="number" step="0.000001" value="22.64" /></div></div>
+  <div class="sec">动态障碍编辑</div>
+  <div class="row"><div class="f"><label>障碍类型</label><select id="obsType"><option value="building">高层建筑群</option><option value="powerline">高压线走廊</option><option value="sensitive">人口密集敏感区</option><option value="restricted">临时受限区域</option><option value="weather">恶劣天气单元</option></select></div><div class="f"><label>影响半径 km</label><input id="obsRadius" type="number" value="0.45" step="0.1" /></div></div>
+  <label class="switch"><input id="autoReplan" type="checkbox" checked /> 编辑障碍后自动重规划</label>
+  <label class="switch"><input id="fromCurrent" type="checkbox" checked /> 从当前主运输机位置继续规划</label>
+  <div class="btns"><button id="submitBtn" class="primary">启动离线任务调度</button><button id="placeBtn" class="warn">开启地图放障碍</button><button id="clearBtn" class="ghost">清空动态障碍</button><button id="weatherBtn" class="ghost">恶劣天气演示</button></div>
+  <div class="hint" style="margin-top:10px">修复说明：点击障碍红色 × 或列表“删除”只执行删除，不再冒泡为地图新增；连续编辑会先取消旧请求，再发起一次防抖重规划。</div><div id="err" class="toast"></div>
+</div></section>
+<section>
+  <div class="dash">
+    <div class="card"><div class="hd">本地医疗配送任务态势：道路底图 / 动态障碍 / 三机协同</div><div class="bd">
+      <div class="mapWrap">
+        <div class="badges"><span class="tag green">LOCAL_BASEMAP</span><span class="tag cyan">完全离线</span><span id="algo" class="tag orange">算法：--</span><span id="risk" class="tag purple">风险：--</span><span id="placeState" class="tag yellow">放障碍：OFF</span></div>
+        <svg id="offlineMap" class="offlineSvg" viewBox="0 0 1200 760" role="img" aria-label="医疗配送离线任务态势图"></svg>
+        <div id="mapTooltip" class="map-tooltip"></div>
+        <div class="legend"><div class="lg"><span class="sw" style="background:#34d399"></span>血站/起点</div><div class="lg"><span class="sw" style="background:#fb7185"></span>医院/终点</div><div class="lg"><span class="sw" style="background:#22d3ee"></span>主运输机</div><div class="lg"><span class="sw" style="background:#60a5fa"></span>护航中继机</div><div class="lg"><span class="sw" style="background:#facc15"></span>备援无人机</div><div class="lg"><span class="sw" style="background:#64748b"></span>建筑块体</div><div class="lg"><span class="sw" style="background:#a78bfa"></span>敏感区</div><div class="lg"><span class="sw" style="background:#ef4444"></span>受限区</div></div>
+        <div class="mapOverlay"><b>本地地图数据</b><br />道路、街区、建筑、水系和医疗点位均来自仓库静态资源。</div>
+      </div>
+      <div id="fleetStatus" class="fleetStatus"></div>
+      <div class="metrics"><div class="metric"><small>当前时刻</small><b id="timeNow">--</b></div><div class="metric"><small>主机阶段</small><b id="phase">--</b></div><div class="metric"><small>主机坐标</small><b id="pos">--</b></div><div class="metric"><small>主机高度</small><b id="alt">--</b></div><div class="metric"><small>主机速度</small><b id="speed">--</b></div><div class="metric"><small>在线 UAV</small><b id="uavCount">0</b></div></div>
+      <div class="progress"><span id="progress"></span></div>
+      <div class="btns"><button id="playBtn" class="primary">继续飞行</button><button id="pauseBtn" class="ghost">暂停</button><button id="restartBtn" class="ghost">从头回放</button><button id="replanBtn" class="ghost">从当前位置重规划</button></div>
+    </div></div>
+    <div class="side"><div class="card"><div class="hd">推荐方案核心指标</div><div class="bd"><div id="overview" class="miniGrid"></div></div></div><div class="card"><div class="hd">UAV 分配矩阵</div><div class="bd"><div id="uavMatrix">等待调度。</div></div></div><div class="card"><div class="hd">智能体执行链</div><div class="bd"><div id="agentChain" class="agentChain"></div></div></div></div>
+  </div>
+  <div class="panels"><div class="panel"><h3>动态障碍列表</h3><div id="obsPanel">暂无障碍。</div></div><div class="panel"><h3>路径选择 / 重规划原因</h3><div id="routeSelection">等待调度。</div></div><div class="panel"><h3>A* 避障解释</h3><div id="avoidance">等待调度。</div></div><div class="panel"><h3>原始 JSON</h3><div id="raw" class="json">等待调度结果。</div></div></div>
+</section>
+</main>
+<script src="/frontend/assets/offline_dispatch_v3.js"></script>
+</body>
+</html>
