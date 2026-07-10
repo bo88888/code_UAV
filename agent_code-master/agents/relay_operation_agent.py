@@ -8,7 +8,7 @@ from core.medical_models import DispatchTask, MedicalNode, UAVState, isoformat
 
 
 class RelayOperationAgent:
-    """Plans battery swap, communication check and emergency-landing readiness at intermediate nodes."""
+    """Plans battery swap, fleet handoff, communication check and emergency-landing readiness."""
 
     def __init__(self, nodes: Dict[str, MedicalNode], resource_agent: NodeResourceAgent) -> None:
         self.nodes = nodes
@@ -33,6 +33,7 @@ class RelayOperationAgent:
                 "duration_minutes": 0.0,
                 "battery_before_percent": uav.battery_percent,
                 "battery_after_percent": uav.battery_percent,
+                "requires_new_uav": False,
             }
 
         required_percent = next_leg_distance_km / max(uav.loaded_range_km, 0.1) * 72.0 + 19.0
@@ -51,10 +52,27 @@ class RelayOperationAgent:
                 "battery_after_percent": uav.battery_percent,
                 "communication_check": "PASSED",
                 "cold_chain_handover": "NOT_REQUIRED",
+                "requires_new_uav": False,
             }
 
         if not node.supports_battery_swap or node.battery_swap_slots <= 0:
-            raise ValueError(f"relay node {node_id} cannot support required battery swap")
+            handoff_minutes = 3.0
+            departure = arrival_time + timedelta(minutes=handoff_minutes)
+            uav.available_at = isoformat(arrival_time)
+            return {
+                "node_id": node_id,
+                "node_name": node.name,
+                "operation_type": "fleet_handoff_required",
+                "arrival_time": isoformat(arrival_time),
+                "departure_time": isoformat(departure),
+                "duration_minutes": handoff_minutes,
+                "battery_before_percent": uav.battery_percent,
+                "battery_after_percent": uav.battery_percent,
+                "communication_check": "PASSED" if node.communication_mode else "MANUAL_CONFIRMATION_REQUIRED",
+                "cold_chain_handover": "SEALED_BOX_TRANSFER",
+                "requires_new_uav": True,
+                "handoff_reason": "current UAV battery cannot safely complete the next leg and this node has no battery-swap slot",
+            }
 
         reservation = self.resource_agent.reserve(
             node_id=node_id,
@@ -84,5 +102,6 @@ class RelayOperationAgent:
             "communication_check": "PASSED" if node.communication_mode else "MANUAL_CONFIRMATION_REQUIRED",
             "weather_check": "PASSED" if node.weather_station else "REMOTE_DATA_ONLY",
             "emergency_landing_ready": True,
+            "requires_new_uav": False,
             "resource_reservation": reservation,
         }
