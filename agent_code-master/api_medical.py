@@ -31,6 +31,7 @@ class MedicalDispatchRequest(BaseModel):
     seal_id: str = ""
     biosafety_level: str = "standard"
     allow_ground_feeder: bool = True
+    airspace_approval_status: str = ""
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
     def to_payload(self) -> Dict[str, Any]:
@@ -42,6 +43,13 @@ class MedicalDispatchRequest(BaseModel):
 
 class MedicalDispatchBatchRequest(BaseModel):
     tasks: List[MedicalDispatchRequest] = Field(min_length=1, max_length=100)
+
+
+class AirspaceEvaluationRequest(BaseModel):
+    route_ids: List[str] = Field(min_length=1)
+    priority: int = Field(default=3, ge=1, le=5)
+    emergency: bool = False
+    external_status: str = ""
 
 
 class TelemetryRequest(BaseModel):
@@ -98,6 +106,11 @@ def get_dispatch_task(task_id: str):
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
+@router.post("/airspace/evaluate")
+def evaluate_airspace(request: AirspaceEvaluationRequest):
+    return medical_dispatch_service.airspace(request.model_dump())
+
+
 @router.post("/dispatch/plan")
 def plan_medical_dispatch(request: MedicalDispatchRequest):
     try:
@@ -134,6 +147,8 @@ def complete_medical_handover(task_id: str, request: HandoverRequest):
         )
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
 
 
 @router.post("/dispatch/tasks/{task_id}/cancel")
