@@ -11,27 +11,29 @@
 <body>
 <header class="top">
   <div class="titleRow">
-    <div><h1>低空医疗配送任务调度看板</h1><div class="sub">展示血站—医院医疗配送任务、多智能体协同、三架 UAV 独立航迹、动态障碍编辑、实时重规划、风险评估和工程离线部署。</div></div>
-    <div class="status"><span class="tag green">医疗任务优先</span><span class="tag cyan">三机协同</span><span class="tag purple">多智能体调度</span><span class="tag yellow">离线可用</span></div>
+    <div><h1>低空医疗配送任务调度看板</h1><div class="sub">默认进入医疗节点网络与多任务联合调度工作台；历史地图页面保留为航线避障和离线部署实验工具。</div></div>
+    <div class="status"><span class="tag green">L1—L8医疗网络</span><span class="tag cyan">四机资源池</span><span class="tag purple">多任务智能调度</span><span class="tag yellow">冷链与中继</span></div>
   </div>
   <div class="modeBar">
-    <button id="modeOffline" class="modeBtn active" onclick="switchMode('offline')">医疗配送任务态势｜本地离线 V3</button>
-    <button id="modeLeaflet" class="modeBtn" onclick="switchMode('leaflet')">多智能体调度｜Leaflet V3</button>
-    <button id="modeEngineering" class="modeBtn" onclick="switchMode('engineering')">工程离线瓦片｜独立方案页</button>
+    <button id="modeDispatch" class="modeBtn active" onclick="switchMode('dispatch')">医疗网络智能调度 V4</button>
+    <button id="modeOffline" class="modeBtn" onclick="switchMode('offline')">障碍重规划｜本地离线 V3</button>
+    <button id="modeLeaflet" class="modeBtn" onclick="switchMode('leaflet')">航迹实验｜Leaflet V3</button>
+    <button id="modeEngineering" class="modeBtn" onclick="switchMode('engineering')">工程离线瓦片方案</button>
   </div>
 </header>
 <main class="shell">
-  <div class="notice"><div><b id="modeTitle">当前：本地离线医疗配送任务态势 V3</b><div id="modeDesc" class="noteSmall">使用仓库本地道路、街区、建筑、水系和医疗点位底图；支持三机协同、障碍删除和防抖重规划，不依赖外网。</div></div><div class="links"><a id="openLink" class="linkBtn" target="_blank" href="/frontend/index_offline_dispatch_v3.html">新窗口打开</a><a class="linkBtn" target="_blank" href="/frontend/index_multi_agent_dispatch_v3.html">多智能体 V3</a><a class="linkBtn" target="_blank" href="/frontend/index_offline_tiles_architecture.html">工程方案</a></div></div>
-  <div class="frameWrap"><iframe id="taskFrame" src="/frontend/index_offline_dispatch_v3.html"></iframe></div>
+  <div class="notice"><div><b id="modeTitle">当前：医疗网络多任务智能调度 V4</b><div id="modeDesc" class="noteSmall">读取后端医疗节点、固定航线、机队和资源状态，执行批量任务排序、多航段接力、中继换电、备援机、冷链、空域和签收闭环。</div></div><div class="links"><a id="openLink" class="linkBtn" target="_blank" href="/frontend/index_medical_network_dispatch_v4.html">新窗口打开</a><a class="linkBtn" target="_blank" href="/docs">API文档</a></div></div>
+  <div class="frameWrap"><iframe id="taskFrame" src="/frontend/index_medical_network_dispatch_v4.html"></iframe></div>
 </main>
 <script>
 const modes={
-  offline:{btn:'modeOffline',url:'/frontend/index_offline_dispatch_v3.html',title:'当前：本地离线医疗配送任务态势 V3',desc:'使用仓库本地道路、街区、建筑、水系和医疗点位底图；支持三机协同、障碍删除和防抖重规划，不依赖外网。'},
-  leaflet:{btn:'modeLeaflet',url:'/frontend/index_multi_agent_dispatch_v3.html',title:'当前：多智能体医疗配送调度 V3',desc:'三架 UAV 均有独立四旋翼图标、独立轨迹、独立延迟和状态；展示主运输、护航中继与备援接管。'},
-  engineering:{btn:'modeEngineering',url:'/frontend/index_offline_tiles_architecture.html',title:'当前：PMTiles / MBTiles 工程离线架构',desc:'独立展示 PMTiles 单文件和 TileServer GL + MBTiles 两种正式内网部署方案，不再重复加载本地任务态势页。'}
+  dispatch:{btn:'modeDispatch',url:'/frontend/index_medical_network_dispatch_v4.html',title:'当前：医疗网络多任务智能调度 V4',desc:'读取后端医疗节点、固定航线、机队和资源状态，执行批量任务排序、多航段接力、中继换电、备援机、冷链、空域和签收闭环。'},
+  offline:{btn:'modeOffline',url:'/frontend/index_offline_dispatch_v3.html',title:'当前：本地离线障碍重规划实验 V3',desc:'用于验证本地底图、动态障碍删除、防抖重规划和离线可视化，不作为主业务调度入口。'},
+  leaflet:{btn:'modeLeaflet',url:'/frontend/index_multi_agent_dispatch_v3.html',title:'当前：Leaflet 航迹与障碍实验 V3',desc:'用于验证在线底图、三机轨迹和障碍图层；正式调度结果以医疗网络智能调度 V4 为准。'},
+  engineering:{btn:'modeEngineering',url:'/frontend/index_offline_tiles_architecture.html',title:'当前：PMTiles / MBTiles 工程离线架构',desc:'展示正式内网部署所需的本地瓦片、MapLibre/Leaflet和TileServer GL架构。'}
 };
 function switchMode(name){Object.values(modes).forEach(m=>document.getElementById(m.btn).classList.remove('active'));const m=modes[name];document.getElementById(m.btn).classList.add('active');document.getElementById('modeTitle').textContent=m.title;document.getElementById('modeDesc').textContent=m.desc;document.getElementById('openLink').href=m.url;document.getElementById('taskFrame').src=m.url;}
-document.getElementById('taskFrame').addEventListener('load',()=>{try{const doc=document.getElementById('taskFrame').contentDocument;const header=doc.querySelector('header');if(header)header.style.display='none';const main=doc.querySelector('main');if(main)main.style.paddingTop='18px';}catch(e){}});
+document.getElementById('taskFrame').addEventListener('load',()=>{try{const doc=document.getElementById('taskFrame').contentDocument;const header=doc.querySelector('header');if(header)header.style.display='none';}catch(e){}});
 </script>
 </body>
 </html>
