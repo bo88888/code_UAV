@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 from core.medical_models import DispatchTask, MedicalNode, RouteSegment, UAVState, isoformat, parse_datetime
 
@@ -76,6 +76,7 @@ class FleetAllocationAgent:
         excluded_uav_ids: List[str],
         origin_node_id: str,
         start_time: datetime,
+        reserve_until: datetime,
     ) -> Optional[dict]:
         if task.priority < 4 and not task.emergency:
             return None
@@ -94,6 +95,10 @@ class FleetAllocationAgent:
             return None
         candidates.sort(key=lambda item: item[0], reverse=True)
         score, uav, wait, reposition = candidates[0]
+        uav.status = "RESERVED"
+        uav.assigned_task_id = task.task_id
+        uav.available_at = isoformat(reserve_until)
+        fleet[uav.uav_id] = uav
         return {
             "uav_id": uav.uav_id,
             "role": "standby_backup",
@@ -101,6 +106,7 @@ class FleetAllocationAgent:
             "current_node_id": uav.current_node_id,
             "activation_delay_minutes": round(wait + reposition / max(uav.cruise_speed_kmh, 1.0) * 60.0, 2),
             "battery_percent": uav.battery_percent,
+            "reserved_until": isoformat(reserve_until),
         }
 
     def _evaluate(
